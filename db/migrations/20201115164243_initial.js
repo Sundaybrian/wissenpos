@@ -24,10 +24,19 @@ exports.up = function (knex) {
             table.string('street_address',50);
             table.string('zipcode', 15)
             table.string('city', 50).notNullable();
+            table.string('country', 100).notNullable();
             table.double('latitude').notNullable();
             table.double('longitude').notNullable();
             addDefaultColumns(table);
-        })
+        }),
+         knex.schema.createTable(tableNames.item, (table) => {
+            table.increments().notNullable();
+            table.string('name').notNullable();
+            table.string('description', 1000);
+            table.float("price").notNullable().defaultTo(0);
+            table.integer("quantity").defaultTo(0);
+            addDefaultColumns(table);
+          }),
     ])
 };
 
@@ -40,6 +49,7 @@ exports.down = function (knex) {
     await Promise.all([
         tableNames.user,
         tableNames.customer,
-        tableNames.address
+        tableNames.address,
+        tableNames.item
     ].map((tableName) => knex.schema.dropTableIfExists(tableName)));
 };

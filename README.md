@@ -14,8 +14,8 @@ A fullstack app (frontend, backend) for restaurant management
 -   All entities will have, created_at, updated_at and possibly deleted at
 -   Possibility for only soft deletions
 
--   [] user
--   [] customer,
+-   [*] user
+-   [*] customer,
 -   [] address",
 -   [] company",
 -   [] accounts",

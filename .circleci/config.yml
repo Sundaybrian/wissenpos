@@ -1,90 +1,90 @@
 version: 2.1
 executors:
-  node-executor:
-    docker:
-      - image: circleci/node:11.10.1
-  postgres-executor:
-    docker:
-      - image: postgres:10
-  docker-executor:
-    docker:
-      - image: docker:18.06.3-ce-git
+    node-executor:
+        docker:
+            - image: circleci/node:11.10.1
+    postgres-executor:
+        docker:
+            - image: postgres:10
+    docker-executor:
+        docker:
+            - image: docker:18.06.3-ce-git
 
 jobs:
-  dependencies: # reusable jobs
-    executor: node-executor
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-npm-deps-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install dependencies
-          command: npm install --silent
-      - save_cache:
-          key: v1-npm-deps-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+    dependencies: # reusable jobs
+        executor: node-executor
+        steps:
+            - checkout
+            - restore_cache:
+                  keys:
+                      - v1-npm-deps-{{ checksum "package-lock.json" }}
+            - run:
+                  name: Install dependencies
+                  command: npm install --silent
+            - save_cache:
+                  key: v1-npm-deps-{{ checksum "package-lock.json" }}
+                  paths:
+                      - node_modules
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - .
 
-  build_docker_image: #reusable build jobs for docker
-    executor: docker-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Build app docker image and push
-          command: |
-            docker build -t sundaypriest/wissenpos-backend .
-            docker login -u $DOCKER_LOGIN -p $DOCKER_PWD
-            docker push sundaypriest/wissenpos-backend:latest
+    build_docker_image: #reusable build jobs for docker
+        executor: docker-executor
+        steps:
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Build app docker image and push
+                  command: |
+                      docker build -t sundaypriest/wissenpos-backend .
+                      docker login -u $DOCKER_LOGIN -p $DOCKER_PWD
+                      docker push sundaypriest/wissenpos-backend:latest
 
-  build-and-test: # build app and test
-    executor: node-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - run: npm test
+    build-and-test: # build app and test
+        executor: node-executor
+        steps:
+            - attach_workspace:
+                  at: .
+            - run: npm test
 
-  deploy-to-test: # deploy safe code to development
-    executor: node-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Deploy to heroku
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master -f
+    deploy-to-test: # deploy safe code to development
+        executor: node-executor
+        steps:
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Deploy to heroku
+                  command: |
+                      git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:master -f
 
 workflows:
-  version: 2
-  events-backend-workflows:
-    jobs:
-      - dependencies
-      - build-and-test:
-          requires:
+    version: 2
+    wissenpos-backend-workflows:
+        jobs:
             - dependencies
-          filters:
-            branches:
-              only:
-                - /feature.*/
+            - build-and-test:
+                  requires:
+                      - dependencies
+                  filters:
+                      branches:
+                          only:
+                              - /feature.*/
 
-      - build_docker_image:
-          context: dev_context
-          filters:
-            branches:
-              only:
-                - develop
-          requires:
-            - deploy-to-test
+            - build_docker_image:
+                  context: dev_context
+                  filters:
+                      branches:
+                          only:
+                              - develop
+                  requires:
+                      - deploy-to-test
 
-      - deploy-to-test:
-          filters:
-            branches:
-              only:
-                - develop
-          requires:
-            - dependencies
+            - deploy-to-test:
+                  filters:
+                      branches:
+                          only:
+                              - develop
+                  requires:
+                      - dependencies
