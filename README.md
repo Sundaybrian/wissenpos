@@ -1,6 +1,6 @@
 ## Wissenpos
 
-A fullstack app (frontend, backend) for restaurant management 
+A fullstack app (frontend, backend) for restaurant management
 
 ## Backend Setup
 
@@ -14,8 +14,19 @@ A fullstack app (frontend, backend) for restaurant management
 -   All entities will have, created_at, updated_at and possibly deleted at
 -   Possibility for only soft deletions
 
-*   [*] User 
-*   [*] 
+-   [] user
+-   [] customer,
+-   [] address",
+-   [] company",
+-   [] accounts",
+-   [] category",
+-   [] menu,
+-   [] menuCategory",
+-   [] item,
+-   [] menuItem",
+-   [] order",
+-   [] orderItem",
+-   [] payments",
 
 ## commands
 
@@ -169,6 +180,7 @@ class Person extends Model {
     }
 }
 ```
+
 ## Setup
 
 ```
