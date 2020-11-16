@@ -1,4 +1,3 @@
-const Knex = require("knex");
 const tableNames = require("../../src/constants/tableNames");
 
 const { addDefaultColumns, references, addDefaultColumnsUser } = require("../../src/utils/tableUtils");
