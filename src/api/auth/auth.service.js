@@ -7,7 +7,6 @@ module.exports = {
     /**
      * refreshtoken
      * revoketoken
-     * verifyEmail
      * forgotPassword
      * validateResetToken
      * validateResetToken
@@ -15,6 +14,7 @@ module.exports = {
      */
     login,
     register,
+    verifyEmail,
     getAll,
     getById,
     create,
@@ -50,7 +50,7 @@ async function register(params, origin) {
 
     const { firstName, lastName, email, password, role } = params;
 
-    // create account
+    // hash password and verification token
     const hashedPassword = await hash(password, 10);
     const verificationToken = randomTokenString();
 
@@ -75,6 +75,18 @@ async function register(params, origin) {
         ...basicDetails(account),
         token,
     };
+}
+
+async function verifyEmail({ token }) {
+    const account = await User.query().where({ verificationToken: token });
+
+    if (!account) throw "Verification failed";
+
+    await account.$query().patch({
+        verified: Date.now(),
+        isVerified: true,
+        verificationToken: null,
+    });
 }
 
 async function hash(password) {
