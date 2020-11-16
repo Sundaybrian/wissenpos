@@ -49,23 +49,7 @@ async function register(params, origin) {
         return await sendAlreadyRegisteredEmail(params.email, origin);
     }
 
-    const { firstName, lastName, email, password, role } = params;
-
-    // hash password and verification token
-    const hashedPassword = await hash(password, 10);
-    const verificationToken = randomTokenString();
-
-    // create account
-    const account = await User.query().insert({
-        email,
-        firstName,
-        lastName,
-        password: hashedPassword,
-        role: role,
-        active: true,
-        isVerified: true,
-        verificationToken,
-    });
+    const account = await insertUser(params);
 
     // send email;
     await sendVerificationEmail(account, origin);
@@ -88,6 +72,42 @@ async function verifyEmail({ token }) {
         isVerified: true,
         verificationToken: null,
     });
+}
+
+async function create(params) {
+    // validate
+    if (await User.query().where({ email: params.email })) {
+        throw 'Email "' + params.email + '" is already registered';
+    }
+
+    const account = await insertUser(params);
+
+    return basicDetails(account);
+}
+
+/**==================== Helpers ====================== */
+
+async function insertUser(params) {
+    const { firstName, lastName, email, password, role } = params;
+
+    // hash password and verification token
+    const hashedPassword = await hash(password, 10);
+    const verificationToken = randomTokenString();
+
+    // create account
+    const account = await User.query().insert({
+        email,
+        firstName,
+        lastName,
+        password: hashedPassword,
+        role: role,
+        active: true,
+        isVerified: false,
+        verified: Date.now(),
+        verificationToken,
+    });
+
+    return account;
 }
 
 async function hash(password) {
