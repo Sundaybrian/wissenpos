@@ -4,3 +4,4 @@
 - [] remove customer table
 - [] add verification column
 - [] seeds
+- [] send email helpers
