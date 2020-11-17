@@ -107,12 +107,29 @@ async function update(id, params) {
     return basicDetails(updatedUser);
 }
 
+// TODO MAKE SO IT CAN QUERY FOR DIFFERENT TYPES OF USERS
+async function getAll() {
+    const accounts = await User.query();
+    return accounts.map((x) => basicDetails(x));
+}
+
+async function getById(id) {
+    const account = await getAccount({ id });
+    return basicDetails(account);
+}
+
+// TODO MAKE IT ACCEPT AN ARRAY OF ID
+async function _delete(id) {
+    const account = await User.query().deleteById(id);
+    return account;
+}
+
 /**==================== Helpers ====================== */
 async function getAccount(param) {
     const account = await User.query()
         .where({ ...param })
         .first();
-    return basicDetails(account);
+    return account;
 }
 
 async function insertUser(params) {
