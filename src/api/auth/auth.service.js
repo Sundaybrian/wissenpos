@@ -37,7 +37,7 @@ async function login({ email, password }) {
     const token = await jwt.sign(account);
 
     return {
-        ...basicDetails(account),
+        user: basicDetails(account),
         token,
     };
 }
@@ -57,7 +57,7 @@ async function register(params, origin) {
     const token = await jwt.sign(account);
 
     return {
-        ...basicDetails(account),
+        user: basicDetails(account),
         token,
     };
 }

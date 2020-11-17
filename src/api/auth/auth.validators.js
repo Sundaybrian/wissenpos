@@ -39,3 +39,10 @@ exports.updateSchema = (req, res, next) => {
 
     validateRequest(req, next, schema);
 };
+
+exports.verifyEmailSchema = (req, res, next) => {
+    const schema = Joi.object({
+        token: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);
+};
