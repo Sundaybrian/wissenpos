@@ -166,7 +166,6 @@ function randomTokenString() {
 function basicDetails(account) {
     const {
         id,
-        title,
         firstName,
         lastName,
         email,
