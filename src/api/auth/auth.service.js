@@ -24,7 +24,7 @@ module.exports = {
 };
 
 async function login({ email, password }) {
-    const account = await User.query().where({ email }).first();
+    const account = await getAccount({ email });
 
     if (
         !account ||
@@ -44,7 +44,7 @@ async function login({ email, password }) {
 
 async function register(params, origin) {
     // validate
-    if (await User.query().where({ email: params.email })) {
+    if (await getAccount({ email: params.email })) {
         // send already registered error in email to prevent account enumeration
         return await sendAlreadyRegisteredEmail(params.email, origin);
     }
@@ -63,7 +63,7 @@ async function register(params, origin) {
 }
 
 async function verifyEmail({ token }) {
-    const account = await User.query().where({ verificationToken: token });
+    const account = await getAccount({ verificationToken: token });
 
     if (!account) throw "Verification failed";
 
@@ -76,7 +76,7 @@ async function verifyEmail({ token }) {
 
 async function create(params) {
     // validate
-    if (await User.query().where({ email: params.email })) {
+    if (await getAccount({ email: params.email })) {
         throw 'Email "' + params.email + '" is already registered';
     }
 
@@ -85,7 +85,35 @@ async function create(params) {
     return basicDetails(account);
 }
 
+async function update(id, params) {
+    const account = await getAccount({ id });
+
+    // validate if email was changed
+    if (
+        params.email &&
+        account.email !== params.email &&
+        (await getAccount({ email: params.email }))
+    ) {
+        throw 'Email "' + params.email + '" is already taken';
+    }
+
+    // hash password if it was entered
+    if (params.password) {
+        params.password = await hash(params.password);
+    }
+
+    const updatedUser = await User.query().patchAndFetchById(id, { ...params });
+
+    return basicDetails(updatedUser);
+}
+
 /**==================== Helpers ====================== */
+async function getAccount(param) {
+    const account = await User.query()
+        .where({ ...param })
+        .first();
+    return basicDetails(account);
+}
 
 async function insertUser(params) {
     const { firstName, lastName, email, password, role } = params;
