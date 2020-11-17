@@ -2,6 +2,6 @@
 - [] user schema json
 - [] email helpers
 - [] remove customer table
-- [] add verification column
+- [] add verification column, isVerified, verificationToken
 - [] seeds
 - [] send email helpers

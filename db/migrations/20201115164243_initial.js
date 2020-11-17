@@ -1,6 +1,6 @@
 const tableNames = require("../../src/constants/tableNames");
 
-const { addDefaultColumns, references, addDefaultColumnsUser } = require("../../src/utils/tableUtils");
+const { addDefaultColumns, addDefaultColumnsUser } = require("../../src/utils/tableUtils");
 
 
 /**

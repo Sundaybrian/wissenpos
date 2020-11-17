@@ -5,10 +5,10 @@ function addDefaultColumns(table) {
 
 function addDefaultColumnsUser(table) {
     table.increments().notNullable();
-    table.string("firstname", 50).notNullable();
-    table.string("lastname", 50).notNullable();
+    table.string("firstName", 50).notNullable();
+    table.string("lastName", 50).notNullable();
     table.string("email", 254).notNullable().unique();
-    table.string("phonenumber", 15).notNullable().unique();
+    table.string("phoneNumber", 15).notNullable().unique();
     table.string("password", 180).notNullable();
     table.string("role", 10).notNullable();
     table.boolean("active").notNullable().defaultTo(false);
