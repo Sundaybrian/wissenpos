@@ -2,7 +2,7 @@ const User = require("../user/user.model");
 const jwt = require("../../utils/jwt");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const { sendEmail } = require("../../utils/email");
+const sendEmail = require("../../utils/email");
 
 module.exports = {
     /**
