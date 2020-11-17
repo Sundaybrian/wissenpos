@@ -34,6 +34,7 @@ exports.updateSchema = (req, res, next) => {
         confirmPassword: Joi.string().valid(Joi.ref("password")).empty(""),
     };
 
+    //  TODO figure out how admin can update role
     const schema = Joi.object(schemaRules).with("password", "confirmPassword");
 
     validateRequest(req, next, schema);
