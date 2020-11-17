@@ -176,7 +176,6 @@ function basicDetails(account) {
     } = account;
     return {
         id,
-        title,
         firstName,
         lastName,
         email,

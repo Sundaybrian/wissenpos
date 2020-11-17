@@ -70,3 +70,22 @@ function getById(req, res, next) {
         .then((account) => (account ? res.json(account) : res.sendStatus(404)))
         .catch(next);
 }
+
+function create(req, res, next) {
+    authService
+        .create(req.body)
+        .then((account) => res.json(account))
+        .catch(next);
+}
+
+function update(req, res, next) {
+    // users ca update their accounts and admin can update any account
+    if (Number(req.params.id) !== req.user.id && req.user.role !== Role.admin) {
+        return res.status(401).json({ message: "Unathorized" });
+    }
+
+    authService
+        .update(req.params.id, req.body)
+        .then((account) => res.json(account))
+        .catch(next);
+}
