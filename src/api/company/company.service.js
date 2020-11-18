@@ -5,7 +5,7 @@ module.exports = {
     updateCompany,
     getAllCompanies,
     getCompanyById,
-    delete: _delete,
+    _delete,
 };
 
 async function create(params) {
@@ -18,8 +18,12 @@ async function create(params) {
     return company;
 }
 
-async function updateCompany(id, params) {
-    const company = await getCompany({ id });
+async function updateCompany(queryParams, params) {
+    const company = await getCompany({ ...queryParams });
+
+    if (!company) {
+        throw "unathorized";
+    }
 
     // validate if name was changed
     if (
@@ -47,8 +51,8 @@ async function getCompanyById(id) {
     return company;
 }
 
-async function _delete(id) {
-    await Company.query().deleteById(id);
+async function _delete(queryParams) {
+    await Company.query().delete({ ...queryParams });
 }
 
 // async function _softDelete(id) {
