@@ -16,6 +16,7 @@ exports.up = function (knex) {
         table.string('description', 1000);
         url(table, 'website_url');
         email(table, 'email');
+        table.boolean("active").defaultTo(true);
         references(table, tableNames.address);
         references(table,tableNames.user,'owner', true)
         addDefaultColumns(table);
