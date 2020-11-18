@@ -130,6 +130,7 @@ class Person extends Model {
 
         return {
             pets: {
+                // HasManyRelation: Use this relation when the related model has the foreign key
                 relation: Model.HasManyRelation,
                 // The related model. This can be either a Model
                 // subclass constructor or an absolute file path
@@ -143,6 +144,7 @@ class Person extends Model {
             },
 
             movies: {
+                // ManyToManyRelation: Use this relation when the model is related to a list of other models through a join table
                 relation: Model.ManyToManyRelation,
                 modelClass: Movie,
                 join: {
@@ -170,6 +172,7 @@ class Person extends Model {
             },
 
             parent: {
+                // BelongsToOneRelation: Use this relation when the source model has the foreign key
                 relation: Model.BelongsToOneRelation,
                 modelClass: Person,
                 join: {
