@@ -1,6 +1,6 @@
 const { Model } = require("objection");
 const tableNames = require("../../constants/tableNames");
-const userSchema = require("./company.schema.json");
+const schema = require("./company.schema.json");
 
 class Company extends Model {
     static get tableName() {
@@ -8,7 +8,7 @@ class Company extends Model {
     }
 
     static get jsonSchema() {
-        return userSchema;
+        return schema;
     }
 
     static get relationMappings() {
