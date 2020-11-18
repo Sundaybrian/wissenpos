@@ -13,11 +13,11 @@ const Role = require("../../utils/role");
 router.post("/login", signinSchema, login);
 router.post("/register", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
-router.get("/", getAll);
-router.get("/:id", getById);
-router.post("/", signupSchema, create);
-router.put("/:id", updateSchema, update);
-router.delete("/:id", _delete);
+router.get("/", auth(Role.admin), getAll);
+router.get("/:id", auth(), getById);
+router.post("/", auth(Role.owner), signupSchema, create);
+router.put("/:id", auth(), updateSchema, update);
+router.delete("/:id", auth(), _delete);
 
 module.exports = router;
 
@@ -87,5 +87,22 @@ function update(req, res, next) {
     authService
         .update(req.params.id, req.body)
         .then((account) => res.json(account))
+        .catch(next);
+}
+
+function _delete(req, res, next) {
+    // users can delete their accounts and admin can update any account
+    if (Number(req.params.id) !== req.user.id && req.user.role !== Role.admin) {
+        return res.status(401).json({ message: "Unathorized" });
+    }
+
+    authService
+        .delete(req.param.id)
+        .then(() =>
+            res.json({
+                message: "Account deleted successfully",
+                id: req.params.id,
+            })
+        )
         .catch(next);
 }
