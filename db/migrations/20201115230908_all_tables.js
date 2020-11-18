@@ -58,7 +58,7 @@ exports.up = function (knex) {
       }),
       await knex.schema.createTable(tableNames.order, (table) => {
         table.increments().notNullable();
-        references(table, tableNames.customer, null, true);
+        references(table, tableNames.user, "customer_id", true);
         references(table,tableNames.company,null, true);
         table.enum('order_status',['New', 'Checkout', 'Paid', 'Failed', 'Complete']);
         table.enum('purchase_status',['paid','unpaid']);
@@ -75,7 +75,7 @@ exports.up = function (knex) {
       }),
       await knex.schema.createTable(tableNames.payments, (table) => {
         table.increments().notNullable();
-        references(table, tableNames.customer, null, true);
+        references(table, tableNames.user, "customer_id", true);
         references(table,tableNames.order,null, true);
         table.enum('payment_method',['Card','Cash', 'Mpesa']);
         table.string('payment_code',127);

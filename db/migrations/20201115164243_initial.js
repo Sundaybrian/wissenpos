@@ -14,10 +14,6 @@ exports.up = function (knex) {
             addDefaultColumnsUser(table);
             addDefaultColumns(table);
         }),
-        knex.schema.createTable(tableNames.customer, (table)=>{
-            addDefaultColumnsUser(table);
-            addDefaultColumns(table);
-        }),
         knex.schema.createTable(tableNames.address, ()=>{
             table.increments().notNullable();
             table.string('street_address',50);
@@ -47,7 +43,6 @@ exports.down = function (knex) {
     // drop in any order since they are independent
     await Promise.all([
         tableNames.user,
-        tableNames.customer,
         tableNames.address,
         tableNames.item
     ].map((tableName) => knex.schema.dropTableIfExists(tableName)));

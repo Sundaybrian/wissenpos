@@ -12,7 +12,9 @@ function addDefaultColumnsUser(table) {
     table.string("password", 180).notNullable();
     table.string("role", 10).notNullable();
     table.boolean("active").notNullable().defaultTo(false);
-    table.boolean("verified").notNullable().defaultTo(false);
+    table.datetime("verified");
+    table.boolean("isVerified").notNullable().defaultTo(false);
+    table.string("verificationToken", 300);
     table.string("image_url", 2000);
 }
 
