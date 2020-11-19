@@ -5,14 +5,16 @@ function addDefaultColumns(table) {
 
 function addDefaultColumnsUser(table) {
     table.increments().notNullable();
-    table.string("firstname", 50).notNullable();
-    table.string("lastname", 50).notNullable();
+    table.string("firstName", 50).notNullable();
+    table.string("lastName", 50).notNullable();
     table.string("email", 254).notNullable().unique();
-    table.string("phonenumber", 15).notNullable().unique();
+    table.string("phoneNumber", 15).notNullable().unique();
     table.string("password", 180).notNullable();
     table.string("role", 10).notNullable();
     table.boolean("active").notNullable().defaultTo(false);
-    table.boolean("verified").notNullable().defaultTo(false);
+    table.datetime("verified");
+    table.boolean("isVerified").notNullable().defaultTo(false);
+    table.string("verificationToken", 300);
     table.string("image_url", 2000);
 }
 

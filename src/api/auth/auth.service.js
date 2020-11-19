@@ -2,7 +2,7 @@ const User = require("../user/user.model");
 const jwt = require("../../utils/jwt");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
-const { sendEmail } = require("../../utils/email");
+const sendEmail = require("../../utils/email");
 
 module.exports = {
     /**
@@ -24,7 +24,7 @@ module.exports = {
 };
 
 async function login({ email, password }) {
-    const account = await User.query().where({ email }).first();
+    const account = await getAccount({ email });
 
     if (
         !account ||
@@ -37,14 +37,14 @@ async function login({ email, password }) {
     const token = await jwt.sign(account);
 
     return {
-        ...basicDetails(account),
+        user: basicDetails(account),
         token,
     };
 }
 
 async function register(params, origin) {
     // validate
-    if (await User.query().where({ email: params.email })) {
+    if (await getAccount({ email: params.email })) {
         // send already registered error in email to prevent account enumeration
         return await sendAlreadyRegisteredEmail(params.email, origin);
     }
@@ -57,13 +57,13 @@ async function register(params, origin) {
     const token = await jwt.sign(account);
 
     return {
-        ...basicDetails(account),
+        user: basicDetails(account),
         token,
     };
 }
 
 async function verifyEmail({ token }) {
-    const account = await User.query().where({ verificationToken: token });
+    const account = await getAccount({ verificationToken: token });
 
     if (!account) throw "Verification failed";
 
@@ -76,7 +76,7 @@ async function verifyEmail({ token }) {
 
 async function create(params) {
     // validate
-    if (await User.query().where({ email: params.email })) {
+    if (await getAccount({ email: params.email })) {
         throw 'Email "' + params.email + '" is already registered';
     }
 
@@ -85,7 +85,52 @@ async function create(params) {
     return basicDetails(account);
 }
 
+async function update(id, params) {
+    const account = await getAccount({ id });
+
+    // validate if email was changed
+    if (
+        params.email &&
+        account.email !== params.email &&
+        (await getAccount({ email: params.email }))
+    ) {
+        throw 'Email "' + params.email + '" is already taken';
+    }
+
+    // hash password if it was entered
+    if (params.password) {
+        params.password = await hash(params.password);
+    }
+
+    const updatedUser = await User.query().patchAndFetchById(id, { ...params });
+
+    return basicDetails(updatedUser);
+}
+
+// TODO MAKE SO IT CAN QUERY FOR DIFFERENT TYPES OF USERS
+async function getAll() {
+    const accounts = await User.query();
+    return accounts.map((x) => basicDetails(x));
+}
+
+async function getById(id) {
+    const account = await getAccount({ id });
+    return basicDetails(account);
+}
+
+// TODO MAKE IT ACCEPT AN ARRAY OF ID
+async function _delete(id) {
+    const account = await User.query().deleteById(id);
+    return account;
+}
+
 /**==================== Helpers ====================== */
+async function getAccount(param) {
+    const account = await User.query()
+        .where({ ...param })
+        .first();
+    return account;
+}
 
 async function insertUser(params) {
     const { firstName, lastName, email, password, role } = params;
@@ -121,7 +166,6 @@ function randomTokenString() {
 function basicDetails(account) {
     const {
         id,
-        title,
         firstName,
         lastName,
         email,
@@ -132,7 +176,6 @@ function basicDetails(account) {
     } = account;
     return {
         id,
-        title,
         firstName,
         lastName,
         email,

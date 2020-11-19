@@ -1,6 +1,6 @@
 const tableNames = require("../../src/constants/tableNames");
 
-const { addDefaultColumns, references, addDefaultColumnsUser } = require("../../src/utils/tableUtils");
+const { addDefaultColumns, addDefaultColumnsUser } = require("../../src/utils/tableUtils");
 
 
 /**
@@ -11,10 +11,6 @@ exports.up = function (knex) {
 
     await Promise.all([
         knex.schema.createTable(tableNames.user, (table)=>{
-            addDefaultColumnsUser(table);
-            addDefaultColumns(table);
-        }),
-        knex.schema.createTable(tableNames.customer, (table)=>{
             addDefaultColumnsUser(table);
             addDefaultColumns(table);
         }),
@@ -47,7 +43,6 @@ exports.down = function (knex) {
     // drop in any order since they are independent
     await Promise.all([
         tableNames.user,
-        tableNames.customer,
         tableNames.address,
         tableNames.item
     ].map((tableName) => knex.schema.dropTableIfExists(tableName)));

@@ -15,7 +15,7 @@ A fullstack app (frontend, backend) for restaurant management
 -   Possibility for only soft deletions
 
 -   [*] user
--   [*] customer,
+-   [] customer,
 -   [] address",
 -   [] company",
 -   [] accounts",
@@ -27,6 +27,7 @@ A fullstack app (frontend, backend) for restaurant management
 -   [] order",
 -   [] orderItem",
 -   [] payments",
+-   [] tests
 
 ## commands
 
