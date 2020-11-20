@@ -120,8 +120,7 @@ async function getById(id) {
 
 // TODO MAKE IT ACCEPT AN ARRAY OF ID
 async function _delete(id) {
-    const account = await User.query().deleteById(id);
-    return account;
+    await User.query().deleteById(id);
 }
 
 /**==================== Helpers ====================== */

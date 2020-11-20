@@ -1,6 +1,5 @@
 module.exports = {
     user: "user",
-    customer: "customer",
     address: "address",
     company: "company",
     accounts: "accounts",

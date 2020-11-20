@@ -41,15 +41,15 @@ A fullstack app (frontend, backend) for restaurant management
 -   npm i knex
 -   npx knex init ## initialize knex
 
-## knex migrations and seeds
+## knex migrations and seeds commands
 
 -   npx knex migrate:make migration_name // create a migration file
--   npx knex migrate:latest // migrate the most recent migration file\
--   npx knex migrate:latest -- --debug // show the sql
--   npx knex migrate:rollback
+-   npx knex migrate:latest // migrate the most recent migration file
+-   npx knex migrate:latest -- --debug // show the sql while migrating
+-   npx knex migrate:rollback // rollback migrations
 -   npx knex seed:make initial
 -   npx knex seed:run
--   npx knex migrate:rollback --env test_environment e.g prod, dev test
+-   npx knex migrate:rollback --env test_environment // rollback on a given env e.g prod, dev test
 
 ## eslint
 
@@ -130,6 +130,7 @@ class Person extends Model {
 
         return {
             pets: {
+                // HasManyRelation: Use this relation when the related model has the foreign key
                 relation: Model.HasManyRelation,
                 // The related model. This can be either a Model
                 // subclass constructor or an absolute file path
@@ -143,6 +144,7 @@ class Person extends Model {
             },
 
             movies: {
+                // ManyToManyRelation: Use this relation when the model is related to a list of other models through a join table
                 relation: Model.ManyToManyRelation,
                 modelClass: Movie,
                 join: {
@@ -170,6 +172,7 @@ class Person extends Model {
             },
 
             parent: {
+                // BelongsToOneRelation: Use this relation when the source model has the foreign key
                 relation: Model.BelongsToOneRelation,
                 modelClass: Person,
                 join: {

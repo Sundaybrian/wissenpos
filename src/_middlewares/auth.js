@@ -1,7 +1,11 @@
 const jwt = require("jsonwebtoken");
 const User = require("../api/user/user.model");
 
-module.exports = (roles = []) => {
+module.exports = {
+    auth,
+};
+
+function auth(roles = []) {
     if (typeof roles === "string") {
         roles = [roles];
     }
@@ -39,4 +43,4 @@ module.exports = (roles = []) => {
             next(error);
         }
     };
-};
+}

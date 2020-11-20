@@ -1,13 +1,28 @@
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
-exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('table_name').del()
-    .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
-    });
+const tableNames = require("../../src/constants/tableNames");
+const Role = require("../../src/utils/role");
+
+exports.seed = async function (knex) {
+    // Deletes ALL existing entries
+    await Promise.all(
+        Object.keys(tableNames).map((name) => {
+            return knex(name).del();
+        })
+    );
+
+    const password = await bcrypt.hash("12345678yh", 10);
+
+    const userOwner = {
+        email: "sunday@owner.com",
+        firstName: "sunday",
+        lastName: "owner",
+        password,
+        role: Role.owner,
+        active: true,
+        phoneNumber: "0712382366",
+    };
+
+    await knex(tableNames.user).insert(userOwner);
 };
