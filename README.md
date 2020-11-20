@@ -41,15 +41,15 @@ A fullstack app (frontend, backend) for restaurant management
 -   npm i knex
 -   npx knex init ## initialize knex
 
-## knex migrations and seeds
+## knex migrations and seeds commands
 
 -   npx knex migrate:make migration_name // create a migration file
--   npx knex migrate:latest // migrate the most recent migration file\
--   npx knex migrate:latest -- --debug // show the sql
--   npx knex migrate:rollback
+-   npx knex migrate:latest // migrate the most recent migration file
+-   npx knex migrate:latest -- --debug // show the sql while migrating
+-   npx knex migrate:rollback // rollback migrations
 -   npx knex seed:make initial
 -   npx knex seed:run
--   npx knex migrate:rollback --env test_environment e.g prod, dev test
+-   npx knex migrate:rollback --env test_environment // rollback on a given env e.g prod, dev test
 
 ## eslint
 
