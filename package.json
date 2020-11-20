@@ -10,7 +10,7 @@
         "seed": "knex seed:run",
         "start": "node src/index.js",
         "dev": "nodemon src/index.js",
-        "test": "KNEX_TEST=test jest --runInBand",
+        "test": "jest --runInBand",
         "lint": "eslint --fix src"
     },
     "keywords": [],
@@ -43,8 +43,5 @@
         "nodemon": "^2.0.4",
         "sqlite3": "^5.0.0",
         "supertest": "^5.0.0"
-    },
-    "jest": {
-        "testEnvironment": "node"
     }
 }
