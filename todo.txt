@@ -5,3 +5,15 @@
 - [] seeds
 - [*] send email helpers
 - [] auth, company, accounts, tests
+
+## todo company related ##
+- [] menu
+- [] category
+- [] item
+- [] menuCategory
+- [] menuItem
+
+## customer related ##
+- [] order
+- [] orderItem
+- [] payments
