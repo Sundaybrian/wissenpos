@@ -1,7 +1,7 @@
-- [] user model
+- [*] user model
 - [] user schema json
-- [] email helpers
-- [] remove customer table
-- [] add verification column, isVerified, verificationToken
+- [*] remove customer table
+- [*] add verification column, isVerified, verificationToken
 - [] seeds
-- [] send email helpers
+- [*] send email helpers
+- [] auth, company, accounts, tests

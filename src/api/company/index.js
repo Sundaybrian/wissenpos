@@ -10,8 +10,8 @@ const router = express.Router({
     mergeParams: true,
 });
 
-// api/v1/company/1/account
-router.use("/:account_id/accounts", Account);
+// api/v1/company/1/accounts
+router.use("/:company_id/accounts", Account);
 
 router.post("/", auth([Role.admin, Role.owner]), createSchema, create);
 router.get("/", auth([Role.admin, Role.owner]), getAllCompanies);
@@ -61,7 +61,7 @@ function update(req, res, next) {
 }
 
 function _deleteCompany(req, res, next) {
-    // only owner can update their company
+    // only owner delete can delete their company
     companyService
         ._delete({ id: req.params.id, owner: req.user.id })
         .then(() => {
