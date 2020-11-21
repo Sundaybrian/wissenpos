@@ -46,7 +46,12 @@ async function register(params, origin) {
     // validate
     if (await getAccount({ email: params.email })) {
         // send already registered error in email to prevent account enumeration
-        return await sendAlreadyRegisteredEmail(params.email, origin);
+        await sendAlreadyRegisteredEmail(params.email, origin);
+        const error = new Error(
+            'Email "' + params.email + '" is already registered'
+        );
+
+        throw error;
     }
 
     const account = await insertUser(params);

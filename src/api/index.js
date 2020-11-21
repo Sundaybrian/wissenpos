@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.use("/auth", require("../api/auth"));
-router.use("/company", require("../api/company"));
+router.use("/accounts", require("./auth/auth.routes"));
+router.use("/company", require("./company"));
 
 module.exports = router;

@@ -1,4 +1,5 @@
 // Update with your config settings.
+require("dotenv").config();
 
 module.exports = {
     test: {
@@ -14,7 +15,7 @@ module.exports = {
             directory: __dirname + "/db/seeds",
         },
     },
-    development: {
+    local: {
         client: "sqlite3",
         connection: {
             filename: "./dev.sqlite3",
@@ -27,8 +28,7 @@ module.exports = {
             directory: __dirname + "/db/seeds",
         },
     },
-
-    staging: {
+    development: {
         client: "pg",
         connection: {
             host: "127.0.0.1",

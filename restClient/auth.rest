@@ -1,0 +1,12 @@
+### register
+POST http://localhost:5000/api/v1/accounts/register
+Content-Type: application/json
+
+{
+    "firstName": "goof",
+    "lastName": "doctor",
+    "phoneNumber": "0778976544",
+    "email": "goof@owner.com",
+    "role": "owner",
+    "password":""
+}

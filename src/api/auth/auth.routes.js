@@ -7,17 +7,17 @@ const {
     verifyEmailSchema,
 } = require("./auth.validators");
 const authService = require("./auth.service");
-const { auth } = require("../../_middlewares/auth");
+const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
 router.post("/login", signinSchema, login);
 router.post("/register", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
-router.get("/", auth(Role.admin), getAll);
-router.get("/:id", auth(), getById);
-router.post("/", auth(Role.owner), signupSchema, create);
-router.put("/:id", auth(), updateSchema, update);
-router.delete("/:id", auth(), _delete);
+router.get("/", Auth(Role.admin), getAll);
+router.get("/:id", Auth(), getById);
+router.post("/", Auth(Role.owner), signupSchema, create);
+router.put("/:id", Auth(), updateSchema, update);
+router.delete("/:id", Auth(), _delete);
 
 module.exports = router;
 
@@ -42,7 +42,10 @@ function register(req, res, next) {
                     "Registration successfull, please check your email for verification instructions",
             });
         })
-        .catch(next);
+        .catch((error) => {
+            console.log(error);
+            next(error);
+        });
 }
 
 function verifyEmail(req, res, next) {
