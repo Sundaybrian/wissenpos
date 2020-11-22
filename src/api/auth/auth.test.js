@@ -50,5 +50,6 @@ describe("POST /api/v1/accounts/register", () => {
         expect(res.body.message).toEqual(
             "Registration successfull, please check your email for verification instructions"
         );
+        expect(res.body.user.email).toEqual("goof@owner.com");
     });
 });

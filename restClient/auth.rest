@@ -8,5 +8,17 @@ Content-Type: application/json
     "phoneNumber": "0778976544",
     "email": "goof@owner.com",
     "role": "owner",
-    "password":""
+    "password":"1212121221",
+    "confirmPassword":"1212121221"
+}
+
+
+### login
+POST http://localhost:5000/api/v1/accounts/login
+Content-Type: application/json
+
+{
+
+    "email": "sunday@owner.com",
+    "password":"12345678yh"
 }

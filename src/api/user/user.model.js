@@ -1,15 +1,13 @@
 const { Model } = require("objection");
 const tableNames = require("../../constants/tableNames");
-// const userSchema = require("./users.schema.json");
+const db = require("../../db");
 
 class User extends Model {
     static get tableName() {
         return tableNames.user;
     }
-
-    //   static get jsonSchema() {
-    //     return userSchema;
-    //   }
 }
+
+Model.knex(db);
 
 module.exports = User;
