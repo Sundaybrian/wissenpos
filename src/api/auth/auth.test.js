@@ -55,3 +55,39 @@ describe("POST /api/v1/accounts/register", () => {
         expect(res.body.user.email).toEqual("goof@owner.com");
     });
 });
+
+describe("POST /api/v1/accounts/login", () => {
+    it("Should login user", async () => {
+        const res = await request(app)
+            .post("/api/v1/accounts/login")
+            .send({
+                email: "sunday@owner.com",
+                password: "12345678yh",
+            })
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(res.body.user.firstName).toEqual("sunday");
+    });
+
+    it("Should not login user with wrong password", async () => {
+        await request(app)
+            .post("/api/v1/accounts/login")
+            .send({
+                email: "sunday@omwami.com",
+                password: "sunday omwami",
+            })
+            .expect("Content-Type", /json/)
+            .expect(500);
+    });
+
+    it("Should fail to login for a non existenst user", async () => {
+        await request(app)
+            .post("/api/v1/accounts/login")
+            .send({
+                email: "fakeuser@gmail.com",
+                password: "eveniamfake",
+            })
+            .expect(500);
+    });
+});

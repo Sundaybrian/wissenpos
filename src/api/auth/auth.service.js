@@ -28,13 +28,13 @@ async function login({ email, password }) {
 
     if (
         !account ||
-        !account.isVerified ||
+        // !account.isVerified ||
         !(await bcrypt.compare(password, account.password))
     ) {
         throw "Email or password is incorrect";
     }
 
-    const token = await jwt.sign(account);
+    const token = await jwt.sign(account.toJSON());
 
     return {
         user: basicDetails(account),
@@ -133,6 +133,7 @@ async function getAccount(param) {
     const account = await User.query()
         .where({ ...param })
         .first();
+    console.log(account);
     return account;
 }
 
