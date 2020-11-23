@@ -57,12 +57,12 @@ async function register(params, origin) {
     const account = await insertUser(params);
 
     // send email;
-    await sendVerificationEmail(account, origin);
+    // await sendVerificationEmail(account, origin);
 
     const token = await jwt.sign(account);
 
     return {
-        user: basicDetails(account),
+        user: account,
         token,
     };
 }
@@ -137,7 +137,7 @@ async function getAccount(param) {
 }
 
 async function insertUser(params) {
-    const { firstName, lastName, email, password, role } = params;
+    const { firstName, lastName, email, password, role, phoneNumber } = params;
 
     // hash password and verification token
     const hashedPassword = await hash(password, 10);
@@ -149,14 +149,15 @@ async function insertUser(params) {
         firstName,
         lastName,
         password: hashedPassword,
+        phoneNumber,
         role: role,
         active: true,
         isVerified: false,
-        verified: Date.now(),
+        verified: new Date().toISOString(),
         verificationToken,
     });
 
-    return account;
+    return basicDetails(account);
 }
 
 async function hash(password) {

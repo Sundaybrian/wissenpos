@@ -35,17 +35,14 @@ function register(req, res, next) {
     authService
         .register(req.body, req.get("origin"))
         .then(({ user, token }) => {
-            res.json({
+            return res.json({
                 user,
                 token,
                 message:
                     "Registration successfull, please check your email for verification instructions",
             });
         })
-        .catch((error) => {
-            console.log(error);
-            next(error);
-        });
+        .catch(next);
 }
 
 function verifyEmail(req, res, next) {

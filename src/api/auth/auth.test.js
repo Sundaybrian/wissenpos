@@ -41,6 +41,8 @@ describe("POST /api/v1/accounts/register", () => {
                 firstName: "goof",
                 lastName: "doctor",
                 phoneNumber: "0778976544",
+                password: "localtestuser",
+                confirmPassword: "localtestuser",
                 email: "goof@owner.com",
                 role: Role.owner,
             })
