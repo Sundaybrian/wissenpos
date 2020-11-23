@@ -10,7 +10,6 @@ exports.signupSchema = (req, res, next) => {
         email: Joi.string().email().required(),
         password: Joi.string().min(8).required(),
         confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
-        role: Joi.string().required(),
     });
     validateRequest(req, next, schema);
 };

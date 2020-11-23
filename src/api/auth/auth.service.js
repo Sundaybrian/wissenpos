@@ -28,13 +28,13 @@ async function login({ email, password }) {
 
     if (
         !account ||
-        !account.isVerified ||
+        // !account.isVerified ||
         !(await bcrypt.compare(password, account.password))
     ) {
         throw "Email or password is incorrect";
     }
 
-    const token = await jwt.sign(account);
+    const token = await jwt.sign(account.toJSON());
 
     return {
         user: basicDetails(account),
@@ -46,18 +46,23 @@ async function register(params, origin) {
     // validate
     if (await getAccount({ email: params.email })) {
         // send already registered error in email to prevent account enumeration
-        return await sendAlreadyRegisteredEmail(params.email, origin);
+        // await sendAlreadyRegisteredEmail(params.email, origin);
+        const error = new Error(
+            'Email "' + params.email + '" is already registered'
+        );
+
+        throw error;
     }
 
     const account = await insertUser(params);
 
     // send email;
-    await sendVerificationEmail(account, origin);
+    // await sendVerificationEmail(account, origin);
 
     const token = await jwt.sign(account);
 
     return {
-        user: basicDetails(account),
+        user: account,
         token,
     };
 }
@@ -81,6 +86,8 @@ async function create(params) {
     }
 
     const account = await insertUser(params);
+
+    // TODO? bind to company here
 
     return basicDetails(account);
 }
@@ -128,11 +135,12 @@ async function getAccount(param) {
     const account = await User.query()
         .where({ ...param })
         .first();
+    console.log(account);
     return account;
 }
 
 async function insertUser(params) {
-    const { firstName, lastName, email, password, role } = params;
+    const { firstName, lastName, email, password, role, phoneNumber } = params;
 
     // hash password and verification token
     const hashedPassword = await hash(password, 10);
@@ -144,14 +152,15 @@ async function insertUser(params) {
         firstName,
         lastName,
         password: hashedPassword,
+        phoneNumber,
         role: role,
         active: true,
         isVerified: false,
-        verified: Date.now(),
+        verified: new Date().toISOString(),
         verificationToken,
     });
 
-    return account;
+    return basicDetails(account);
 }
 
 async function hash(password) {

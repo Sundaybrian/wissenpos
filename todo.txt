@@ -2,9 +2,9 @@
 - [] user schema json
 - [*] remove customer table
 - [*] add verification column, isVerified, verificationToken
-- [] seeds
+- [*] seeds
 - [*] send email helpers
-- [] auth, company, accounts, tests
+- [] auth, []company, []accounts tests
 
 ## todo company related ##
 - [] menu
@@ -17,3 +17,6 @@
 - [] order
 - [] orderItem
 - [] payments
+
+## errors in design
+[] should we bind a user to a company // actually rethink relations between company and accounts

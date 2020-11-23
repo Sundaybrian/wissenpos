@@ -10,7 +10,7 @@
         "seed": "knex seed:run",
         "start": "node src/index.js",
         "dev": "nodemon src/index.js",
-        "test": "jest --runInBand",
+        "test": "NODE_ENV=test jest --runInBand",
         "lint": "eslint --fix src"
     },
     "keywords": [],

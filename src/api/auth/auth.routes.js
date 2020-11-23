@@ -7,17 +7,17 @@ const {
     verifyEmailSchema,
 } = require("./auth.validators");
 const authService = require("./auth.service");
-const { auth } = require("../../_middlewares/auth");
+const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
 router.post("/login", signinSchema, login);
 router.post("/register", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
-router.get("/", auth(Role.admin), getAll);
-router.get("/:id", auth(), getById);
-router.post("/", auth(Role.owner), signupSchema, create);
-router.put("/:id", auth(), updateSchema, update);
-router.delete("/:id", auth(), _delete);
+router.get("/", Auth(Role.admin), getAll);
+router.get("/:id", Auth(), getById);
+router.post("/create-staff", Auth(Role.owner), signupSchema, create);
+router.put("/:id", Auth(), updateSchema, update);
+router.delete("/:id", Auth(), _delete);
 
 module.exports = router;
 
@@ -35,7 +35,7 @@ function register(req, res, next) {
     authService
         .register(req.body, req.get("origin"))
         .then(({ user, token }) => {
-            res.json({
+            return res.json({
                 user,
                 token,
                 message:
@@ -79,7 +79,7 @@ function create(req, res, next) {
 }
 
 function update(req, res, next) {
-    // users ca update their accounts and admin can update any account
+    // users can update their accounts and admin can update any account
     if (Number(req.params.id) !== req.user.id && req.user.role !== Role.admin) {
         return res.status(401).json({ message: "Unathorized" });
     }
