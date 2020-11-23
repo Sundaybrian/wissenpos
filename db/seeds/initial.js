@@ -24,5 +24,15 @@ exports.seed = async function (knex) {
         phoneNumber: "0712382366",
     };
 
+    const adminUser = {
+        email: "admin@admin.com",
+        firstName: "admin",
+        lastName: "admin",
+        password,
+        role: Role.admin,
+        phoneNumber: "0712382367",
+    };
+
     await knex(tableNames.user).insert(userOwner);
+    await knex(tableNames.user).insert(adminUser);
 };

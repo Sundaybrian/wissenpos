@@ -2,6 +2,8 @@ const request = require("supertest");
 const app = require("../../app");
 const User = require("../user/user.model");
 const Role = require("../../utils/role");
+const jwt = require("../../utils/jwt");
+const bcrypt = require("bcrypt");
 
 describe("POST /api/v1/accounts/register", () => {
     it("should fail to create a user with missing fields", async () => {
@@ -89,5 +91,33 @@ describe("POST /api/v1/accounts/login", () => {
                 password: "eveniamfake",
             })
             .expect(500);
+    });
+});
+
+describe("POST /api/v1/accounts/", () => {
+    let token;
+    beforeEach(function (done) {
+        request(app)
+            .post("/api/v1/accounts/login")
+            .send({
+                email: "admin@admin.com",
+                password: "12345678yh",
+            })
+            .end(function (err, res) {
+                if (err) throw err;
+                token = res.body.token;
+                done();
+            });
+    });
+
+    it("Should return an array of users", async () => {
+        const res = await request(app)
+            .get("/api/v1/accounts")
+            .set("Authorization", `Bearer ${token}`)
+            .send()
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(res.body.length).toBeGreaterThan(0);
     });
 });
