@@ -121,3 +121,67 @@ describe("POST /api/v1/accounts/", () => {
         expect(res.body.length).toBeGreaterThan(0);
     });
 });
+
+describe("POST /api/v1/accounts/:id", () => {
+    let token;
+    beforeEach(function (done) {
+        request(app)
+            .post("/api/v1/accounts/login")
+            .send({
+                email: "admin@admin.com",
+                password: "12345678yh",
+            })
+            .end(function (err, res) {
+                if (err) throw err;
+                token = res.body.token;
+                done();
+            });
+    });
+
+    it("Should return the account of the user", async () => {
+        const res = await request(app)
+            .get("/api/v1/accounts/1")
+            .set("Authorization", `Bearer ${token}`)
+            .send()
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(res.body.id).toEqual(1);
+    });
+});
+
+describe("POST /api/v1/accounts/ create staff ", () => {
+    let token;
+    beforeEach(function (done) {
+        request(app)
+            .post("/api/v1/accounts/login")
+            .send({
+                email: "sunday@owner.com",
+                password: "12345678yh",
+            })
+            .end(function (err, res) {
+                if (err) throw err;
+                token = res.body.token;
+                done();
+            });
+    });
+
+    it("owner should create a new user", async () => {
+        const res = await request(app)
+            .post("/api/v1/accounts/create-staff")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                firstName: "test",
+                lastName: "staff",
+                phoneNumber: "0718986544",
+                email: "staffwasunday@staff.com",
+                password: "localtestuser",
+                confirmPassword: "localtestuser",
+                role: Role.staff,
+            })
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(res.body.email).toEqual("staffwasunday@staff.com");
+    });
+});

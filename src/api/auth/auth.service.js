@@ -87,6 +87,8 @@ async function create(params) {
 
     const account = await insertUser(params);
 
+    // TODO? bind to company here
+
     return basicDetails(account);
 }
 

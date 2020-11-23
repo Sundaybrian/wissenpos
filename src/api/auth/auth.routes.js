@@ -15,7 +15,7 @@ router.post("/register", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
 router.get("/", Auth(Role.admin), getAll);
 router.get("/:id", Auth(), getById);
-router.post("/", Auth(Role.owner), signupSchema, create);
+router.post("/create-staff", Auth(Role.owner), signupSchema, create);
 router.put("/:id", Auth(), updateSchema, update);
 router.delete("/:id", Auth(), _delete);
 
@@ -79,7 +79,7 @@ function create(req, res, next) {
 }
 
 function update(req, res, next) {
-    // users ca update their accounts and admin can update any account
+    // users can update their accounts and admin can update any account
     if (Number(req.params.id) !== req.user.id && req.user.role !== Role.admin) {
         return res.status(401).json({ message: "Unathorized" });
     }
