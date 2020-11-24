@@ -1,7 +1,7 @@
 const express = require("express");
 const { createSchema, updateSchema } = require("./company.validators");
 const companyService = require("./company.service");
-const { auth } = require("../../_middlewares/auth");
+const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
 const Account = require("./accounts/index");
@@ -13,11 +13,11 @@ const router = express.Router({
 // api/v1/company/1/accounts
 router.use("/:company_id/accounts", Account);
 
-router.post("/", auth([Role.admin, Role.owner]), createSchema, create);
-router.get("/", auth([Role.admin, Role.owner]), getAllCompanies);
-router.get("/:id", auth([Role.admin, Role.owner]), getCompanyById);
-router.put("/:id", auth([Role.owner]), updateSchema, update);
-router.delete("/:id", auth([Role.admin, Role.owner]), _deleteCompany);
+router.post("/", Auth([Role.admin, Role.owner]), createSchema, create);
+router.get("/", Auth([Role.admin, Role.owner]), getAllCompanies);
+router.get("/:id", Auth([Role.admin, Role.owner]), getCompanyById);
+router.put("/:id", Auth([Role.owner]), updateSchema, update);
+router.delete("/:id", Auth([Role.admin, Role.owner]), _deleteCompany);
 
 module.exports = router;
 

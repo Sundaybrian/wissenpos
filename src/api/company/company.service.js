@@ -1,4 +1,5 @@
 const Company = require("../company/company.model");
+const error = require("../../utils/error");
 
 module.exports = {
     create,
@@ -11,7 +12,7 @@ module.exports = {
 async function create(params) {
     // validate if company name exists
     if (await getCompany({ name: params.name })) {
-        throw 'Name "' + params.name + '" is already registered';
+        error('Name "' + params.name + '" is already registered');
     }
 
     const company = await Company.query().insert(params);
@@ -22,7 +23,7 @@ async function updateCompany(queryParams, params) {
     const company = await getCompany({ ...queryParams });
 
     if (!company) {
-        throw "unathorized";
+        error("Unauthorized");
     }
 
     // validate if name was changed
@@ -31,7 +32,7 @@ async function updateCompany(queryParams, params) {
         company.name !== params.name &&
         (await getCompany({ name: params.name }))
     ) {
-        throw 'Name "' + params.name + '" is already taken';
+        error('Name "' + params.name + '" is already taken');
     }
 
     const updatedCompany = await Company.query().patchAndFetchById(id, {

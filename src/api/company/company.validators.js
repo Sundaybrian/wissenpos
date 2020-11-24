@@ -3,31 +3,27 @@ const validateRequest = require("../../_middlewares/validateRequest");
 
 exports.createSchema = (req, res, next) => {
     const schema = Joi.object({
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
-        phoneNumber: Joi.string().min(10).max(15).required(),
-        role: Joi.string().min(5).required(),
+        name: Joi.string().required(),
+        description: Joi.string(),
+        logo_url: Joi.string(),
+        website_url: Joi.string(),
+        owner: Joi.number().required(),
         email: Joi.string().email().required(),
-        password: Joi.string().min(8).required(),
-        confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
-        role: Joi.string().required(),
     });
     validateRequest(req, next, schema);
 };
 
 exports.updateSchema = (req, res, next) => {
     const schemaRules = {
-        firstName: Joi.string().empty(""),
-        lastName: Joi.string().empty(""),
+        name: Joi.string().empty(""),
+        description: Joi.string().empty(""),
         email: Joi.string().email().empty(""),
-        role: Joi.string().min(5).empty(""),
-        phoneNumber: Joi.string().min(10).max(15).empty(""),
-        password: Joi.string().min(8).empty(""),
-        confirmPassword: Joi.string().valid(Joi.ref("password")).empty(""),
+        owner: Joi.number().empty(""),
+        logo_url: Joi.string().empty(""),
+        website_url: Joi.string().empty(""),
     };
 
-    //  TODO figure out how admin can update role
-    const schema = Joi.object(schemaRules).with("password", "confirmPassword");
+    const schema = Joi.object(schemaRules);
 
     validateRequest(req, next, schema);
 };
