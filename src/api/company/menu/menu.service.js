@@ -36,7 +36,6 @@ async function getAllCompanyMenus(params) {
 }
 
 async function getMenuById(id) {
-    // TODO withGraphFetched('menu_categories')
     const menu = await getMenu({ id });
     return menu;
 }
@@ -54,8 +53,8 @@ async function _delete(queryParams) {
 // =========== helpers===========
 
 async function getMenu(param) {
-    const menu = await Menu.query()
+    return await Menu.query()
         .where({ ...param })
+        .withGraphFetched("categories")
         .first();
-    return menu;
 }
