@@ -7,9 +7,15 @@ const Role = require("../../../utils/role");
 const menuService = require("./company.service");
 const error = require("../../../utils/error");
 
+const MenuCategory = require("./menu-category/menu-category.routes");
+
 const router = express.Router({
     mergeParams: true,
 });
+
+// api/v1/company/company_id/menu_id/menu-category
+
+router.use(":/menu_id/menu-category", MenuCategory);
 
 router.post("/", Auth([Role.owner]), createSchema, create);
 router.get("/", getAllCompanyMenus);

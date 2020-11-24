@@ -9,11 +9,11 @@
 ## todo company related ##
 - [/] menu
     [*] withGraphFetched
-    [] merge params to menuCategory
-    
-- [] category
+    [/] merge params to menuCategory
+
+- [/] category
 - [] item
-- [] menuCategory
+- [/] menuCategory
 - [] menuItem
 
 ## customer related ##
