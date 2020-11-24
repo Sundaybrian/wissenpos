@@ -4,10 +4,10 @@
 - [*] add verification column, isVerified, verificationToken
 - [*] seeds
 - [*] send email helpers
-- [*] auth, []company, [] accounts tests
+- [*] auth, [/]company, [/] accounts []tests
 
 ## todo company related ##
-- [] menu
+- [/] menu
 - [] category
 - [] item
 - [] menuCategory
@@ -20,3 +20,4 @@
 
 ## errors in design
 [] should we bind a user to a company // actually rethink relations between company and accounts
+[] 
