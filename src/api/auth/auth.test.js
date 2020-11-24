@@ -94,7 +94,7 @@ describe("POST /api/v1/accounts/login", () => {
     });
 });
 
-describe("POST /api/v1/accounts/", () => {
+describe("POST fetch accounts", () => {
     let token;
     beforeEach(function (done) {
         request(app)
@@ -122,7 +122,7 @@ describe("POST /api/v1/accounts/", () => {
     });
 });
 
-describe("POST /api/v1/accounts/:id", () => {
+describe("PUT/GET /api/v1/accounts/:id fetch account by id", () => {
     let token;
     beforeEach(function (done) {
         request(app)
@@ -147,6 +147,34 @@ describe("POST /api/v1/accounts/:id", () => {
             .expect(200);
 
         expect(res.body.id).toEqual(1);
+    });
+
+    it("Should not update the account of the admin", async () => {
+        const res = await request(app)
+            .put("/api/v1/accounts/2")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                email: "sunday@owner.com",
+            })
+            .expect("Content-Type", /json/)
+            .expect(500);
+
+        expect(res.body.message).toEqual(
+            "Email sunday@owner.com is already taken"
+        );
+    });
+
+    it("Should update the account of the owner", async () => {
+        const res = await request(app)
+            .put("/api/v1/accounts/1")
+            .set("Authorization", `Bearer ${token}`)
+            .send({
+                firstName: "sunday 1",
+            })
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(res.body.firstName).toEqual("sunday 1");
     });
 });
 

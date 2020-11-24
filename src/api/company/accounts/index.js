@@ -1,12 +1,12 @@
 const Account = require("./accounts.model");
 const Role = require("../../../utils/role");
-const { auth } = require("../../../_middlewares/auth");
+const { auth: Auth } = require("../../../_middlewares/auth");
 
 const router = require("express").Router({
     mergeParams: true,
 });
 
-router.get("/", auth([Role.admin, Role.owner]), getAccounts);
+router.get("/", Auth([Role.admin, Role.owner]), getAccounts);
 
 module.exports = router;
 

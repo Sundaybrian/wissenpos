@@ -31,7 +31,8 @@ async function login({ email, password }) {
         // !account.isVerified ||
         !(await bcrypt.compare(password, account.password))
     ) {
-        throw "Email or password is incorrect";
+        const error = new Error("Email or password is incorrect");
+        throw error;
     }
 
     const token = await jwt.sign(account.toJSON());
@@ -87,7 +88,7 @@ async function create(params) {
 
     const account = await insertUser(params);
 
-    // TODO? bind to company here
+    // TODO? bind to company here.
 
     return basicDetails(account);
 }
@@ -101,7 +102,8 @@ async function update(id, params) {
         account.email !== params.email &&
         (await getAccount({ email: params.email }))
     ) {
-        throw 'Email "' + params.email + '" is already taken';
+        const error = new Error(`Email ${params.email} is already taken`);
+        throw error;
     }
 
     // hash password if it was entered
