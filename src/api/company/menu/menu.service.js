@@ -16,8 +16,6 @@ async function createMenu(params) {
 }
 
 async function updateMenu(queryParams, params) {
-    const updatedmenu = await getMenu({ ...queryParams });
-
     const updatedmenu = await Menu.query().patchAndFetchById(id, {
         ...params,
     });
@@ -53,8 +51,9 @@ async function _delete(queryParams) {
 // =========== helpers===========
 
 async function getMenu(param) {
-    return await Menu.query()
+    const menu = await Menu.query()
         .where({ ...param })
         .withGraphFetched("categories")
         .first();
+    return menu;
 }

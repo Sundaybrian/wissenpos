@@ -8,6 +8,9 @@
 
 ## todo company related ##
 - [/] menu
+    [*] withGraphFetched
+    [] merge params to menuCategory
+    
 - [] category
 - [] item
 - [] menuCategory
