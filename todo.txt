@@ -4,7 +4,7 @@
 - [*] add verification column, isVerified, verificationToken
 - [*] seeds
 - [*] send email helpers
-- [] auth, []company, []accounts tests
+- [*] auth, []company, [] accounts tests
 
 ## todo company related ##
 - [] menu
