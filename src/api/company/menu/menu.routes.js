@@ -52,6 +52,8 @@ function getMenuById(req, res, next) {
 function update(req, res, next) {
     // only owner can update their company menu
     const { owner_id } = req.body;
+    const payload = { ...req.body };
+    delete payload.owner_id;
 
     if (Number(req.user.id) !== owner_id) {
         error("Unathorized");
@@ -60,7 +62,7 @@ function update(req, res, next) {
     menuService
         .updateMenu(
             { id: req.params.id, company_id: req.params.company_id },
-            req.body
+            payload
         )
         .then((menu) => (menu ? res.json(menu) : res.sendStatus(404)))
         .catch(next);
