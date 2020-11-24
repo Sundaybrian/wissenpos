@@ -15,7 +15,19 @@ async function createMenu(params) {
     return menu;
 }
 
-async function updateMenu(queryParams, params) {
+async function updateMenu(id, params) {
+    const menu = await getMenu({ id });
+    //check if menu name is duplicated
+    if (
+        params.name &&
+        menu.name !== params.name &&
+        (await getMenu({
+            name: params.name,
+            company_id: menu.company_id,
+        }))
+    ) {
+        error(`Menu ${params.name} already exists`);
+    }
     const updatedmenu = await Menu.query().patchAndFetchById(id, {
         ...params,
     });

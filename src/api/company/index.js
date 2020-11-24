@@ -6,6 +6,7 @@ const Role = require("../../utils/role");
 
 const Account = require("./accounts/index");
 const Menu = require("./menu/menu.routes");
+const Category = require("./category/category.routes");
 
 const router = express.Router({
     mergeParams: true,
@@ -13,7 +14,8 @@ const router = express.Router({
 
 // api/v1/company/1/accounts
 router.use("/:company_id/accounts", Account);
-router.use("/:company_id/menus", Menu);
+router.use("/:company_id/menu", Menu);
+router.use("/:company_id/category", Category);
 
 router.post("/", Auth([Role.admin, Role.owner]), createSchema, create);
 router.get("/", Auth([Role.admin, Role.owner]), getAllCompanies);

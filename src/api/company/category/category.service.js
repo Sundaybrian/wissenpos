@@ -15,7 +15,19 @@ async function createCategory(params) {
     return category;
 }
 
-async function updateCategory(params) {
+async function updateCategory(id, params) {
+    const category = await getCategory({ id });
+    //check if category name is duplicated
+    if (
+        params.name &&
+        category.name !== params.name &&
+        (await getCategory({
+            name: params.name,
+            company_id: category.company_id,
+        }))
+    ) {
+        error(`Category ${params.name} already exists`);
+    }
     const updatedcategory = await Category.query().patchAndFetchById(id, {
         ...params,
     });

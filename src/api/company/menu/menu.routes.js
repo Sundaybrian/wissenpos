@@ -60,10 +60,7 @@ function update(req, res, next) {
     }
 
     menuService
-        .updateMenu(
-            { id: req.params.id, company_id: req.params.company_id },
-            payload
-        )
+        .updateMenu(req.params.id, payload)
         .then((menu) => (menu ? res.json(menu) : res.sendStatus(404)))
         .catch(next);
 }
