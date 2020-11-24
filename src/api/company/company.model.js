@@ -20,7 +20,7 @@ class Company extends Model {
                 relation: Model.BelongsToOneRelation,
                 modelClass: User,
                 join: {
-                    from: `${tableNames.company}owner_.id`,
+                    from: `${tableNames.company}.owner_id`,
                     to: `${tableNames.user}.id`,
                 },
             },
@@ -29,7 +29,7 @@ class Company extends Model {
                 modelClass: Account,
                 join: {
                     from: `${tableNames.company}.id`,
-                    to: `${tableNames.accounts}company_.id`,
+                    to: `${tableNames.accounts}.company_id`,
                 },
             },
         };
