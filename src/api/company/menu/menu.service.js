@@ -3,24 +3,20 @@ const error = require("../../../utils/error");
 
 module.exports = {
     createMenu,
-    updatemenu,
+    updateMenu,
     getAllMenu,
+    getAllCompanyMenus,
     getMenuById,
     _delete,
 };
 
-async function create(params) {
+async function createMenu(params) {
     const menu = await Menu.query().insert(params);
     return menu;
 }
 
-async function updatemenu(queryParams, params) {
-    const menu = await getMenu({ ...queryParams });
-
-    // since it will be role based and company tied authorization, sending back unathorized if a user tries to update another users menu
-    if (!menu) {
-        error("Unauthorized");
-    }
+async function updateMenu(queryParams, params) {
+    const updatedmenu = await getMenu({ ...queryParams });
 
     const updatedmenu = await Menu.query().patchAndFetchById(id, {
         ...params,
@@ -31,6 +27,11 @@ async function updatemenu(queryParams, params) {
 
 async function getAllMenu() {
     const menus = await Menu.query();
+    return menus;
+}
+
+async function getAllCompanyMenus(params) {
+    const menus = await Menu.query({ ...params });
     return menus;
 }
 
