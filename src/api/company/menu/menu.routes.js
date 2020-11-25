@@ -4,7 +4,7 @@ const { createSchema, updateSchema } = require("./menu.validator");
 const { auth: Auth } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 
-const menuService = require("./company.service");
+const menuService = require("./menu.service");
 const error = require("../../../utils/error");
 
 const MenuCategory = require("./menu-category/menu-category.routes");
