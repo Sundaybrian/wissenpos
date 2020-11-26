@@ -243,4 +243,5 @@ kill -9 {PID}
     ```
 
 -   git commit and git push heroku master
+-   additional trick if you want to push to master branch from another branch `git push <remote> <local branch name>:<remote branch to push into>`
 -   `heroku local web` test how your app looks like
