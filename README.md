@@ -213,3 +213,35 @@ npm run dev
 
 sudo lsof -i :3000
 kill -9 {PID}
+
+## Deployment
+
+-   `heroku login` login to your account
+-   `heroku create wissenpos-backend` create app name -`heroku addons:create heroku-postgresql:hobby-dev` setup postgres db. remember to save the postgres instance name heroku sends back.. it is of the form `postgresql-something-06892`check your terminal after running this command
+-   `heroku config:set $(cat .env | sed '/^$/d; /#[[:print:]]*$/d')` push env variables to heroku
+-   `heroku config:set NODE_ENV=production` overwite NODE_ENV to production
+-   `heroku pg:push local_db_name DATABASE_URL --app app_name` push your local db to heroku
+-   update knex file production setting to use heroku database url
+
+    ```javascript
+    production: {
+    client: "postgresql",
+    connection: process.env.DATABASE_URL,
+    pool: {
+    min: 2,
+    max: 10,
+    },
+    migrations: {
+    directory: \_\_dirname + "/db/migrations",
+    },
+
+                seeds: {
+                    directory: __dirname + "/db/seeds",
+                },
+            },
+
+    ```
+
+-   git commit and git push heroku master
+-   additional trick if you want to push to master branch from another branch `git push <remote> <local branch name>:<remote branch to push into>`
+-   `heroku local web` test how your app looks like

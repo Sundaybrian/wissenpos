@@ -4,7 +4,7 @@ const companyService = require("./company.service");
 const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
-const Account = require("./accounts/index");
+const Account = require("./accounts/accounts.routes");
 const Menu = require("./menu/menu.routes");
 const Category = require("./category/category.routes");
 

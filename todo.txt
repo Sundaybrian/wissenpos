@@ -15,6 +15,7 @@
 - [] item
 - [/] menuCategory
 - [] menuItem
+- [] QR-- this will be an endpoint really
 
 ## customer related ##
 - [] order

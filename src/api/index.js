@@ -9,6 +9,6 @@ router.get("/", (req, res) => {
 });
 
 router.use("/accounts", require("./auth/auth.routes"));
-router.use("/company", require("./company"));
+router.use("/company", require("./company/company.routes"));
 
 module.exports = router;

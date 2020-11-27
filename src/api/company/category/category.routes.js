@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { createSchema, updateSchema } = require("./category.validator");
+const { createSchema, updateSchema } = require("./category.validators");
 const { auth: Auth } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 
