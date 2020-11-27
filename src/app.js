@@ -4,6 +4,7 @@ const compression = require("compression");
 const helmet = require("helmet");
 const cors = require("cors");
 
+// Swagger stuff
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsondoc = require("swagger-jsdoc");
 const options = require("./options");
@@ -28,15 +29,15 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get(
-    "/docs",
+app.use("/api/v1", api);
+
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
     swaggerUi.setup(specs, {
         explorer: true,
     })
 );
-
-app.use("/api/v1", api);
-app.use("/docs", swaggerUi.serve);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

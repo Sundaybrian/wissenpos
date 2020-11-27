@@ -10,6 +10,19 @@ const authService = require("./auth.service");
 const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Account:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *
+ *
+ */
 router.post("/login", signinSchema, login);
 router.post("/register", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
