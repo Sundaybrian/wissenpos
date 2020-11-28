@@ -1,0 +1,66 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "wissenpos-backend API",
+        "version": "1.0.0",
+        "description": "The APi for the wissenspos restaurant management system",
+        "contact": {
+            "name": "The Wissenspos API",
+            "url": "https://.com",
+            "email": "info@wissensof.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5000/api/v1",
+            "description": "development server"
+        },
+        {
+            "url": "https://wissenspos.herokuapp.com/api/v1",
+            "description": "production server"
+        }
+    ],
+    "paths": {
+        "/user/{id}": {
+            "get": {
+                "tags": ["User"],
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "number",
+                        "description": "Users unique ID."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "String",
+                            "items": { "$ref": "#/definitions/GetUser" }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "GetUser": {
+            "properties": {
+                "id": { "type": "number", "description": "Users unique ID." },
+                "firstname": {
+                    "type": "string",
+                    "description": "Firstname of the User."
+                },
+                "lastname": {
+                    "type": "string",
+                    "description": "Lastname of the User."
+                }
+            },
+            "required": ["id", "firstname", "lastname"]
+        }
+    }
+}

@@ -27,7 +27,7 @@ const options = {
             },
         ],
     },
-    apis: ["./api/auth/auth.routes.js"],
+    apis: ["./api/auth/auth.routes.js", "./app.js"],
 };
 
 module.exports = options;

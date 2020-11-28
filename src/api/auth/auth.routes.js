@@ -11,17 +11,14 @@ const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
 /**
- * @swagger
- * components:
- *   schemas:
- *     Account:
- *       type: object
- *       required:
- *         - email
- *         - password
- *       properties:
+ * @api {get} /user/:id Request User information
+ * @apiName GetUser
+ * @apiGroup User
  *
+ * @apiParam {Number} id Users unique ID.
  *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
  */
 router.post("/login", signinSchema, login);
 router.post("/register", signupSchema, register);

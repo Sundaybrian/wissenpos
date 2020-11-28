@@ -6,9 +6,8 @@ const cors = require("cors");
 
 // Swagger stuff
 const swaggerUi = require("swagger-ui-express");
-const swaggerJsondoc = require("swagger-jsdoc");
+const swaggerDocument = require("../docs/swagger.json");
 const options = require("./options");
-const specs = swaggerJsondoc(options);
 
 require("dotenv").config();
 
@@ -30,11 +29,12 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1", api);
-
+// swagger docs
 app.use(
     "/api-docs",
     swaggerUi.serve,
-    swaggerUi.setup(specs, {
+    swaggerUi.setup(swaggerDocument, {
+        ...options,
         explorer: true,
     })
 );
