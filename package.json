@@ -18,7 +18,6 @@
     "author": "Sunday Brian",
     "apidoc": {
         "title": "Wissenpos Api",
-        // "url": "https://wissenspos.herokuapp.com/api/v1",
         "sampleUrl":"https://wissenspos.herokuapp.com/api/v1",
         "description": "Api for the restaurant management system"
     },
