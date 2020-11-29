@@ -30,12 +30,7 @@ exports.up = async function (knex) {
         references(table, tableNames.user, "staff_id", true);
         addDefaultColumns(table);
     });
-    await knex.schema.createTable(tableNames.category, (table) => {
-        table.increments().notNullable();
-        table.string("name").notNullable();
-        references(table, tableNames.company, null, true);
-        addDefaultColumns(table);
-    });
+
     await knex.schema.createTable(tableNames.menu, (table) => {
         table.increments().notNullable();
         table.string("name").notNullable();
@@ -45,21 +40,40 @@ exports.up = async function (knex) {
         table.boolean("active").defaultTo(false);
         addDefaultColumns(table);
     });
-    await knex.schema.createTable(tableNames.menuCategory, (table) => {
-        table.increments().notNullable();
-        references(table, tableNames.category, null, true);
-        references(table, tableNames.menu, null, true);
-        addDefaultColumns(table);
-    });
-    await knex.schema.createTable(tableNames.menuItem, (table) => {
+
+    await knex.schema.createTable(tableNames.category, (table) => {
         table.increments().notNullable();
         table.string("name").notNullable();
         references(table, tableNames.menu, null, true);
-        references(table, tableNames.item, null, true);
-        references(table, tableNames.category, null, true);
-        table.boolean("available").notNullable().defaultTo(true);
         addDefaultColumns(table);
     });
+
+    await knex.schema.createTable(tableNames.item, (table) => {
+        table.increments().notNullable();
+        table.string("name").notNullable();
+        table.string("description", 1000);
+        table.float("price").notNullable().defaultTo(0);
+        table.integer("quantity").defaultTo(0);
+        references(table, tableNames.category, null, true);
+        addDefaultColumns(table);
+    });
+
+    // await knex.schema.createTable(tableNames.menuCategory, (table) => {
+    //     table.increments().notNullable();
+    //     references(table, tableNames.category, null, true);
+    //     references(table, tableNames.menu, null, true);
+    //     addDefaultColumns(table);
+    // });
+    // await knex.schema.createTable(tableNames.menuItem, (table) => {
+    //     table.increments().notNullable();
+    //     table.string("name").notNullable();
+    //     references(table, tableNames.menu, null, true);
+    //     references(table, tableNames.item, null, true);
+    //     references(table, tableNames.category, null, true);
+    //     table.boolean("available").notNullable().defaultTo(true);
+    //     addDefaultColumns(table);
+    // });
+
     await knex.schema.createTable(tableNames.order, (table) => {
         table.increments().notNullable();
         references(table, tableNames.user, "customer_id", true);
@@ -75,6 +89,7 @@ exports.up = async function (knex) {
         table.float("subtotal");
         addDefaultColumns(table);
     });
+
     await knex.schema.createTable(tableNames.orderItem, (table) => {
         table.increments().notNullable();
         references(table, tableNames.orderItem, null, true);
@@ -83,6 +98,7 @@ exports.up = async function (knex) {
         table.integer("quantity").notNullable().defaultTo(0);
         addDefaultColumns(table);
     });
+
     await knex.schema.createTable(tableNames.payments, (table) => {
         table.increments().notNullable();
         references(table, tableNames.user, "customer_id", true);
@@ -103,10 +119,11 @@ exports.down = async function (knex) {
         [
             tableNames.company,
             tableNames.accounts,
-            tableNames.category,
             tableNames.menu,
-            tableNames.menuCategory,
-            tableNames.menuItem,
+            tableNames.category,
+            tableNames.item,
+            // tableNames.menuCategory,
+            // tableNames.menuItem,
             tableNames.order,
             tableNames.orderItem,
             tableNames.payments,

@@ -7,7 +7,7 @@ const { references } = require("../../src/utils/tableUtils");
  */
 exports.up = async function (knex) {
     await knex.schema.table(tableNames.item, (table) => {
-        references(table, tableNames.company, null, true);
+        references(table, tableNames.company, null, false);
     });
 };
 
@@ -15,7 +15,7 @@ exports.up = async function (knex) {
  * @param {import('knex')} knex
  */
 exports.down = async function (knex) {
-    await knex.schema.drop(tableNames.item, (table) => {
+    await knex.schema.table(tableNames.item, (table) => {
         table.dropColumn("company_id");
     });
 };
