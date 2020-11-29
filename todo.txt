@@ -5,22 +5,31 @@
 - [*] seeds
 - [*] send email helpers
 - [*] auth, [/]company, [/] accounts []tests
+- [] document apis
 
 ## todo company related ##
 - [/] menu
-    [*] withGraphFetched
+    [*] withGraphFetched categories
     [/] merge params to menuCategory
+    [] merge params to category
 
 - [/] category
-- [/] menuCategory
+    [] withGraphFetched items
+    [] merge params to items
 - [] item
-- [] menuItem
 - [] QR-- this will be an endpoint really
 
 ## customer related ##
 - [] order
 - [] orderItem
 - [] payments
+
+## fixes
+- [*] company model
+- [*] menu, category, item model
+- [] updating category
+-
+
 
 ## errors in design
 [] should we bind a user to a company // actually rethink relations between company and accounts

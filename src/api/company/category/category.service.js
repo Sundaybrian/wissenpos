@@ -23,7 +23,7 @@ async function updateCategory(id, params) {
         category.name !== params.name &&
         (await getCategory({
             name: params.name,
-            company_id: category.company_id,
+            menu_id: category.menu_id,
         }))
     ) {
         error(`Category ${params.name} already exists`);
