@@ -12,8 +12,8 @@
     [/] merge params to menuCategory
 
 - [/] category
-- [] item
 - [/] menuCategory
+- [] item
 - [] menuItem
 - [] QR-- this will be an endpoint really
 

@@ -16,6 +16,12 @@
     },
     "keywords": [],
     "author": "Sunday Brian",
+    "apidoc": {
+        "title": "Wissenpos Api",
+        // "url": "https://wissenspos.herokuapp.com/api/v1",
+        "sampleUrl":"https://wissenspos.herokuapp.com/api/v1",
+        "description": "Api for the restaurant management system"
+    },
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^5.0.0",
@@ -42,6 +48,7 @@
         "eslint": "^7.7.0",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-plugin-import": "^2.22.0",
+        "gulp": "^4.0.2",
         "gulp-apidoc-swagger": "^0.2.2",
         "jest": "^26.5.3",
         "nodemon": "^2.0.4",
