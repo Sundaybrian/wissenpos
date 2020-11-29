@@ -13,7 +13,7 @@ const router = express.Router({
 });
 
 // api/v1/company/company_id/menu_id/category
-router.use(":/menu_id/category", Category);
+router.use("/:menu_id/category", Category);
 
 router.post("/", Auth([Role.owner]), createSchema, create);
 router.get("/", getAllCompanyMenus);

@@ -4,12 +4,17 @@ const { createSchema, updateSchema } = require("./category.validators");
 const { auth: Auth } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 
+const Item = require("../menu/item/item.routes");
+
 const categoryService = require("./category.service");
 const error = require("../../../utils/error");
 
 const router = express.Router({
     mergeParams: true,
 });
+
+// api/v1/company_id/menu_id/category_id/item
+router.use("/:category_id/item", Item);
 
 router.post("/", Auth([Role.owner]), createSchema, create);
 router.get("/", getAllCompanyCategorys);
