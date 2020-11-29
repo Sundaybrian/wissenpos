@@ -3,11 +3,7 @@ const morgan = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
 const cors = require("cors");
-
-// Swagger stuff
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("../docs/swagger.json");
-const options = require("./options");
+const path = require("path");
 
 require("dotenv").config();
 
@@ -28,16 +24,8 @@ app.get("/", (req, res) => {
     });
 });
 
+app.use("/api-docs", express.static("docs"));
 app.use("/api/v1", api);
-// swagger docs
-app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument, {
-        ...options,
-        explorer: true,
-    })
-);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

@@ -12,15 +12,10 @@
         "dev": "nodemon src/server.js",
         "test": "NODE_ENV=test jest --runInBand",
         "lint": "eslint --fix src",
-        "docs": "apidoc-swagger -i ./ -e node_modules -o ./docs"
+        "docs": "apidoc -i ./ -e node_modules docs -o ./docs"
     },
     "keywords": [],
     "author": "Sunday Brian",
-    "apidoc": {
-        "title": "Wissenpos Api",
-        "sampleUrl":"https://wissenspos.herokuapp.com/api/v1",
-        "description": "Api for the restaurant management system"
-    },
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^5.0.0",
@@ -43,6 +38,7 @@
         "yamljs": "^0.3.0"
     },
     "devDependencies": {
+        "apidoc": "^0.25.0",
         "apidoc-swagger": "^0.3.2",
         "eslint": "^7.7.0",
         "eslint-config-airbnb-base": "^14.2.0",

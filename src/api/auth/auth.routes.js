@@ -11,7 +11,8 @@ const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
 /**
- * @api {post} /accounts/login login user
+ * @api {post} /accounts/login
+ * @apiSampleRequest https://wissenspos.herokuapp.com/api/v1/accounts/login
  * @apiDescription endpoint to login a user
  * @apiName PostAccounts
  * @apiGroup Accounts
@@ -41,17 +42,17 @@ const Role = require("../../utils/role");
  *           "role": "owner",
  *           "isVerified": false
  *       },
- *       "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZmlyc3ROYW1lIjoic3VuZGF5IiwibGFzdE5hbWUiOiJvd25lciIsImVtYWlsIjoic3VuZGF5QG93bmVyLmNvbSIsInBob25lTnVtYmVyIjoiMDcxMjM4MjM2NiIsInBhc3N3b3JkIjoiJDJiJDEwJEtUQXhXVFM0Rm5La1Zqa2N6NDRhSnVyOGdWQXNIcXhpRGI1R09kZWdVSnJsQmhXYmpuVktpIiwicm9sZSI6Im93bmVyIiwiYWN0aXZlIjp0cnVlLCJ2ZXJpZmllZCI6bnVsbCwiaXNWZXJpZmllZCI6ZmFsc2UsInZlcmlmaWNhdGlvblRva2VuIjpudWxsLCJpbWFnZV91cmwiOm51bGwsImNyZWF0ZWRfYXQiOiIyMDIwLTExLTI5VDA4OjMyOjUxLjYyOVoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0xMS0yOVQwODozMjo1MS42MjlaIiwiZGVsZXRlZF9hdCI6bnVsbCwiaWF0IjoxNjA2NjM4ODk4LCJleHAiOjE2MDY2NDk2OTh9.bj8ocE-VUJ0MwDWHjpa45qVsK_yLAmQrZ5IFKTkL7DM"
+ *         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZmlyc3ROYW1lIjoic3VuZGF5IiwibGFzdE5hbWUiOiJvd25lciIsImVtYWlsIjoic3VuZGF5QG93bmVyLmNvbSIsInBob25lTnVtYmVyIjoiMDcxMjM4MjM2NiIsInBhc3N3b3JkIjoiJDJiJDEwJEtUQXhXVFM0Rm5La1Zqa2N6NDRhSnVyOGdWQXNIcXhpRGI1R09kZWdVSnJsQmhXYmpuVktpIiwicm9sZSI6Im93bmVyIiwiYWN0aXZlIjp0cnVlLCJ2ZXJpZmllZCI6bnVsbCwiaXNWZXJpZmllZCI6ZmFsc2UsInZlcmlmaWNhdGlvblRva2VuIjpudWxsLCJpbWFnZV91cmwiOm51bGwsImNyZWF0ZWRfYXQiOiIyMDIwLTExLTI5VDA4OjMyOjUxLjYyOVoiLCJ1cGRhdGVkX2F0IjoiMjAyMC0xMS0yOVQwODozMjo1MS42MjlaIiwiZGVsZXRlZF9hdCI6bnVsbCwiaWF0IjoxNjA2NjM4ODk4LCJleHAiOjE2MDY2NDk2OTh9.bj8ocE-VUJ0MwDWHjpa45qVsK_yLAmQrZ5IFKTkL7DM"
  *
  *        }
  *
  * @apiError UserNotFound The id of the User was not found.
  *
  * @apiErrorExample Error-Response:
- * HTTP/1.1 404 Not Found
- * {
- *   "error": "UserNotFound"
- * }
+ *      HTTP/1.1 404 Not Found
+ *      {
+ *        "error": "UserNotFound"
+ *      }
  *
  *
  */

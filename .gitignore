@@ -118,3 +118,6 @@ node_modules
 
 ## volumes
 docker-data/
+
+## apidocs
+docs/
