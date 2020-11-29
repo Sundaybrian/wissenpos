@@ -15,6 +15,8 @@ class Company extends Model {
         // Importing models here is a one way to avoid require loops.
         const User = require("../user/user.model");
         const Account = require("./accounts/accounts.model");
+        const Menu = require("./menu/menu.model");
+
         return {
             owner: {
                 relation: Model.BelongsToOneRelation,
@@ -30,6 +32,14 @@ class Company extends Model {
                 join: {
                     from: `${tableNames.company}.id`,
                     to: `${tableNames.accounts}.company_id`,
+                },
+            },
+            menus: {
+                relation: Model.HasManyRelation,
+                modelClass: Menu,
+                join: {
+                    from: `${tableNames.company}.id`,
+                    to: `${tableNames.menu}.company_id`,
                 },
             },
         };
