@@ -51,6 +51,7 @@ exports.up = async function (knex) {
     await knex.schema.createTable(tableNames.item, (table) => {
         table.increments().notNullable();
         table.string("name").notNullable();
+        url(table, "image_url");
         table.string("description", 1000);
         table.float("price").notNullable().defaultTo(0);
         table.integer("quantity").defaultTo(0);
