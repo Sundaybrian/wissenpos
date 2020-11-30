@@ -1,6 +1,7 @@
 const { Model } = require("objection");
 const tableNames = require("../../../../../constants/tableNames");
 const db = require("../../../../../db");
+const Category = require("../category.model");
 
 class Item extends Model {
     static get tableName() {
@@ -8,15 +9,15 @@ class Item extends Model {
     }
 
     static get relationMappings() {
-        const Company = require("../../../company.model");
+        const Category = require("../../category/category.model");
 
         return {
-            company: {
+            category: {
                 relation: Model.BelongsToOneRelation,
-                modelClass: Company,
+                modelClass: Category,
                 join: {
-                    from: `${tableNames.item}.company_id`,
-                    to: `${tableNames.company}.id`,
+                    from: `${tableNames.item}.category_id`,
+                    to: `${tableNames.category}.id`,
                 },
             },
         };

@@ -35,6 +35,7 @@ async function getItem(params) {
         .first();
     return item;
 }
+
 function basicDetails(item) {
     const { id, name, description } = item;
     return { id, name, description };

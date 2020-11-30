@@ -15,7 +15,7 @@
 
 - [/] category
     [/] withGraphFetched items
-    [] merge params to items
+    [/] merge params to items
 - [] item
 - [] QR-- this will be an endpoint really
 

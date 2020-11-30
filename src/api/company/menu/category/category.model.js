@@ -14,16 +14,16 @@ class Category extends Model {
 
     static get relationMappings() {
         // Importing models here is a one way to avoid require loops.
-        const Company = require("../company.model");
+        const Menu = require("../menu.model");
         const Item = require("../menu/item/item.model");
 
         return {
-            company: {
+            menu: {
                 relation: Model.BelongsToOneRelation,
-                modelClasss: Company,
+                modelClasss: Menu,
                 join: {
-                    from: `${tableName.category}.company_id`,
-                    to: `${tableNames.company}.id`,
+                    from: `${tableName.category}.menu_id`,
+                    to: `${tableNames.menu}.id`,
                 },
             },
             items: {
