@@ -4,9 +4,11 @@ const validateRequest = require("../../../../../_middlewares/validateRequest");
 exports.createSchema = (req, res, next) => {
     const schema = Joi.object({
         name: Joi.string().required(),
+        price: Joi.number().required(),
+        quantity: Joi.number().required(),
         description: Joi.string().required(),
-        cover_url: Joi.string(),
-        company_id: Joi.number().required(),
+        image_url: Joi.string(),
+        category_id: Joi.number().required(),
     });
     validateRequest(req, next, schema);
 };
@@ -14,9 +16,11 @@ exports.createSchema = (req, res, next) => {
 exports.updateSchema = (req, res, next) => {
     const schemaRules = {
         name: Joi.string().empty(""),
+        price: Joi.number().empty(""),
+        quantity: Joi.number().empty(""),
         description: Joi.string().empty(""),
-        cover_url: Joi.string().empty(""),
-        company_id: Joi.number().empty(""),
+        image_url: Joi.string(),
+        category_id: Joi.number().empty(""),
     };
 
     const schema = Joi.object(schemaRules);
