@@ -1,7 +1,7 @@
 const { Model } = require("objection");
-const db = require("../../../db");
+const db = require("../../../../db");
 const schema = require("./category.schema.json");
-const tableNames = require("../../../constants/tableNames");
+const tableNames = require("../../../../constants/tableNames");
 
 class Category extends Model {
     static get tableName() {

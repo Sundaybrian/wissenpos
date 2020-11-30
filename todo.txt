@@ -11,10 +11,10 @@
 - [/] menu
     [*] withGraphFetched categories
     [/] merge params to menuCategory
-    [] merge params to category
+    [/] merge params to category
 
 - [/] category
-    [] withGraphFetched items
+    [/] withGraphFetched items
     [] merge params to items
 - [] item
 - [] QR-- this will be an endpoint really

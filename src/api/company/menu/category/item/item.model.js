@@ -1,6 +1,6 @@
 const { Model } = require("objection");
-const tableNames = require("../../../../constants/tableNames");
-const db = require("../../../../db");
+const tableNames = require("../../../../../constants/tableNames");
+const db = require("../../../../../db");
 
 class Item extends Model {
     static get tableName() {
@@ -8,7 +8,7 @@ class Item extends Model {
     }
 
     static get relationMappings() {
-        const Company = require("../../company.model");
+        const Company = require("../../../company.model");
 
         return {
             company: {

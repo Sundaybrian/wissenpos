@@ -3,7 +3,7 @@ const express = require("express");
 const { createSchema, updateSchema } = require("./menu.validator");
 const { auth: Auth } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
-const Category = require("../category/category.routes");
+const Category = require("./category/category.routes");
 
 const menuService = require("./menu.service");
 const error = require("../../../utils/error");

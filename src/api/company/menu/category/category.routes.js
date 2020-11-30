@@ -1,13 +1,13 @@
 const express = require("express");
 
 const { createSchema, updateSchema } = require("./category.validators");
-const { auth: Auth } = require("../../../_middlewares/auth");
-const Role = require("../../../utils/role");
+const { auth: Auth } = require("../../../../_middlewares/auth");
+const Role = require("../../../../utils/role");
 
-const Item = require("../menu/item/item.routes");
+const Item = require("./item/item.routes");
 
 const categoryService = require("./category.service");
-const error = require("../../../utils/error");
+const error = require("../../../../utils/error");
 
 const router = express.Router({
     mergeParams: true,
