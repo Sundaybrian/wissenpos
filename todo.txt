@@ -16,8 +16,8 @@
 - [/] category
     [/] withGraphFetched items
     [/] merge params to items
-- [] item
-- [] QR-- this will be an endpoint really
+- [/] item
+- [] QR-- this will be an endpoint really or should i do frontend
 
 ## customer related ##
 - [] order
@@ -28,6 +28,7 @@
 - [*] company model
 - [*] menu, category, item model
 - [] updating category
+- [] document apis make either swagger work or apidocs
 - [] prevent company from changing or deleting menu of other companies
     [] i think i can be fetching the company data and join with user details, so i can compare it with the logged in user
 

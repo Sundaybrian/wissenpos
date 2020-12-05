@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+    title: Wissenspos Restaurant Management Api
+    description: APi for the wissenspos restaurant management system
+    contact:
+        name: "Debugger Supreme"
+        url: "sundaybrian.github.io"
+        email: ""
+
+servers:
+    - url: http://localhost:5000/api/v1
+      description: Local developent server
+    - url: https://wissenspos.herokuapp.com/api/v1
+      description: development server
+
+paths:
+    /accounts/register:
+        post:
+            summary: Register a user and return user details and JWT token
+            description: Register a new vendor to the system
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: "sunday"
+                                lastName:
+                                    type: string
+                                    example: "owner"
+                                email:
+                                    type: string
+                                    example: "sunday@owner.com"
+                                password:
+                                    type: string
+                                    example: "somewildpasswordicantcrack"
+                                confirmPassword:
+                                    type: string
+                                    example: "somewildpasswordicantcrack"
+                                phoneNumber:
+                                    type: string
+                                    example: "+254714382366"
+                            required:
+                                - email
+                                - firstName
+                                - lastName
+                                - password
+                                - confirmPassword
+                                - phoneNumber

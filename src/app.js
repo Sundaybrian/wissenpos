@@ -3,7 +3,14 @@ const morgan = require("morgan");
 const compression = require("compression");
 const helmet = require("helmet");
 const cors = require("cors");
-const path = require("path");
+
+// Swagger stuff
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsdoc = require("swagger-jsdoc");
+const YAML = require("yamljs");
+const swaggerDoc = YAML.load("swagger.yaml");
+const options = require("./options");
+const specs = swaggerJsdoc(options);
 
 require("dotenv").config();
 
@@ -24,8 +31,8 @@ app.get("/", (req, res) => {
     });
 });
 
-app.use("/api-docs", express.static("docs"));
 app.use("/api/v1", api);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
