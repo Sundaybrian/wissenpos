@@ -5,12 +5,9 @@ const helmet = require("helmet");
 const cors = require("cors");
 
 // Swagger stuff
+require("rootpath")();
 const swaggerUi = require("swagger-ui-express");
-const swaggerJsdoc = require("swagger-jsdoc");
-const YAML = require("yamljs");
-const swaggerDoc = YAML.load("swagger.yaml");
-const options = require("./options");
-const specs = swaggerJsdoc(options);
+const swaggerDoc = require("../docs/swagger.json");
 
 require("dotenv").config();
 

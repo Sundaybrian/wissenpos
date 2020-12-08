@@ -11,49 +11,8 @@ const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
 router.post("/login", signinSchema, login);
-
-/**
- * @swagger
- paths:
-    /accounts/register:
-        post:
-            summary: Register a user and return user details and JWT token
-            description: Register a new vendor to the system
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                firstName:
-                                    type: string
-                                    example: "sunday"
-                                lastName:
-                                    type: string
-                                    example: "owner"
-                                email:
-                                    type: string
-                                    example: "sunday@owner.com"
-                                password:
-                                    type: string
-                                    example: "somewildpasswordicantcrack"
-                                confirmPassword:
-                                    type: string
-                                    example: "somewildpasswordicantcrack"
-                                phoneNumber:
-                                    type: string
-                                    example: "+254714382366"
-                            required:
-                                - email
-                                - firstName
-                                - lastName
-                                - password
-                                - confirmPassword
-                                - phoneNumber
- *
- */
-router.post("/register", signupSchema, register);
+router.post("/register-customer", signupSchema, registerCustomer);
+router.post("/register-owner", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
 router.get("/", Auth(Role.admin), getAll);
 router.get("/:id", Auth(), getById);
@@ -74,6 +33,22 @@ function login(req, res, next) {
 }
 
 function register(req, res, next) {
+    req.body.role = Role.owner;
+    authService
+        .register(req.body, req.get("origin"))
+        .then(({ user, token }) => {
+            return res.json({
+                user,
+                token,
+                message:
+                    "Registration successfull, please check your email for verification instructions",
+            });
+        })
+        .catch(next);
+}
+
+function registerCustomer(req, res, next) {
+    req.body.role = Role.customer;
     authService
         .register(req.body, req.get("origin"))
         .then(({ user, token }) => {
