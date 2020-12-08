@@ -2,6 +2,10 @@
 
 A fullstack app (frontend, backend) for restaurant management
 
+## Docs
+
+To view the various endpoints lauch the backend and navigate to `localhost:5000/api-docs`
+
 ## Backend Setup
 
 -   Create `.env` with your values. A sample env is provided
