@@ -2,6 +2,10 @@
 
 A fullstack app (frontend, backend) for restaurant management
 
+## Docs
+
+To view the various endpoints lauch the backend and navigate to `localhost:5000/api-docs`
+
 ## Backend Setup
 
 -   Create `.env` with your values. A sample env is provided
@@ -14,22 +18,18 @@ A fullstack app (frontend, backend) for restaurant management
 -   All entities will have, created_at, updated_at and possibly deleted at
 -   Possibility for only soft deletions
 
--   [*] user
--   [] customer,
+-   [x] user
 -   [] address",
 -   [] company",
 -   [] accounts",
 -   [] category",
 -   [] menu,
--   [] menuCategory",
 -   [] item,
--   [] menuItem",
 -   [] order",
 -   [] orderItem",
 -   [] payments",
--   [] tests
 
-## commands
+## docker commands
 
 -   sudo docker-compose up
 -   sudo docker volume rm \$(sudo docker volume ls -q)
@@ -45,7 +45,7 @@ A fullstack app (frontend, backend) for restaurant management
 
 -   npx knex migrate:make migration_name // create a migration file
 -   npx knex migrate:latest // migrate the most recent migration file
--   npx knex migrate:latest -- --debug // show the sql while migrating
+-   npx knex migrate:latest -\*--debug // show the sql while migrating
 -   npx knex migrate:rollback // rollback migrations
 -   npx knex seed:make initial
 -   npx knex seed:run

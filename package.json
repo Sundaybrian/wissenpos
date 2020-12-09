@@ -2,6 +2,7 @@
     "name": "wissenpos-backend",
     "version": "1.0.0",
     "description": "",
+    "url": "https://wissenspos.herokuapp.com/api/v1",
     "main": "server.js",
     "scripts": {
         "migrate": "knex migrate:latest",
@@ -11,11 +12,20 @@
         "start": "node src/server.js",
         "dev": "nodemon src/server.js",
         "test": "NODE_ENV=test jest --runInBand",
-        "lint": "eslint --fix src"
+        "lint": "eslint --fix src",
+        "docs": "apidoc-swagger -i src/ -e node_modules -o docs/",
+        "docs2": "npx apidoc-swagger-3 -i src/ -e node_modules -o docs/"
     },
     "keywords": [],
     "author": "Sunday Brian",
     "license": "ISC",
+    "apidoc": {
+        "name": "wissenpos backend",
+        "version": "1.0.0",
+        "title": "Wissenpos Api",
+        "sampleUrl": "https://wissenspos.herokuapp.com/api/v1",
+        "url": "https://wissenspos.herokuapp.com/api/v1"
+    },
     "dependencies": {
         "bcrypt": "^5.0.0",
         "compression": "^1.7.4",
@@ -24,6 +34,7 @@
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-rate-limit": "^5.2.3",
+        "express-swagger-generator": "^1.1.17",
         "helmet": "^4.1.1",
         "joi": "^17.2.1",
         "jsonwebtoken": "^8.5.1",
@@ -33,14 +44,20 @@
         "objection": "^2.2.3",
         "pg": "^8.3.0",
         "rootpath": "^0.1.2",
-        "swagger-jsdoc": "^5.0.1",
+        "swagger-jsdoc": "^6.0.0-rc.3",
         "swagger-ui-express": "^4.1.4",
         "yamljs": "^0.3.0"
     },
     "devDependencies": {
+        "apidoc": "^0.24.0",
+        "apidoc-swagger": "^0.3.2",
+        "apidoc-swagger-3": "^1.0.6",
         "eslint": "^7.7.0",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-plugin-import": "^2.22.0",
+        "gulp": "^4.0.2",
+        "gulp-apidoc": "^0.2.8",
+        "gulp-apidoc-swagger": "^0.2.2",
         "jest": "^26.5.3",
         "nodemon": "^2.0.4",
         "sqlite3": "^5.0.0",

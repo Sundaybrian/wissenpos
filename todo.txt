@@ -5,23 +5,36 @@
 - [*] seeds
 - [*] send email helpers
 - [*] auth, [/]company, [/] accounts []tests
+- [] document apis
 
 ## todo company related ##
 - [/] menu
-    [*] withGraphFetched
+    [*] withGraphFetched categories
     [/] merge params to menuCategory
+    [/] merge params to category
 
 - [/] category
-- [] item
-- [/] menuCategory
-- [] menuItem
-- [] QR-- this will be an endpoint really
+    [/] withGraphFetched items
+    [/] merge params to items
+- [/] item
+- [] QR-- this will be an endpoint really or should i do frontend
 
 ## customer related ##
 - [] order
 - [] orderItem
 - [] payments
 
+## fixes
+- [*] company model
+- [*] menu, category, item model
+- [] updating category
+- [] document apis make either swagger work or apidocs
+    [/] had to write manually since apidocs neither swagger is working 
+- [] prevent company from changing or deleting menu of other companies
+    [] i think i can be fetching the company data and join with user details, so i can compare it with the logged in user
+[] fix create user by owner endpoint
+
+
 ## errors in design
+
 [] should we bind a user to a company // actually rethink relations between company and accounts
-[] 

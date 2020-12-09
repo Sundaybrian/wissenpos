@@ -1,5 +1,5 @@
 const Category = require("./category.model");
-const error = require("../../../utils/error");
+const error = require("../../../../utils/error");
 
 module.exports = {
     createCategory,
@@ -23,7 +23,7 @@ async function updateCategory(id, params) {
         category.name !== params.name &&
         (await getCategory({
             name: params.name,
-            company_id: category.company_id,
+            menu_id: params.menu_id,
         }))
     ) {
         error(`Category ${params.name} already exists`);
@@ -65,6 +65,7 @@ async function _delete(queryParams) {
 async function getCategory(param) {
     const category = await Category.query()
         .where({ ...param })
+        .withGraphFetched("items")
         .first();
 
     return category;

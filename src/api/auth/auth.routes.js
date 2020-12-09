@@ -10,21 +10,9 @@ const authService = require("./auth.service");
 const { auth: Auth } = require("../../_middlewares/auth");
 const Role = require("../../utils/role");
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     Account:
- *       type: object
- *       required:
- *         - email
- *         - password
- *       properties:
- *
- *
- */
 router.post("/login", signinSchema, login);
-router.post("/register", signupSchema, register);
+router.post("/register-customer", signupSchema, registerCustomer);
+router.post("/register-owner", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
 router.get("/", Auth(Role.admin), getAll);
 router.get("/:id", Auth(), getById);
@@ -45,6 +33,22 @@ function login(req, res, next) {
 }
 
 function register(req, res, next) {
+    req.body.role = Role.owner;
+    authService
+        .register(req.body, req.get("origin"))
+        .then(({ user, token }) => {
+            return res.json({
+                user,
+                token,
+                message:
+                    "Registration successfull, please check your email for verification instructions",
+            });
+        })
+        .catch(next);
+}
+
+function registerCustomer(req, res, next) {
+    req.body.role = Role.customer;
     authService
         .register(req.body, req.get("origin"))
         .then(({ user, token }) => {

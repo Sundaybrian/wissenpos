@@ -1,4 +1,4 @@
-const options = {
+let options = {
     swaggerDefinition: {
         openapi: "3.0.0",
         info: {
@@ -19,15 +19,15 @@ const options = {
         servers: [
             {
                 url: "http://localhost:5000/api/v1",
-                description: "development server",
+                description: "local server",
             },
             {
                 url: "https://wissenspos.herokuapp.com/api/v1",
-                description: "production server",
+                description: "development server",
             },
         ],
     },
-    apis: ["./api/auth/auth.routes.js"],
+    apis: ["wissenpos/src/api/auth/auth.routes.js"],
 };
 
 module.exports = options;

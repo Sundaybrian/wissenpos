@@ -5,10 +5,9 @@ const helmet = require("helmet");
 const cors = require("cors");
 
 // Swagger stuff
+require("rootpath")();
 const swaggerUi = require("swagger-ui-express");
-const swaggerJsondoc = require("swagger-jsdoc");
-const options = require("./options");
-const specs = swaggerJsondoc(options);
+const swaggerDoc = require("../docs/swagger.json");
 
 require("dotenv").config();
 
@@ -30,14 +29,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1", api);
-
-app.use(
-    "/api-docs",
-    swaggerUi.serve,
-    swaggerUi.setup(specs, {
-        explorer: true,
-    })
-);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

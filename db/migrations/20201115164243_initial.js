@@ -26,14 +26,6 @@ exports.up = async function (knex) {
             table.double("longitude").notNullable();
             addDefaultColumns(table);
         }),
-        knex.schema.createTable(tableNames.item, (table) => {
-            table.increments().notNullable();
-            table.string("name").notNullable();
-            table.string("description", 1000);
-            table.float("price").notNullable().defaultTo(0);
-            table.integer("quantity").defaultTo(0);
-            addDefaultColumns(table);
-        }),
     ]);
 };
 
@@ -43,10 +35,8 @@ exports.up = async function (knex) {
 exports.down = async function (knex) {
     // drop in any order since they are independent
     await Promise.all(
-        [
-            tableNames.user,
-            tableNames.address,
-            tableNames.item,
-        ].map((tableName) => knex.schema.dropTableIfExists(tableName))
+        [tableNames.user, tableNames.address].map((tableName) =>
+            knex.schema.dropTableIfExists(tableName)
+        )
     );
 };

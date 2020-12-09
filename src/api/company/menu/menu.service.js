@@ -23,7 +23,7 @@ async function updateMenu(id, params) {
         menu.name !== params.name &&
         (await getMenu({
             name: params.name,
-            company_id: menu.company_id,
+            company_id: params.company_id,
         }))
     ) {
         error(`Menu ${params.name} already exists`);
