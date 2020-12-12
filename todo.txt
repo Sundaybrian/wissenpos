@@ -5,7 +5,7 @@
 - [*] seeds
 - [*] send email helpers
 - [*] auth, [/]company, [/] accounts []tests
-- [] document apis
+- [/] document apis
 
 ## todo company related ##
 - [/] menu
@@ -17,6 +17,10 @@
     [/] withGraphFetched items
     [/] merge params to items
 - [/] item
+- [] user withGraphFetched company info
+    [] separate login for owner/staff with normal users??
+- [] create-staff
+    [] create company account on staff insert         
 - [] QR-- this will be an endpoint really or should i do frontend
 
 ## customer related ##
@@ -28,11 +32,11 @@
 - [*] company model
 - [*] menu, category, item model
 - [] updating category
-- [] document apis make either swagger work or apidocs
+- [/] document apis make either swagger work or apidocs
     [/] had to write manually since apidocs neither swagger is working 
 - [] prevent company from changing or deleting menu of other companies
     [] i think i can be fetching the company data and join with user details, so i can compare it with the logged in user
-[] fix create user by owner endpoint
+[] fix create staff by owner endpoint
 
 
 ## errors in design

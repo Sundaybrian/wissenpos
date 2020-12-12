@@ -1,6 +1,6 @@
 ## Wissenpos
 
-A fullstack app (frontend, backend) for restaurant management
+Backend for the restaurant management
 
 ## Docs
 
@@ -15,19 +15,19 @@ To view the various endpoints lauch the backend and navigate to `localhost:5000/
 
 ### Entities
 
--   All entities will have, created_at, updated_at and possibly deleted at
--   Possibility for only soft deletions
+-   All entities will have, `created_at, updated_at and deleted_at`
+-   Possibility for soft deletions later on
 
 -   [x] user
--   [] address",
--   [] company",
--   [] accounts",
--   [] category",
--   [] menu,
--   [] item,
--   [] order",
--   [] orderItem",
--   [] payments",
+-   [x] address
+-   [x] company
+-   [x] accounts
+-   [x] category
+-   [x] menu
+-   [x] item
+-   [x] order
+-   [x] orderItem
+-   [x] payments
 
 ## docker commands
 
@@ -38,18 +38,18 @@ To view the various endpoints lauch the backend and navigate to `localhost:5000/
 
 ## knex
 
--   npm i knex
--   npx knex init ## initialize knex
+-   `npm i knex` install knex
+-   `npx knex init` initialize knex
 
 ## knex migrations and seeds commands
 
--   npx knex migrate:make migration_name // create a migration file
--   npx knex migrate:latest // migrate the most recent migration file
--   npx knex migrate:latest -\*--debug // show the sql while migrating
--   npx knex migrate:rollback // rollback migrations
--   npx knex seed:make initial
--   npx knex seed:run
--   npx knex migrate:rollback --env test_environment // rollback on a given env e.g prod, dev test
+-   `npx knex migrate:make migration_name` create a migration file
+-   `npx knex migrate:latest` migrate the most recent migration file
+-   `npx knex migrate:latest --debug` show the sql while migrating
+-   `npx knex migrate:rollback` rollback migrations
+-   `npx knex seed:make initial` create seed file
+-   `npx knex seed:run` seed db with data
+-   `npx knex migrate:rollback --env <environment>` rollback db on a given env e.g prod, dev test
 
 ## eslint
 
@@ -61,7 +61,7 @@ To view the various endpoints lauch the backend and navigate to `localhost:5000/
 
 ## Objection js
 
--   ORM
+-   ORM. This is an example model with various table relations, you can use it a reference while creating models
 
 ```javascript
 const { Model } = require("objection");
@@ -217,7 +217,8 @@ kill -9 {PID}
 ## Deployment
 
 -   `heroku login` login to your account
--   `heroku create wissenpos-backend` create app name -`heroku addons:create heroku-postgresql:hobby-dev` setup postgres db. remember to save the postgres instance name heroku sends back.. it is of the form `postgresql-something-06892`check your terminal after running this command
+-   `heroku create <your-unique-app-name>` create app name also you can just run `heroku create` and allow heroku generate a name for you
+-   `heroku addons:create heroku-postgresql:hobby-dev` setup postgres db. remember to save the postgres instance name heroku sends back.. it is of the form `postgresql-something-06892`check your terminal after running this command
 -   `heroku config:set $(cat .env | sed '/^$/d; /#[[:print:]]*$/d')` push env variables to heroku
 -   `heroku config:set NODE_ENV=production` overwite NODE_ENV to production
 -   `heroku pg:push local_db_name DATABASE_URL --app app_name` push your local db to heroku
@@ -235,10 +236,10 @@ kill -9 {PID}
     directory: \_\_dirname + "/db/migrations",
     },
 
-                seeds: {
-                    directory: __dirname + "/db/seeds",
-                },
-            },
+        seeds: {
+            directory: __dirname + "/db/seeds",
+        },
+    },
 
     ```
 
