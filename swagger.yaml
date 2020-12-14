@@ -329,6 +329,9 @@ paths:
                                         example: "Email 'jason@borne.com' is already registered"
                 "401":
                     $ref: "#/components/responses/UnauthorizedError"
+                "403":
+                    $ref: "#/components/responses/AccessDenied"
+
     /accounts:
         get:
             tags:
@@ -373,7 +376,7 @@ paths:
                                             type: string
                                             example: "2020-05-08T03:11:21.553Z"
                 "401":
-                    $ref: "#/components/responses/UnathorizedError"
+                    $ref: "#/components/responses/UnauthorizedError"
 
     /accounts/{id}:
         parameters:
@@ -521,6 +524,50 @@ paths:
                 "401":
                     $ref: "#/components/responses/UnauthorizedError"
 
+    /company:
+        post:
+            tags:
+                - "company"
+            summary: Create a company
+            description: Restricted to  owners
+            operationId: createcompany
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    example: "massive dynamic"
+                                description:
+                                    type: string
+                                    example: "we create everything"
+                                logo_url:
+                                    type: string
+                                    example: "https://storagebucket.gogle.com/massivedy"
+                                website_url:
+                                    type: string
+                                    example: "https://some.massivedynamics.com"
+                                owner:
+                                    type: number
+                                    example: 11
+                                email:
+                                    type: string
+                                    example: "massive.dynamics@info.com"
+                            required:
+                                - name
+                                - description
+                                - logo_url
+                                - owner
+                                - email
+                responses:
+                    "200":
+                        description: Company created d
+
 components:
     securitySchemes:
         bearerAuth:
@@ -548,3 +595,13 @@ components:
                             message:
                                 type: string
                                 example: "Not Found"
+        AccessDenied:
+            description: Access Denied
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            message:
+                                type: string
+                                example: "Token not found, access denied"

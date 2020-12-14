@@ -17,7 +17,7 @@ router.use("/:company_id/accounts", Account);
 router.use("/:company_id/menu", Menu);
 router.use("/:company_id/order", Order);
 
-router.post("/", Auth([Role.admin, Role.owner]), createSchema, create);
+router.post("/", Auth([Role.owner]), createSchema, create);
 router.get("/", Auth([Role.admin, Role.owner]), getAllCompanies);
 router.get("/:id", Auth([Role.admin, Role.owner]), getCompanyById);
 router.put("/:id", Auth([Role.owner]), updateSchema, update);
@@ -26,6 +26,7 @@ router.delete("/:id", Auth([Role.admin, Role.owner]), _deleteCompany);
 module.exports = router;
 
 function create(req, res, next) {
+    req.body.owner = req.user.id;
     companyService
         .create(req.body)
         .then((company) => res.json(company))
