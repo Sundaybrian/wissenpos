@@ -95,7 +95,7 @@ exports.up = async function (knex) {
         table.increments().notNullable();
         references(table, tableNames.order, null, true);
         references(table, tableNames.item, null, true);
-        table.integer("quantity").notNullable().defaultTo(0);
+        table.integer("quantity").notNullable().defaultTo(1);
         addDefaultColumns(table);
     });
 
