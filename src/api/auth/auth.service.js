@@ -137,7 +137,6 @@ async function getAccount(param) {
     const account = await User.query()
         .where({ ...param })
         .first();
-    console.log(account);
     return account;
 }
 

@@ -8,6 +8,7 @@
 - [/] document apis
 
 ## todo company related ##
+
 - [/] menu
     [*] withGraphFetched categories
     [/] merge params to menuCategory
@@ -24,6 +25,7 @@
 - [] QR-- this will be an endpoint really or should i do frontend
 
 ## customer related ##
+
 - [] order
 - [] orderItem
 - [] payments
