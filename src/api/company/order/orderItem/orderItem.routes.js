@@ -3,7 +3,7 @@ const { auth: Auth } = require("../../../../_middlewares/auth");
 const role = require("../../../../utils/role");
 const orderService = require("../order.service");
 
-const router = express.router({
+const router = express.Router({
     mergeParams: true,
 });
 

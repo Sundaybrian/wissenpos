@@ -1,6 +1,7 @@
 const express = require("express");
 
 const { createSchema, updateSchema } = require("./menu.validator");
+const Company = require("../company.model");
 const { auth: Auth } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 const Category = require("./category/category.routes");
@@ -18,19 +19,13 @@ router.use("/:menu_id/category", Category);
 router.post("/", Auth([Role.owner]), createSchema, create);
 router.get("/", getAllCompanyMenus);
 router.get("/:id", getMenuById);
-router.put("/:id", Auth([Role.owner]), updateSchema, update);
+router.patch("/:id", Auth([Role.owner]), updateSchema, update);
 router.delete("/:id", Auth([Role.owner]), _deleteMenu);
 
 module.exports = router;
 
 function create(req, res, next) {
-    const { owner_id } = req.body;
-
-    // only owners of this company can make the menu
-    if (Number(req.user.id) !== owner_id) {
-        error("Unathorized");
-    }
-
+    req.body.company_id = req.params.company_id;
     menuService
         .createMenu(req.body)
         .then((menu) => res.json(menu))
@@ -55,32 +50,41 @@ function getMenuById(req, res, next) {
 
 function update(req, res, next) {
     // only owner can update their company menu
-    const { owner_id } = req.body;
-    const payload = { ...req.body };
-    delete payload.owner_id;
 
-    if (Number(req.user.id) !== owner_id) {
-        error("Unathorized");
-    }
+    Company.query()
+        .where({ owner: req.user.id })
+        .first()
+        .then((company) => {
+            if (!company) {
+                res.status(401);
+                error("Unathorized");
+            }
 
-    menuService
-        .updateMenu(req.params.id, payload)
+            return menuService.updateMenu(req.params.id, req.body);
+        })
         .then((menu) => (menu ? res.json(menu) : res.sendStatus(404)))
         .catch(next);
 }
 
 function _deleteMenu(req, res, next) {
     // only owner delete can delete their company menu
-    const { owner_id } = req.body;
 
-    if (Number(req.user.id) !== owner_id) {
-        error("Unathorized");
-    }
+    Company.query()
+        .where({ owner: req.user.id })
+        .first()
+        .then((company) => {
+            if (!company) {
+                res.status(401);
+                error("Unathorized");
+            }
 
-    menuService
-        ._delete({ id: req.params.id, company_id: req.params.company_id })
+            return menuService._delete({
+                id: req.params.id,
+                company_id: req.params.company_id,
+            });
+        })
         .then(() => {
-            res.json(req.params.id);
+            res.json({ id: req.params.id });
         })
         .catch(next);
 }

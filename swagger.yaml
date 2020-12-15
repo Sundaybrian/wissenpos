@@ -641,7 +641,7 @@ paths:
         "401":
           $ref: "#/components/responses/UnauthorizedError"
         "403":
-          $ref: '#/components/responses/UnathorizedError'
+          $ref: '#/components/responses/UnauthorizedError'
           
             
   /company/{id}:
@@ -727,6 +727,21 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'    
           
+  /company/mine:
+    get:
+      tags:
+        - 'company'
+      summary: Get all my companies
+      description: Restricted to owners
+      operationId: getmycompanies
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          $ref: '#/components/responses/CompanyResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  
                 
 components:
   securitySchemes:
