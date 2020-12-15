@@ -22,7 +22,7 @@ class Order extends Model {
                 },
             },
 
-            customerOrders: {
+            customer: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: User,
                 join: {
@@ -30,7 +30,7 @@ class Order extends Model {
                     to: `${tableNames.user}.id`,
                 },
             },
-            companyOrders: {
+            company: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Company,
                 join: {

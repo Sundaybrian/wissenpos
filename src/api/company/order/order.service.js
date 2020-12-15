@@ -20,8 +20,8 @@ async function createOrder(params) {
     return orderItem;
 }
 
-async function updateOrderItem(params) {
-    const order = await get_or_create(params.customer_id, params.company_id);
+async function updateOrderItem(id, params) {
+    const order = await getOrder(id);
 
     // check item quantity
     if (params.item.quantity <= 0) {
@@ -47,19 +47,21 @@ async function updateOrderItem(params) {
     return orderItem;
 }
 
-async function updateOrder(id, params) {
-    // aka update order table
+async function updateOrder(id, user, params) {
+    let order = await getOrder(id).withGraphFetched("company");
 
-    // allowable updates
-    // const allowableUpdates = ['order_status', 'purchase_status'];
-    // const updates = Object.keys(params);
-    // const isValidUpdates = updates.every(item => allowedUpdates.includes(item))
-    const order = await Order.query().patchAndFetchById(id, params);
+    if (order.company.id !== user.company.id) {
+        const error = new Error("Unathorized");
+        throw error;
+    }
+    // aka update order table
+    order = await Order.query().patchAndFetchById(id, params);
+
     return order;
 }
 
 async function getOrderById(id) {
-    const order = await Order.query().findById(id).withGraphFetched("items");
+    const order = await getOrder(id).withGraphFetched("items");
     return order;
 }
 
@@ -99,5 +101,10 @@ async function get_or_create(id, company_id) {
         });
     }
 
+    return order;
+}
+
+async function getOrder(id) {
+    const order = await Order.query().findById(id);
     return order;
 }
