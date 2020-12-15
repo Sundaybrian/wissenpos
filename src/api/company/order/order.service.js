@@ -73,8 +73,6 @@ async function getOwnOrders(id) {
 }
 
 async function getCompanyOrders(params) {
-    // for company you can query with whatever params you desire
-    // customer_id, company_id, order_status, purchase_status
     const orders = await Order.query().where(params).orderBy("created_at");
     return orders;
 }

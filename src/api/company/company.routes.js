@@ -18,9 +18,10 @@ router.use("/:company_id/menu", Menu);
 router.use("/:company_id/order", Order);
 
 router.post("/", Auth([Role.owner]), createSchema, create);
-router.get("/", Auth([Role.admin, Role.owner]), getAllCompanies);
+router.get("/", Auth([Role.admin]), getAllCompanies);
+router.get("/mine", Auth([Role.owner]), getMyCompanies);
 router.get("/:id", Auth([Role.admin, Role.owner]), getCompanyById);
-router.put("/:id", Auth([Role.owner]), updateSchema, update);
+router.patch("/:id", Auth([Role.owner]), updateSchema, update);
 router.delete("/:id", Auth([Role.admin, Role.owner]), _deleteCompany);
 
 module.exports = router;
@@ -39,7 +40,14 @@ function getAllCompanies(req, res, next) {
         .then((companies) => res.json(scopedItems(req.user, companies)))
         .catch(next);
 }
-
+function getMyCompanies(req, res, next) {
+    companyService
+        .getMyCompanies(req.user.id)
+        .then((companies) =>
+            companies ? res.json(companies) : res.sendStatus(404)
+        )
+        .catch(next);
+}
 function getCompanyById(req, res, next) {
     // owner can get his company and the admin can get any company
     companyService
@@ -70,7 +78,7 @@ function _deleteCompany(req, res, next) {
     companyService
         ._delete({ id: req.params.id, owner: req.user.id })
         .then(() => {
-            res.json(req.params.id);
+            res.json({ id: req.params.id });
         })
         .catch(next);
 }

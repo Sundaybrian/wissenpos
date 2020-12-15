@@ -2,7 +2,7 @@ const express = require("express");
 const {
     createOrder,
     updateOrderSchema,
-    companyOrdersSchema,
+    companyOrderSchema,
 } = require("./order.validators");
 const { auth: Auth } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
@@ -10,10 +10,11 @@ const orderService = require("./order.service");
 
 const OrderItem = require("./orderItem/orderItem.routes");
 
-router.use("/:order_id/orderItem", OrderItem);
 const router = express.Router({
     mergeParams: true,
 });
+
+router.use("/:order_id/orderItem", OrderItem);
 
 // update an order item customer aka update cart item
 router.post("/", createOrderSchema, Auth(Role.customer), createOrder);
