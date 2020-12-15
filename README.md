@@ -4,7 +4,8 @@ Backend for the restaurant management
 
 ## Docs
 
-To view the various endpoints lauch the backend and navigate to `localhost:5000/api-docs`
+To view the various endpoints lauch the backend `npm run dev` and navigate to `localhost:5000/api-docs`
+Hosted docs [wissenpos-backend](https://wissenspos.herokuapp.com/api-docs/)
 
 ## Backend Setup
 

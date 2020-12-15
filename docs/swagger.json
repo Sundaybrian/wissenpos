@@ -462,6 +462,9 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/AccessDenied"
                     }
                 }
             }
@@ -526,7 +529,7 @@
                         }
                     },
                     "401": {
-                        "$ref": "#/components/responses/UnathorizedError"
+                        "$ref": "#/components/responses/UnauthorizedError"
                     }
                 }
             }
@@ -540,7 +543,7 @@
                     "required": true,
                     "example": 1,
                     "schema": {
-                        "type": "string"
+                        "type": "integer"
                     }
                 }
             ],
@@ -742,6 +745,690 @@
                     }
                 }
             }
+        },
+        "/company": {
+            "post": {
+                "tags": ["company"],
+                "summary": "Create a company",
+                "description": "Restricted to  owners",
+                "operationId": "createcompany",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "massive dynamic"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "we create everything"
+                                    },
+                                    "logo_url": {
+                                        "type": "string",
+                                        "example": "https://storagebucket.gogle.com/massivedy"
+                                    },
+                                    "website_url": {
+                                        "type": "string",
+                                        "example": "https://some.massivedynamics.com"
+                                    },
+                                    "owner": {
+                                        "type": "number",
+                                        "example": 11
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "massive.dynamics@info.com"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "logo_url",
+                                    "owner",
+                                    "email"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Company created successfully, detail of the company are returned",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "massive dynamic"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "we create everything"
+                                        },
+                                        "logo_url": {
+                                            "type": "string",
+                                            "example": "https://storagebucket.gogle.com/massivedy"
+                                        },
+                                        "owner": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "massive.dynamics@info.com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Company name already exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Name Massive dynamic is already registered"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["company"],
+                "summary": "Get all companies",
+                "description": "Restricted to admin accounts",
+                "operationId": "getallcompanies",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of objects containing company infos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "massive dynamic"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "we create everything"
+                                            },
+                                            "logo_url": {
+                                                "type": "string",
+                                                "example": "https://storagebucket.gogle.com/massivedy"
+                                            },
+                                            "owner": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "massive.dynamics@info.com"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/company/{id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Company ID",
+                    "required": true,
+                    "example": 1,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "get": {
+                "tags": ["company"],
+                "summary": "Get Company by its ID",
+                "description": "Restricted to owners and admin",
+                "operationId": "getcompanybyid",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/CompanyResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["company"],
+                "summary": "Update a Company",
+                "description": "Restricted to owners",
+                "operationId": "updatecompany",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "massive dynamic"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "we create everything"
+                                    },
+                                    "logo_url": {
+                                        "type": "string",
+                                        "example": "https://storagebucket.gogle.com/massivedy"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "massive.dynamics@info.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/CompanyResponse"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/NameExistsError"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["company"],
+                "summary": "Delete a Company",
+                "description": "Restricted to owners and admin",
+                "operationId": "deletecompany",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Id of the delete company",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
+        },
+        "/company/mine": {
+            "get": {
+                "tags": ["company"],
+                "summary": "Get all my companies",
+                "description": "Restricted to owners",
+                "operationId": "getmycompanies",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/CompanyResponse"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/accounts": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "get": {
+                "tags": ["company"],
+                "summary": "Get accounts associated with a company",
+                "description": "Restricted to owners",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array containing user objects",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "company_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "staff_id": {
+                                                "type": "integer",
+                                                "example": 3
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/menu": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "post": {
+                "tags": ["menu"],
+                "summary": "Create Menu",
+                "description": "Restricted to owners",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Special Menu"
+                                    },
+                                    "cover_url": {
+                                        "type": "string",
+                                        "example": "https://storage.bucket@firebase.com"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "menu so good, you have to bring you wife"
+                                    }
+                                },
+                                "required": ["name", "description"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Menu Created Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Special Menu"
+                                        },
+                                        "cover_url": {
+                                            "type": "string",
+                                            "example": "https://storage.bucket@firebase.com"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "menu so good, you have to bring you wife"
+                                        },
+                                        "company": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "active": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["menu"],
+                "summary": "Gell all menus of a selected company",
+                "description": "Open to all",
+                "responses": {
+                    "200": {
+                        "description": "Array of menu objects",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Special Menu"
+                                            },
+                                            "cover_url": {
+                                                "type": "string",
+                                                "example": "https://storage.bucket@firebase.com"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "menu so good, you have to bring you wife"
+                                            },
+                                            "company": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "active": {
+                                                "type": "boolean",
+                                                "example": false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/menu/{id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Menu ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "get": {
+                "tags": ["menu"],
+                "summary": "Get menu by id",
+                "description": "Open to all",
+                "responses": {
+                    "200": {
+                        "description": "Menu Details an categories array",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Special Menu"
+                                        },
+                                        "company": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "BreakFast"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["menu"],
+                "summary": "Update Menu Details",
+                "description": "Restricted to Owner",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "operationId": "updateMenu",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Special Menu Updated"
+                                    },
+                                    "cover_url": {
+                                        "type": "string",
+                                        "example": "https://storage.bucket@firebase.com"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "menu so good, you have to bring you wife and kids"
+                                    },
+                                    "active": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Menu Details an categories array",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Special Menu Updated"
+                                        },
+                                        "cover_url": {
+                                            "type": "string",
+                                            "example": "https://storage.bucket@firebase.com"
+                                        },
+                                        "company": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "BreakFast"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["menu"],
+                "summary": "Delete Menu",
+                "description": "Deletes Menu and items associated with the menu. Restricted to owners",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Menu deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -753,6 +1440,42 @@
             }
         },
         "responses": {
+            "CompanyResponse": {
+                "description": "Company Details",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "massive dynamic"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "we create everything"
+                                },
+                                "logo_url": {
+                                    "type": "string",
+                                    "example": "https://storagebucket.gogle.com/massivedy"
+                                },
+                                "owner": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "massive.dynamics@info.com"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "UnauthorizedError": {
                 "description": "Access token is missing or invalid, or the user does not have access to perform the action",
                 "content": {
@@ -779,6 +1502,38 @@
                                 "message": {
                                     "type": "string",
                                     "example": "Not Found"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "AccessDenied": {
+                "description": "Access Denied",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Token not found, access denied"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "NameExistsError": {
+                "description": "Name is already in use",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Name is already taken"
                                 }
                             }
                         }

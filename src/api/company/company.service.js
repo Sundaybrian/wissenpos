@@ -5,6 +5,7 @@ module.exports = {
     create,
     updateCompany,
     getAllCompanies,
+    getMyCompanies,
     getCompanyById,
     _delete,
 };
@@ -44,6 +45,13 @@ async function updateCompany(queryParams, params) {
 
 async function getAllCompanies() {
     const companies = await Company.query();
+    return companies;
+}
+
+async function getMyCompanies(ownerId) {
+    const companies = await Company.query().where({
+        owner: ownerId,
+    });
     return companies;
 }
 

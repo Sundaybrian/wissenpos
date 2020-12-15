@@ -93,10 +93,9 @@ exports.up = async function (knex) {
 
     await knex.schema.createTable(tableNames.orderItem, (table) => {
         table.increments().notNullable();
-        references(table, tableNames.orderItem, null, true);
+        references(table, tableNames.order, null, true);
         references(table, tableNames.item, null, true);
-        table.float("price").notNullable().defaultTo(0);
-        table.integer("quantity").notNullable().defaultTo(0);
+        table.integer("quantity").notNullable().defaultTo(1);
         addDefaultColumns(table);
     });
 
