@@ -18,7 +18,7 @@ router.use("/:order_id/orderItem", OrderItem);
 
 // update an order item customer aka update cart item
 router.post("/", createOrderSchema, Auth(Role.customer), createOrder);
-router.put(
+router.patch(
     "/:id",
     updateOrderSchema,
     Auth([Role.staff, Role.owner]),

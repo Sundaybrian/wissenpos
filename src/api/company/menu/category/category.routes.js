@@ -3,6 +3,7 @@ const express = require("express");
 const { createSchema, updateSchema } = require("./category.validators");
 const { auth: Auth } = require("../../../../_middlewares/auth");
 const Role = require("../../../../utils/role");
+const Company = require("../../company.model");
 
 const Item = require("./item/item.routes");
 
@@ -19,16 +20,22 @@ router.use("/:category_id/item", Item);
 router.post("/", Auth([Role.owner]), createSchema, create);
 router.get("/", getAllCompanyCategorys);
 router.get("/:id", getCategoryById);
-router.put("/:id", Auth([Role.owner]), updateSchema, update);
+router.patch("/:id", Auth([Role.owner]), updateSchema, update);
 router.delete("/:id", Auth([Role.owner]), _deleteCategory);
 
 module.exports = router;
 
 function create(req, res, next) {
+    // check if owner of company
+
     const { owner_id } = req.body;
     const payload = { ...req.body };
 
     delete payload.owner_id;
+
+    if(!(await isOwner(req.user.id, req.params.company_id))){
+
+    }
 
     // only owners of this company can make the category
     if (Number(req.user.id) !== owner_id) {
@@ -46,8 +53,8 @@ function getAllCompanyCategorys(req, res, next) {
 
     categoryService
         .getAllCompanyCategorys({ company_id })
-        .then((category) =>
-            category ? res.json(category) : res.sendStatus(404)
+        .then((categories) =>
+            categories ? res.json(categories) : res.sendStatus(404)
         )
         .catch(next);
 }
@@ -93,4 +100,13 @@ function _deleteCategory(req, res, next) {
             res.json(req.params.id);
         })
         .catch(next);
+}
+
+// =========================================
+async function isOwner(owner_id, company_id) {
+    const bool = await Company.query()
+        .where({ owner_id, id: company_id })
+        .first();
+
+    return bool;
 }
