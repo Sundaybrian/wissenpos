@@ -1429,6 +1429,669 @@
                     }
                 }
             }
+        },
+        "/company/{company_id}/menu/{menu_id}/category": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "menu_id",
+                    "description": "Menu ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "get": {
+                "tags": ["category"],
+                "summary": "Get Menu Categories",
+                "description": "Open to all",
+                "operationId": "getmenucategories",
+                "responses": {
+                    "200": {
+                        "description": "Category array for a selected meu",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Breakfast"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["category"],
+                "summary": "Create a Category",
+                "description": "Attach a category to a specific menu. Restricted to owner",
+                "operationId": "createmenucategory",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "menu_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Lunch"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category bound to menu successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Lunch"
+                                        },
+                                        "menu_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/menu/{menu_id}/category/{id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "menu_id",
+                    "description": "Menu ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Category ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "get": {
+                "tags": ["category"],
+                "summary": "Get Menu Category by its ID",
+                "description": "Open to all",
+                "operationId": "getmenucategorybyid",
+                "responses": {
+                    "200": {
+                        "description": "Category object for the select category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Breakfast"
+                                        },
+                                        "menu_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Boiled meat"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": 200
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Best meat to salivate over"
+                                                    },
+                                                    "category_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["category"],
+                "summary": "Update a category name",
+                "description": "Restricted to owners",
+                "operationId": "updatecategory",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "menu_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Lunch Speciale"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Category updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Lunch Speciale"
+                                        },
+                                        "menu_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/NameExistsError"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["category"],
+                "summary": "Delete a Category by its ID",
+                "description": "Restricted to owners",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "operationId": "deletecategory",
+                "responses": {
+                    "200": {
+                        "description": "Category deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/menu/{menu_id}/category/{category_id}/item": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "menu_id",
+                    "description": "Menu ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "category_id",
+                    "description": "Category ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "post": {
+                "tags": ["item"],
+                "summary": "Create an item aka Meal for a given Category",
+                "description": "Restricted to Owners",
+                "operationId": "createitem",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "applicaton/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Boiled meat"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 200
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Best meat to salivate over"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "image_url": {
+                                        "type": "string",
+                                        "example": "https://firebase.storage.buket@com"
+                                    }
+                                },
+                                "required": [
+                                    "name",
+                                    "price",
+                                    "description",
+                                    "category_id",
+                                    "quantity",
+                                    "image_url"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Boiled meat"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Best meat to salivate over"
+                                        },
+                                        "category_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "image_url": {
+                                            "type": "string",
+                                            "example": "https://firebase.storage.buket@com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/menu/{menu_id}/category/{category_id}/item/{id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "menu_id",
+                    "description": "Menu ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "category_id",
+                    "description": "Category ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Item ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "get": {
+                "tags": ["item"],
+                "summary": "Fetch an item by its id",
+                "description": "fetch item",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "operationId": "fetchitembyid",
+                "responses": {
+                    "200": {
+                        "description": "Item fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Boiled meat"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Best meat to salivate over"
+                                        },
+                                        "category_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "image_url": {
+                                            "type": "string",
+                                            "example": "https://firebase.storage.buket@com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["item"],
+                "summary": "Update an Item",
+                "description": "Restricted to Owners",
+                "operationId": "updateItem",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "applicaton/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Boiled meat"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 200
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Best meat to salivate over"
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "image_url": {
+                                        "type": "string",
+                                        "example": "https://firebase.storage.buket@com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Boiled meat"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": 200
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "Best meat to salivate over"
+                                        },
+                                        "category_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "quantity": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "image_url": {
+                                            "type": "string",
+                                            "example": "https://firebase.storage.buket@com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["item"],
+                "summary": "Delete an Item",
+                "description": "Restricted to Owners",
+                "operationId": "deleteItem",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Item deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item deleted successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
         }
     },
     "components": {

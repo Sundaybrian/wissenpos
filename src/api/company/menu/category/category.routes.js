@@ -3,6 +3,7 @@ const express = require("express");
 const { createSchema, updateSchema } = require("./category.validators");
 const { auth: Auth } = require("../../../../_middlewares/auth");
 const Role = require("../../../../utils/role");
+const Company = require("../../company.model");
 
 const Item = require("./item/item.routes");
 
@@ -13,30 +14,28 @@ const router = express.Router({
     mergeParams: true,
 });
 
-// api/v1/company_id/menu_id/category_id/item
+// api/v1/company_id/menu_id/category/category_id/item
 router.use("/:category_id/item", Item);
 
 router.post("/", Auth([Role.owner]), createSchema, create);
 router.get("/", getAllCompanyCategorys);
 router.get("/:id", getCategoryById);
-router.put("/:id", Auth([Role.owner]), updateSchema, update);
+router.patch("/:id", Auth([Role.owner]), updateSchema, update);
 router.delete("/:id", Auth([Role.owner]), _deleteCategory);
 
 module.exports = router;
 
 function create(req, res, next) {
-    const { owner_id } = req.body;
-    const payload = { ...req.body };
+    // check if owner of company
+    const payload = req.body;
 
-    delete payload.owner_id;
-
-    // only owners of this company can make the category
-    if (Number(req.user.id) !== owner_id) {
-        error("Unathorized");
-    }
-
-    categoryService
-        .createcategory(payload)
+    isOwner(req.user.id, req.params.company_id)
+        .then((owner) => {
+            if (!owner) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+            return categoryService.createcategory(payload);
+        })
         .then((category) => res.json(category))
         .catch(next);
 }
@@ -46,8 +45,8 @@ function getAllCompanyCategorys(req, res, next) {
 
     categoryService
         .getAllCompanyCategorys({ company_id })
-        .then((category) =>
-            category ? res.json(category) : res.sendStatus(404)
+        .then((categories) =>
+            categories ? res.json(categories) : res.sendStatus(404)
         )
         .catch(next);
 }
@@ -63,16 +62,16 @@ function getCategoryById(req, res, next) {
 
 function update(req, res, next) {
     // only owner can update their company category
-    const { owner_id } = req.body;
-    const payload = { ...req.body };
-    delete payload.owner_id;
+    const payload = req.body;
+    payload.menu_id = req.params.menu_id;
 
-    if (Number(req.user.id) !== owner_id) {
-        error("Unathorized");
-    }
-
-    categoryService
-        .updateCategory(req.params.id, payload)
+    isOwner(req.user.id, req.params.company_id)
+        .then((owner) => {
+            if (!owner) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+            return categoryService.updateCategory(req.params.id, payload);
+        })
         .then((category) =>
             category ? res.json(category) : res.sendStatus(404)
         )
@@ -81,16 +80,27 @@ function update(req, res, next) {
 
 function _deleteCategory(req, res, next) {
     // only owner delete can delete their company category
-    const { owner_id } = req.body;
-
-    if (Number(req.user.id) !== owner_id) {
-        error("Unathorized");
-    }
-
-    categoryService
-        ._delete({ id: req.params.id, company_id: req.params.company_id })
+    isOwner(req.user.id, req.params.company_id)
+        .then((owner) => {
+            if (!owner) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+            return categoryService._delete({
+                id: req.params.id,
+                company_id: req.params.company_id,
+            });
+        })
         .then(() => {
-            res.json(req.params.id);
+            res.json({ id: req.params.id });
         })
         .catch(next);
+}
+
+// =========================================
+async function isOwner(owner_id, company_id) {
+    const bool = await Company.query()
+        .where({ owner_id, id: company_id })
+        .first();
+
+    return bool;
 }
