@@ -1,8 +1,10 @@
 const jwt = require("jsonwebtoken");
 const User = require("../api/user/user.model");
+const Company = require("../api/company/company.model");
 
 module.exports = {
     auth,
+    isOwner,
 };
 
 function auth(roles = []) {
@@ -38,6 +40,26 @@ function auth(roles = []) {
 
             // authentication and authorization successful
             req.user = decodedToken;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    };
+}
+
+function isOwner() {
+    return async (req, res, next) => {
+        try {
+            const bool = await Company.query()
+                .where({
+                    owner_id: req.user.id,
+                    company_id: req.params.company_id,
+                })
+                .first();
+
+            if (!bool) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
             next();
         } catch (error) {
             next(error);

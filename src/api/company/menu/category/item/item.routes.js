@@ -1,6 +1,6 @@
 const express = require("express");
 const { createSchema, updateSchema } = require("./item.validators");
-const { auth: Auth } = require("../../../../../_middlewares/auth");
+const { auth: Auth, isOwner } = require("../../../../../_middlewares/auth");
 const Role = require("../../../../../utils/role");
 const itemService = require("./item.service");
 
@@ -8,10 +8,10 @@ const router = express.Router({
     mergeParams: true,
 });
 
-router.post("/", Auth([Role.owner]), createSchema, create);
+router.post("/", Auth([Role.owner]), isOwner(), createSchema, create);
 router.get("/:id", Auth(), getById);
-router.patch("/:id", Auth([Role.owner]), updateSchema, updateItem);
-router.delete("/:id", Auth([Role.owner]), deleteItem);
+router.patch("/:id", Auth([Role.owner]), isOwner(), updateSchema, updateItem);
+router.delete("/:id", Auth([Role.owner]), isOwner(), deleteItem);
 
 module.exports = router;
 
