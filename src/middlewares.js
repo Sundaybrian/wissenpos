@@ -9,7 +9,7 @@ function errorHandler(err, req, res, next) {
     /* eslint-enable no-unused-vars */
     const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
     res.status(statusCode);
-    if (process.env.NODE_ENV !== "production") console.error(err.message);
+    if (process.env.NODE_ENV !== "production") console.log(err.message);
     res.json({
         message: err.message,
         stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,

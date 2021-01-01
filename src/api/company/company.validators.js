@@ -4,10 +4,9 @@ const validateRequest = require("../../_middlewares/validateRequest");
 exports.createSchema = (req, res, next) => {
     const schema = Joi.object({
         name: Joi.string().required(),
-        description: Joi.string(),
+        description: Joi.string().required(),
         logo_url: Joi.string(),
         website_url: Joi.string(),
-        owner: Joi.number().required(),
         email: Joi.string().email().required(),
     });
     validateRequest(req, next, schema);
