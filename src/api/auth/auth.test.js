@@ -5,10 +5,10 @@ const Role = require("../../utils/role");
 const jwt = require("../../utils/jwt");
 const bcrypt = require("bcrypt");
 
-describe("POST /api/v1/accounts/register", () => {
+describe("POST /api/v1/accounts/register-owner", () => {
     it("should fail to create a user with missing fields", async () => {
         await request(app)
-            .post("/api/v1/accounts/register")
+            .post("/api/v1/accounts/register-owner")
             .send({
                 first: "test",
                 lastName: "user",
@@ -22,7 +22,7 @@ describe("POST /api/v1/accounts/register", () => {
 
     it("should fail to signup user with existing email", async () => {
         const res = await request(app)
-            .post("/api/v1/accounts/register")
+            .post("/api/v1/accounts/register-owner")
             .send({
                 firstName: "test",
                 lastName: "user",
@@ -38,7 +38,7 @@ describe("POST /api/v1/accounts/register", () => {
 
     it("should signup a user ", async () => {
         const res = await request(app)
-            .post("/api/v1/accounts/register")
+            .post("/api/v1/accounts/register-owner")
             .send({
                 firstName: "goof",
                 lastName: "doctor",

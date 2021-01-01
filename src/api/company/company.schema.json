@@ -3,7 +3,7 @@
     "type": "object",
     "title": "Company",
     "description": "The Company",
-    "required": ["name", "description", "owner"],
+    "required": ["name", "description", "owner_id"],
     "additionalProperties": false,
     "properties": {
         "id": {
@@ -15,6 +15,11 @@
             "$id": "#/properties/name",
             "type": "string",
             "title": "The name of the Company."
+        },
+        "owner_id": {
+            "$id": "#/properties/owner_id",
+            "type": "integer",
+            "title": "The database ID of user."
         },
         "logo_url": {
             "$id": "#/properties/logo_url",
@@ -37,7 +42,6 @@
             "title": "The description of the Company.",
             "examples": ["some short desc of the action taken by the"]
         },
-
         "created_at": {
             "$id": "#/properties/created_at",
             "type": "string",

@@ -11,20 +11,32 @@
         "seed": "knex seed:run",
         "start": "node src/server.js",
         "dev": "nodemon src/server.js",
-        "test": "NODE_ENV=test jest --runInBand",
-        "lint": "eslint --fix src",
-        "docs": "apidoc-swagger -i src/ -e node_modules -o docs/",
-        "docs2": "npx apidoc-swagger-3 -i src/ -e node_modules -o docs/"
+        "test": "NODE_ENV=test NODE_TLS_REJECT_UNAUTHORIZED=O jest --reporters default jest-stare --coverage --detectOpenHandles --runInBand --forceExit --testTimeout=60000",
+        "test:watch": "jest --verbose --watchAll",
+        "lint": "eslint --fix src"
     },
-    "keywords": [],
+    "keywords": [
+        "nodejs",
+        "knexjs"
+    ],
     "author": "Sunday Brian",
     "license": "ISC",
-    "apidoc": {
-        "name": "wissenpos backend",
-        "version": "1.0.0",
-        "title": "Wissenpos Api",
-        "sampleUrl": "https://wissenspos.herokuapp.com/api/v1",
-        "url": "https://wissenspos.herokuapp.com/api/v1"
+    "jest": {
+        "verbose": true,
+        "testSequencer": "/home/abc/jest-supertest/testSequencer.js",
+        "coverageDirectory": "/home/abc/jest-supertest/coverage/my_reports/",
+        "coverageReporters": [
+            "html",
+            "text"
+        ],
+        "coverageThreshold": {
+            "global": {
+                "branches": 100,
+                "functions": 100,
+                "lines": 100,
+                "statements": 100
+            }
+        }
     },
     "dependencies": {
         "bcrypt": "^5.0.0",
@@ -36,6 +48,7 @@
         "express-rate-limit": "^5.2.3",
         "express-swagger-generator": "^1.1.17",
         "helmet": "^4.1.1",
+        "http-errors": "^1.8.0",
         "joi": "^17.2.1",
         "jsonwebtoken": "^8.5.1",
         "knex": "^0.21.5-next2",
@@ -59,6 +72,8 @@
         "gulp-apidoc": "^0.2.8",
         "gulp-apidoc-swagger": "^0.2.2",
         "jest": "^26.5.3",
+        "jest-serial-runner": "^1.1.0",
+        "jest-stare": "^2.2.0",
         "nodemon": "^2.0.4",
         "sqlite3": "^5.0.0",
         "supertest": "^5.0.0"

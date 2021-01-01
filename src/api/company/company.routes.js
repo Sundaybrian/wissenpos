@@ -27,7 +27,7 @@ router.delete("/:id", Auth([Role.admin, Role.owner]), _deleteCompany);
 module.exports = router;
 
 function create(req, res, next) {
-    req.body.owner = req.user.id;
+    req.body.owner_id = req.user.id;
     companyService
         .create(req.body)
         .then((company) => res.json(company))
