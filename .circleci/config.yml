@@ -70,7 +70,7 @@ jobs:
                       docker login -u $DOCKER_LOGIN -p $DOCKER_PWD
                       docker push sundaypriest/wissenpos-backend:latest
 
-    test: # build app and test
+    build-test: # build app and test
         executor: postgres-executor
         steps:
             - attach_workspace:
@@ -101,7 +101,11 @@ workflows:
                       branches:
                           only:
                               - /feature.*/
-
+            - build-test:
+                  filters:
+                    branches:
+                        only:
+                            - develop         
             - build_docker_image:
                   context: dev_context
                   filters:
@@ -119,9 +123,4 @@ workflows:
                               - develop
                   requires:
                       - dependencies
-           - build:
-                 filters:
-                    branches:
-                        only:
-                            - develop              
-
+          
