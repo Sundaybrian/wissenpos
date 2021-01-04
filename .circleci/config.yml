@@ -46,7 +46,6 @@ jobs:
                   POSTGRES_USER: postgres
                   POSTGRES_PASSWORD: postgres
                   POSTGRES_DB: example12
-        
 
         working_directory: ~/repo
 
@@ -55,8 +54,6 @@ jobs:
 
             # run tests!
             - run: npm test
-
-
 
     build_docker_image: #reusable build jobs for docker
         executor: docker-executor
@@ -94,18 +91,18 @@ workflows:
     wissenpos-backend-workflows:
         jobs:
             - dependencies
-            - test:
-                  requires:
-                      - dependencies
-                  filters:
-                      branches:
-                          only:
-                              - /feature.*/
-            - build-test:
-                  filters:
-                    branches:
-                        only:
-                            - develop         
+            # - test:
+            #       requires:
+            #           - dependencies
+            #       filters:
+            #           branches:
+            #               only:
+            #                   - /feature.*/
+            # - build-test:
+            #       filters:
+            #           branches:
+            #               only:
+            #                   - /feature.*/
             - build_docker_image:
                   context: dev_context
                   filters:
@@ -123,4 +120,3 @@ workflows:
                               - develop
                   requires:
                       - dependencies
-          
