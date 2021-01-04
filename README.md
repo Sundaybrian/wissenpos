@@ -37,7 +37,7 @@ Hosted docs [wissenpos-backend](https://wissenspos.herokuapp.com/api-docs/)
 -   sudo docker system prune -a
 -   sudo docker-compose down -v
 
-## knex
+## install and initialize knex
 
 -   `npm i knex` install knex
 -   `npx knex init` initialize knex

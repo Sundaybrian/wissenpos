@@ -1,5 +1,6 @@
 const Company = require("../company/company.model");
 const error = require("../../utils/error");
+const createError = require("http-errors");
 
 module.exports = {
     create,
@@ -33,12 +34,15 @@ async function updateCompany(queryParams, params) {
         company.name !== params.name &&
         (await getCompany({ name: params.name }))
     ) {
-        error('Name "' + params.name + '" is already taken');
+        error(`Name ${params.name} is already taken`);
     }
 
-    const updatedCompany = await Company.query().patchAndFetchById(id, {
-        ...params,
-    });
+    const updatedCompany = await Company.query().patchAndFetchById(
+        queryParams.id,
+        {
+            ...params,
+        }
+    );
 
     return updatedCompany;
 }
@@ -50,7 +54,7 @@ async function getAllCompanies() {
 
 async function getMyCompanies(ownerId) {
     const companies = await Company.query().where({
-        owner: ownerId,
+        owner_id: ownerId,
     });
     return companies;
 }
@@ -61,7 +65,15 @@ async function getCompanyById(id) {
 }
 
 async function _delete(queryParams) {
-    await Company.query().delete({ ...queryParams });
+    const tobeDeleted = await getCompany(queryParams);
+
+    if (tobeDeleted) {
+        return await Company.query()
+            .delete()
+            .where({ ...queryParams });
+    }
+
+    return error("Forbidden");
 }
 
 // async function _softDelete(id) {

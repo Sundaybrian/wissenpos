@@ -49,6 +49,16 @@ Content-Type: application/json
 }
 
 
+### logi admin
+POST http://localhost:5000/api/v1/accounts/login
+Content-Type: application/json
+
+{
+
+    "email": "admin@admin.com",
+    "password":"12345678yh"
+}
+
 ### get all
 GET http://localhost:5000/api/v1/accounts/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpc1ZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNjA2MTU4MDkwLCJleHAiOjE2MDYxNjg4OTB9.o7npZt_wsUvvGiLW7Bu08zhzxKmM9I3enQ2X48m1b9U
