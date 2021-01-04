@@ -42,11 +42,11 @@ jobs:
         docker:
             - image: node:11.10.1
             - image: circleci/postgres:11-alpine-ram
-                environment:
-                    POSTGRES_USER: postgres
-                    POSTGRES_PASSWORD: postgres
-                    POSTGRES_DB: example12
-            - image: redis:latest
+              environment:
+                  POSTGRES_USER: postgres
+                  POSTGRES_PASSWORD: postgres
+                  POSTGRES_DB: example12
+        
 
         working_directory: ~/repo
 
