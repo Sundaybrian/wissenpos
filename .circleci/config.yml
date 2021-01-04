@@ -52,10 +52,14 @@ jobs:
                       docker push sundaypriest/wissenpos-backend:latest
 
     test: # build app and test
-        executor: postgres-executor
+        docker:
+            - image: postgres:10
         steps:
             - attach_workspace:
                   at: .
+            - run: |
+                  psql \
+                   "CREATE DATABASE pos_test;
             - run:
                   name: Run tests
                   command: npm run test
