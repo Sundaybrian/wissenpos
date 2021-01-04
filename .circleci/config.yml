@@ -38,6 +38,25 @@ jobs:
                   root: .
                   paths:
                       - .
+    build:
+        docker:
+            - image: node:11.10.1
+            - image: circleci/postgres:11-alpine-ram
+                environment:
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                    POSTGRES_DB: example12
+            - image: redis:latest
+
+        working_directory: ~/repo
+
+        steps:
+            - dependencies
+
+            # run tests!
+            - run: npm test
+
+
 
     build_docker_image: #reusable build jobs for docker
         executor: docker-executor
@@ -100,3 +119,9 @@ workflows:
                               - develop
                   requires:
                       - dependencies
+           - build:
+                 filters:
+                    branches:
+                        only:
+                            - develop              
+
