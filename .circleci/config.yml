@@ -120,8 +120,8 @@ workflows:
                   requires:
                       - dependencies
            - build:
-                 filters:
-                    branches:
-                        only:
-                            - develop              
+               filters:
+                   branches:
+                       only:
+                           - develop
 
