@@ -62,13 +62,14 @@ workflows:
     wissenpos-backend-workflows:
         jobs:
             - dependencies
-            - build-and-test:
-                  requires:
-                      - dependencies
-                  filters:
-                      branches:
-                          only:
-                              - /feature.*/
+            # will figure setting this out on circle-ci
+            # - build-and-test:
+            #       requires:
+            #           - dependencies
+            #       filters:
+            #           branches:
+            #               only:
+            #                   - /feature.*/
 
             - build_docker_image:
                   context: dev_context
@@ -76,6 +77,7 @@ workflows:
                       branches:
                           only:
                               - develop
+                              - /feature.*/
                   requires:
                       - deploy-to-test
 
