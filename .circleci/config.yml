@@ -3,12 +3,21 @@ executors:
     node-executor:
         docker:
             - image: circleci/node:11.10.1
+        working_directory: ~/repo
+
     postgres-executor:
         docker:
             - image: postgres:10
+              environment:
+                  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+                  POSTGRES_USER: ${POSTGRES_USER}
+                  POSTGRES_DB: ${POSTGRES_DB}
+        working_directory: ~/repo
+
     docker-executor:
         docker:
             - image: docker:18.06.3-ce-git
+        working_directory: ~/repo
 
 jobs:
     dependencies: # reusable jobs
@@ -29,6 +38,22 @@ jobs:
                   root: .
                   paths:
                       - .
+    build:
+        docker:
+            - image: node:11.10.1
+            - image: circleci/postgres:11-alpine-ram
+              environment:
+                  POSTGRES_USER: postgres
+                  POSTGRES_PASSWORD: postgres
+                  POSTGRES_DB: example12
+
+        working_directory: ~/repo
+
+        steps:
+            - dependencies
+
+            # run tests!
+            - run: npm test
 
     build_docker_image: #reusable build jobs for docker
         executor: docker-executor
@@ -42,12 +67,14 @@ jobs:
                       docker login -u $DOCKER_LOGIN -p $DOCKER_PWD
                       docker push sundaypriest/wissenpos-backend:latest
 
-    build-and-test: # build app and test
-        executor: node-executor
+    build-test: # build app and test
+        executor: postgres-executor
         steps:
             - attach_workspace:
                   at: .
-            - run: npm test
+            - run:
+                  name: Run tests
+                  command: npm run test
 
     deploy-to-test: # deploy safe code to development
         executor: node-executor
@@ -64,14 +91,18 @@ workflows:
     wissenpos-backend-workflows:
         jobs:
             - dependencies
-            - build-and-test:
-                  requires:
-                      - dependencies
-                  filters:
-                      branches:
-                          only:
-                              - /feature.*/
-
+            # - test:
+            #       requires:
+            #           - dependencies
+            #       filters:
+            #           branches:
+            #               only:
+            #                   - /feature.*/
+            # - build-test:
+            #       filters:
+            #           branches:
+            #               only:
+            #                   - /feature.*/
             - build_docker_image:
                   context: dev_context
                   filters:
@@ -82,6 +113,7 @@ workflows:
                       - deploy-to-test
 
             - deploy-to-test:
+                  context: dev_context
                   filters:
                       branches:
                           only:
