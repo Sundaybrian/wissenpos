@@ -1,4 +1,5 @@
 const Account = require("./accounts.model");
+const Company = require("../company.model");
 const Role = require("../../../utils/role");
 const { auth: Auth } = require("../../../_middlewares/auth");
 
@@ -12,19 +13,23 @@ module.exports = router;
 
 async function getAccounts(req, res, next) {
     try {
-        const { owner_id } = req.body;
+        const company = await Company.query()
+            .where({
+                owner_id: req.user.id,
+                id: req.params.company_id,
+            })
+            .first();
 
-        if (owner_id !== req.user.id && req.user.role !== Role.admin) {
-            return res.status(401).json({ message: "Unathorized" });
+        if (!company && req.user.role !== Role.admin) {
+            return res.status(401).json({ message: "Unauthorized" });
         }
 
         const accounts = await Account.query().where({
             company_id: req.params.company_id,
-            owner_id,
         });
 
         if (!accounts) {
-            res.status(404);
+            return res.status(404);
         }
 
         res.json(accounts);
