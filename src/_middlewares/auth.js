@@ -53,7 +53,7 @@ function isOwner() {
             const bool = await Company.query()
                 .where({
                     owner_id: req.user.id,
-                    company_id: req.params.company_id,
+                    id: req.params.company_id,
                 })
                 .first();
 

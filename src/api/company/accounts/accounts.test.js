@@ -35,5 +35,7 @@ describe("GET /api/v1/company/:company_id/accounts", () => {
             .get("/api/v1/company/1/accounts")
             .set("Authorization", `Bearer ${token1}`)
             .expect(200);
+
+        expect(res.body).toBeTruthy();
     });
 });

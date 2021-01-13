@@ -2,7 +2,7 @@ const express = require("express");
 
 const { createSchema, updateSchema } = require("./menu.validator");
 const Company = require("../company.model");
-const { auth: Auth } = require("../../../_middlewares/auth");
+const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 const Category = require("./category/category.routes");
 
@@ -16,7 +16,7 @@ const router = express.Router({
 // api/v1/company/company_id/menu_id/category
 router.use("/:menu_id/category", Category);
 
-router.post("/", Auth([Role.owner]), createSchema, create);
+router.post("/", Auth([Role.owner]), isOwner(), createSchema, create);
 router.get("/", getAllCompanyMenus);
 router.get("/:id", getMenuById);
 router.patch("/:id", Auth([Role.owner]), updateSchema, update);
@@ -25,7 +25,7 @@ router.delete("/:id", Auth([Role.owner]), _deleteMenu);
 module.exports = router;
 
 function create(req, res, next) {
-    req.body.company_id = req.params.company_id;
+    req.body.company_id = parseInt(req.params.company_id);
     menuService
         .createMenu(req.body)
         .then((menu) => res.json(menu))
