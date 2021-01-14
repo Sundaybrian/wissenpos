@@ -20,7 +20,7 @@ class Category extends Model {
         return {
             menu: {
                 relation: Model.BelongsToOneRelation,
-                modelClasss: Menu,
+                modelClass: Menu,
                 join: {
                     from: `${tableNames.category}.menu_id`,
                     to: `${tableNames.menu}.id`,
@@ -28,7 +28,7 @@ class Category extends Model {
             },
             items: {
                 relation: Model.HasManyRelation,
-                modelClasss: Item,
+                modelClass: Item,
                 join: {
                     from: `${tableNames.category}.id`,
                     to: `${tableNames.item}.category_id`,

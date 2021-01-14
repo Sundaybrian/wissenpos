@@ -19,8 +19,8 @@ router.use("/:category_id/item", Item);
 router.post("/", Auth([Role.owner]), isOwner(), createSchema, create);
 router.get("/", getAllCompanyCategorys);
 router.get("/:id", getCategoryById);
-router.patch("/:id", Auth([Role.owner]), updateSchema, update);
-router.delete("/:id", Auth([Role.owner]), _deleteCategory);
+router.patch("/:id", Auth([Role.owner]), isOwner(), updateSchema, update);
+router.delete("/:id", Auth([Role.owner]), isOwner(), _deleteCategory);
 
 module.exports = router;
 
@@ -32,10 +32,10 @@ function create(req, res, next) {
 }
 
 function getAllCompanyCategorys(req, res, next) {
-    const { company_id } = req.params;
+    const menu_id = parseInt(req.params.menu_id);
 
     categoryService
-        .getAllCompanyCategorys({ company_id })
+        .getAllCompanyCategorys({ menu_id })
         .then((categories) =>
             categories ? res.json(categories) : res.sendStatus(404)
         )
@@ -43,8 +43,9 @@ function getAllCompanyCategorys(req, res, next) {
 }
 
 function getCategoryById(req, res, next) {
+    const id = parseInt(req.params.id);
     categoryService
-        .getCategoryById(req.params.id)
+        .getCategoryById(id)
         .then((category) =>
             category ? res.json(category) : res.sendStatus(404)
         )
@@ -54,15 +55,11 @@ function getCategoryById(req, res, next) {
 function update(req, res, next) {
     // only owner can update their company category
     const payload = req.body;
-    payload.menu_id = req.params.menu_id;
+    const id = parseInt(req.params.id);
+    payload.menu_id = parseInt(req.params.menu_id);
 
-    isOwner(req.user.id, req.params.company_id)
-        .then((owner) => {
-            if (!owner) {
-                return res.status(401).json({ message: "Unauthorized" });
-            }
-            return categoryService.updateCategory(req.params.id, payload);
-        })
+    categoryService
+        .updateCategory(id, payload)
         .then((category) =>
             category ? res.json(category) : res.sendStatus(404)
         )
@@ -71,18 +68,15 @@ function update(req, res, next) {
 
 function _deleteCategory(req, res, next) {
     // only owner delete can delete their company category
-    isOwner(req.user.id, req.params.company_id)
-        .then((owner) => {
-            if (!owner) {
-                return res.status(401).json({ message: "Unauthorized" });
-            }
-            return categoryService._delete({
-                id: req.params.id,
-                company_id: req.params.company_id,
-            });
-        })
+    const payload = {
+        id: parseInt(req.params.id),
+        menu_id: parseInt(req.params.menu_id),
+    };
+
+    categoryService
+        ._delete(payload)
         .then(() => {
-            res.json({ id: req.params.id });
+            res.json({ id: payload.id });
         })
         .catch(next);
 }
