@@ -1,10 +1,8 @@
 const express = require("express");
 
 const { createSchema, updateSchema } = require("./category.validators");
-const { auth: Auth } = require("../../../../_middlewares/auth");
+const { auth: Auth, isOwner } = require("../../../../_middlewares/auth");
 const Role = require("../../../../utils/role");
-const Company = require("../../company.model");
-
 const Item = require("./item/item.routes");
 
 const categoryService = require("./category.service");
@@ -17,7 +15,8 @@ const router = express.Router({
 // api/v1/company_id/menu_id/category/category_id/item
 router.use("/:category_id/item", Item);
 
-router.post("/", Auth([Role.owner]), createSchema, create);
+//api/v1/company/:company_id/:menu_id/category/
+router.post("/", Auth([Role.owner]), isOwner(), createSchema, create);
 router.get("/", getAllCompanyCategorys);
 router.get("/:id", getCategoryById);
 router.patch("/:id", Auth([Role.owner]), updateSchema, update);
@@ -26,16 +25,8 @@ router.delete("/:id", Auth([Role.owner]), _deleteCategory);
 module.exports = router;
 
 function create(req, res, next) {
-    // check if owner of company
-    const payload = req.body;
-
-    isOwner(req.user.id, req.params.company_id)
-        .then((owner) => {
-            if (!owner) {
-                return res.status(401).json({ message: "Unauthorized" });
-            }
-            return categoryService.createcategory(payload);
-        })
+    categoryService
+        .createCategory(req.body)
         .then((category) => res.json(category))
         .catch(next);
 }
@@ -94,13 +85,4 @@ function _deleteCategory(req, res, next) {
             res.json({ id: req.params.id });
         })
         .catch(next);
-}
-
-// =========================================
-async function isOwner(owner_id, company_id) {
-    const bool = await Company.query()
-        .where({ owner_id, id: company_id })
-        .first();
-
-    return bool;
 }

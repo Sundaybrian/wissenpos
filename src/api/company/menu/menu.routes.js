@@ -13,7 +13,7 @@ const router = express.Router({
     mergeParams: true,
 });
 
-// api/v1/company/company_id/menu_id/category
+// api/v1/company/company_id/menu/:menu_id/category
 router.use("/:menu_id/category", Category);
 
 router.post("/", Auth([Role.owner]), isOwner(), createSchema, create);

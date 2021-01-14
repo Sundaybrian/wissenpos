@@ -3,7 +3,7 @@
     "type": "object",
     "title": "Category",
     "description": "The Category",
-    "required": ["name", "company_id"],
+    "required": ["name", "menu_id"],
     "additionalProperties": false,
     "properties": {
         "id": {
@@ -16,10 +16,10 @@
             "type": "string",
             "title": "The name of the Category."
         },
-        "company_id": {
-            "$id": "#/properties/company_id",
+        "menu_id": {
+            "$id": "#/properties/menu_id",
             "type": "integer",
-            "title": "The company_id the Category belongs to."
+            "title": "The menu_id the Category belongs to."
         },
         "created_at": {
             "$id": "#/properties/created_at",

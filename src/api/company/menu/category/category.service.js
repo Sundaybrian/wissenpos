@@ -54,12 +54,6 @@ async function _delete(queryParams) {
     await Category.query().delete({ ...queryParams });
 }
 
-// async function _softDelete(id) {
-//mark as inactive
-//  await category.query().deleteById(id);
-
-// }
-
 // =========== helpers===========
 
 async function getCategory(param) {
