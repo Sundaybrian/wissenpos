@@ -11,6 +11,11 @@
             "type": "integer",
             "title": "The database ID of the Menu."
         },
+        "company_id": {
+            "$company_id": "#/properties/company_id",
+            "type": "integer",
+            "title": "The database company_id of the Menu."
+        },
         "name": {
             "$id": "#/properties/name",
             "type": "string",

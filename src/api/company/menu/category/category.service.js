@@ -41,7 +41,11 @@ async function getAllCategory() {
 }
 
 async function getAllCompanyCategorys(params) {
-    const categorys = await Category.query({ ...params });
+    const categorys = await Category.query().where(params);
+
+    if (categorys.length < 1) {
+        return null;
+    }
     return categorys;
 }
 
@@ -50,15 +54,11 @@ async function getCategoryById(id) {
     return category;
 }
 
-async function _delete(queryParams) {
-    await Category.query().delete({ ...queryParams });
+async function _delete(params) {
+    await Category.query()
+        .delete()
+        .where({ ...params });
 }
-
-// async function _softDelete(id) {
-//mark as inactive
-//  await category.query().deleteById(id);
-
-// }
 
 // =========== helpers===========
 

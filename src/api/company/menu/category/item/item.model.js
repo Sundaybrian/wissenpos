@@ -1,7 +1,6 @@
 const { Model } = require("objection");
 const tableNames = require("../../../../../constants/tableNames");
 const db = require("../../../../../db");
-const Category = require("../category.model");
 
 class Item extends Model {
     static get tableName() {

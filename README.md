@@ -204,13 +204,18 @@ npm run lint
 npm run test
 ```
 
+```
+To run a test on a single file use
+jest <filename> NODE_ENV=<environment>
+```
+
 ## Development
 
 ```
 npm run dev
 ```
 
-## kill it
+## kill a port that wont shutdown
 
 sudo lsof -i :3000
 kill -9 {PID}

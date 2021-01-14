@@ -31,6 +31,7 @@
 - [] payments
 
 ## fixes
+
 - [*] company model
 - [*] menu, category, item model
 - [] updating category
@@ -38,7 +39,9 @@
     [/] had to write manually since apidocs neither swagger is working 
 - [] prevent company from changing or deleting menu of other companies
     [] i think i can be fetching the company data and join with user details, so i can compare it with the logged in user
-[] fix create staff by owner endpoint
+- [] fix create staff by owner endpoint
+- [] refreshtoken
+- [] email confirmation
 
 
 ## errors in design
