@@ -53,3 +53,15 @@ describe("POST /api/v1/company/:company_id/menu", () => {
             .expect(401);
     });
 });
+
+describe("GET /api/v1/company/:company_id/menu", () => {
+    it("Should return company menu", async () => {
+        await request(app).get("/api/v1/company/1/menu").expect(200);
+    });
+});
+
+describe("GET api/v1/company/:company_id/menu/:id", () => {
+    it("should fail to find a menu", async () => {
+        await request(app).get("/api/v1/company/1/menu/10").expect(404);
+    });
+});

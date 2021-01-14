@@ -41,12 +41,15 @@ async function getAllMenu() {
 }
 
 async function getAllCompanyMenus(params) {
-    const menus = await Menu.query({ ...params });
+    const menus = await Menu.query().where({ ...params });
     return menus;
 }
 
 async function getMenuById(id) {
     const menu = await getMenu({ id });
+    if (!menu) {
+        return null;
+    }
     return basicDetails(menu);
 }
 

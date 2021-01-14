@@ -36,7 +36,7 @@ function getAllCompanyMenus(req, res, next) {
     const { company_id } = req.params;
 
     menuService
-        .getAllCompanyMenus({ company_id })
+        .getAllCompanyMenus({ id: company_id })
         .then((menus) => (menus ? res.json(menus) : res.sendStatus(404)))
         .catch(next);
 }

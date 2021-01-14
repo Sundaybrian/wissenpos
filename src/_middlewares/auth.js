@@ -58,6 +58,7 @@ function isOwner() {
                 .first();
 
             if (!bool) {
+                console.log(bool);
                 return res.status(401).json({ message: "Unauthorized" });
             }
             next();
