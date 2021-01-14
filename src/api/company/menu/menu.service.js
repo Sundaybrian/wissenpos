@@ -16,18 +16,6 @@ async function createMenu(params) {
 }
 
 async function updateMenu(id, params) {
-    const menu = await getMenu({ id });
-    //check if menu name is duplicated
-    if (
-        params.name &&
-        menu.name !== params.name &&
-        (await getMenu({
-            name: params.name,
-            company_id: params.company_id,
-        }))
-    ) {
-        error(`Menu ${params.name} already exists`);
-    }
     const updatedmenu = await Menu.query().patchAndFetchById(id, {
         ...params,
     });
@@ -41,17 +29,22 @@ async function getAllMenu() {
 }
 
 async function getAllCompanyMenus(params) {
-    const menus = await Menu.query({ ...params });
+    const menus = await Menu.query().where({ ...params });
     return menus;
 }
 
 async function getMenuById(id) {
     const menu = await getMenu({ id });
+    if (!menu) {
+        return null;
+    }
     return basicDetails(menu);
 }
 
 async function _delete(queryParams) {
-    await Menu.query().delete({ ...queryParams });
+    await Menu.query()
+        .delete()
+        .where({ ...queryParams });
 }
 
 // async function _softDelete(id) {

@@ -70,7 +70,6 @@
         "eslint-plugin-import": "^2.22.0",
         "gulp": "^4.0.2",
         "gulp-apidoc": "^0.2.8",
-        "gulp-apidoc-swagger": "^0.2.2",
         "jest": "^26.5.3",
         "jest-serial-runner": "^1.1.0",
         "jest-stare": "^2.2.0",
