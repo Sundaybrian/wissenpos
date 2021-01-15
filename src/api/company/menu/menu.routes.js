@@ -33,17 +33,19 @@ function create(req, res, next) {
 }
 
 function getAllCompanyMenus(req, res, next) {
-    const { company_id } = req.params;
+    const id = parseInt(req.params.company_id);
 
     menuService
-        .getAllCompanyMenus({ id: company_id })
+        .getAllCompanyMenus({ id })
         .then((menus) => (menus ? res.json(menus) : res.sendStatus(404)))
         .catch(next);
 }
 
 function getMenuById(req, res, next) {
+    const id = parseInt(req.params.id);
+
     menuService
-        .getMenuById(req.params.id)
+        .getMenuById(id)
         .then((menu) => (menu ? res.json(menu) : res.sendStatus(404)))
         .catch(next);
 }
