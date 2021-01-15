@@ -6,6 +6,7 @@ const Role = require("../../../utils/role");
 const Category = require("./category/category.routes");
 
 const menuService = require("./menu.service");
+const { menu } = require("../../../constants/tableNames");
 
 const router = express.Router({
     mergeParams: true,
@@ -35,7 +36,13 @@ function getAllCompanyMenus(req, res, next) {
 
     menuService
         .getAllCompanyMenus({ company_id })
-        .then((menus) => (menus ? res.json(menus) : res.sendStatus(404)))
+        .then((menus) => {
+            return menus
+                ? menus.length == 1
+                    ? res.json(menus[0])
+                    : res.json(menus)
+                : res.sendStatus(404);
+        })
         .catch(next);
 }
 

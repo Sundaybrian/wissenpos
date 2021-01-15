@@ -1,13 +1,14 @@
 
 ### create item
-POST https://wissenspos.herokuapp.com/api/v1/company/17/menu/3/category/4/item
+POST https://wissenspos.herokuapp.com/api/v1/company/17/menu/3/category/8/item
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDgsImZpcnN0TmFtZSI6InN1bmRheSIsImxhc3ROYW1lIjoib3duZXIiLCJlbWFpbCI6InN1bmRheUBvd25lci5jb20iLCJwaG9uZU51bWJlciI6IjA3MTIzODIzNjYiLCJwYXNzd29yZCI6IiQyYiQxMCRycVVoRkg3MzV6a2VSV05Ud1FiQUZlLmZJbXZObms0dk5pOVY4dTJrdFpyWUhYM0V5dUMuTyIsInJvbGUiOiJvd25lciIsImFjdGl2ZSI6dHJ1ZSwidmVyaWZpZWQiOm51bGwsImlzVmVyaWZpZWQiOmZhbHNlLCJ2ZXJpZmljYXRpb25Ub2tlbiI6bnVsbCwiaW1hZ2VfdXJsIjpudWxsLCJjcmVhdGVkX2F0IjoiMjAyMS0wMS0xNVQwMjowMTo0Mi43NDlaIiwidXBkYXRlZF9hdCI6IjIwMjEtMDEtMTVUMDI6MDE6NDIuNzQ5WiIsImRlbGV0ZWRfYXQiOm51bGwsImlhdCI6MTYxMDY3ODYyMSwiZXhwIjoxNjEwNjg5NDIxfQ.lk7gwD0hFXN80xwYXB9FFv_YHVC3NonlwuaY6Q0SMpM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDgsImZpcnN0TmFtZSI6InN1bmRheSIsImxhc3ROYW1lIjoib3duZXIiLCJlbWFpbCI6InN1bmRheUBvd25lci5jb20iLCJwaG9uZU51bWJlciI6IjA3MTIzODIzNjYiLCJwYXNzd29yZCI6IiQyYiQxMCRycVVoRkg3MzV6a2VSV05Ud1FiQUZlLmZJbXZObms0dk5pOVY4dTJrdFpyWUhYM0V5dUMuTyIsInJvbGUiOiJvd25lciIsImFjdGl2ZSI6dHJ1ZSwidmVyaWZpZWQiOm51bGwsImlzVmVyaWZpZWQiOmZhbHNlLCJ2ZXJpZmljYXRpb25Ub2tlbiI6bnVsbCwiaW1hZ2VfdXJsIjpudWxsLCJjcmVhdGVkX2F0IjoiMjAyMS0wMS0xNVQwMjowMTo0Mi43NDlaIiwidXBkYXRlZF9hdCI6IjIwMjEtMDEtMTVUMDI6MDE6NDIuNzQ5WiIsImRlbGV0ZWRfYXQiOm51bGwsImlhdCI6MTYxMDcxMzgzNSwiZXhwIjoxNjEwNzI0NjM1fQ.v4bGq_hTfWlguu1y49P2X5SAINk5thhleFP6XKAZncI
 
 {
-  "name": "Boiled meat",
-  "price": 200,
+  "name": "Dinner 5",
+  "price": 1400,
   "description": "Best meat to salivate over",
-  "category_id": 4,
-  "quantity": 10000
+  "category_id": 8,
+  "quantity": 10000,
+ "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.crownmediadev.com%2F5f%2Ff2%2Fdb1fe641464397d4c809cf37b855%2Fhf7176-product-steak.jpg&f=1&nofb=1"
 }
