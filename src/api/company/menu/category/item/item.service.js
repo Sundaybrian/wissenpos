@@ -15,7 +15,10 @@ async function createItem(params) {
 
 async function getItemById(id) {
     const item = await getItem({ id });
-    return item;
+    if (!item) {
+        return null;
+    }
+    return basicDetails(item);
 }
 
 async function updateItem(id, params) {
@@ -25,7 +28,9 @@ async function updateItem(id, params) {
 }
 
 async function deleteItem(queryParams) {
-    await Item.query().delete({ ...queryParams });
+    await Item.query()
+        .delete()
+        .where({ ...queryParams });
 }
 
 // =================== helpers ============================

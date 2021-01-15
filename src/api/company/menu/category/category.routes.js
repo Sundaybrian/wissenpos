@@ -12,7 +12,7 @@ const router = express.Router({
     mergeParams: true,
 });
 
-// api/v1/company_id/menu_id/category/category_id/item
+// api/v1/company/:company_id/menu/:menu_id/category/:category_id/item
 router.use("/:category_id/item", Item);
 
 //api/v1/company/:company_id/:menu_id/category/
