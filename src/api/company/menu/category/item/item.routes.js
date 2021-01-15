@@ -16,6 +16,7 @@ router.delete("/:id", Auth([Role.owner]), isOwner(), deleteItem);
 module.exports = router;
 
 function create(req, res, next) {
+    req.body.category_id = parseInt(req.params.category_id);
     itemService
         .createItem(req.body)
         .then((item) => res.status(201).json(item))
