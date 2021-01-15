@@ -1,13 +1,11 @@
 const express = require("express");
 
 const { createSchema, updateSchema } = require("./menu.validator");
-const Company = require("../company.model");
 const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 const Category = require("./category/category.routes");
 
 const menuService = require("./menu.service");
-const error = require("../../../utils/error");
 
 const router = express.Router({
     mergeParams: true,
@@ -33,10 +31,10 @@ function create(req, res, next) {
 }
 
 function getAllCompanyMenus(req, res, next) {
-    const id = parseInt(req.params.company_id);
+    const company_id = parseInt(req.params.company_id);
 
     menuService
-        .getAllCompanyMenus({ id })
+        .getAllCompanyMenus({ company_id })
         .then((menus) => (menus ? res.json(menus) : res.sendStatus(404)))
         .catch(next);
 }
