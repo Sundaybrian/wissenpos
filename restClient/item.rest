@@ -1,6 +1,6 @@
 
 ### create item
-POST http://localhost:5000/api/v1/company/17/menu/3/category/3/item
+POST https://wissenspos.herokuapp.com/api/v1/company/17/menu/3/category/4/item
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDgsImZpcnN0TmFtZSI6InN1bmRheSIsImxhc3ROYW1lIjoib3duZXIiLCJlbWFpbCI6InN1bmRheUBvd25lci5jb20iLCJwaG9uZU51bWJlciI6IjA3MTIzODIzNjYiLCJwYXNzd29yZCI6IiQyYiQxMCRycVVoRkg3MzV6a2VSV05Ud1FiQUZlLmZJbXZObms0dk5pOVY4dTJrdFpyWUhYM0V5dUMuTyIsInJvbGUiOiJvd25lciIsImFjdGl2ZSI6dHJ1ZSwidmVyaWZpZWQiOm51bGwsImlzVmVyaWZpZWQiOmZhbHNlLCJ2ZXJpZmljYXRpb25Ub2tlbiI6bnVsbCwiaW1hZ2VfdXJsIjpudWxsLCJjcmVhdGVkX2F0IjoiMjAyMS0wMS0xNVQwMjowMTo0Mi43NDlaIiwidXBkYXRlZF9hdCI6IjIwMjEtMDEtMTVUMDI6MDE6NDIuNzQ5WiIsImRlbGV0ZWRfYXQiOm51bGwsImlhdCI6MTYxMDY3ODYyMSwiZXhwIjoxNjEwNjg5NDIxfQ.lk7gwD0hFXN80xwYXB9FFv_YHVC3NonlwuaY6Q0SMpM
 
@@ -8,7 +8,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDgsImZpcnN0T
   "name": "Boiled meat",
   "price": 200,
   "description": "Best meat to salivate over",
-  "quantity": 100,
-  "image_url": "https://www.finedininglovers.com/sites/g/files/xknfdk626/files/styles/recipe_full_desktop/public/Original_17385_boiled-beef-vegetables.jpg?itok=VZF6n9Tw",
-  "category_id":3
+  "category_id": 4,
+  "quantity": 10000
 }

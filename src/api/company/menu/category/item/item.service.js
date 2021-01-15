@@ -10,7 +10,7 @@ module.exports = {
 
 async function createItem(params) {
     const item = await Item.query().insert(params);
-    return basicDetails(item);
+    return item;
 }
 
 async function getItemById(id) {
@@ -18,7 +18,7 @@ async function getItemById(id) {
     if (!item) {
         return null;
     }
-    return basicDetails(item);
+    return item;
 }
 
 async function updateItem(id, params) {

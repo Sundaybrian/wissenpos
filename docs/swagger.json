@@ -780,22 +780,12 @@
                                         "type": "string",
                                         "example": "https://some.massivedynamics.com"
                                     },
-                                    "owner": {
-                                        "type": "number",
-                                        "example": 11
-                                    },
                                     "email": {
                                         "type": "string",
                                         "example": "massive.dynamics@info.com"
                                     }
                                 },
-                                "required": [
-                                    "name",
-                                    "description",
-                                    "logo_url",
-                                    "owner",
-                                    "email"
-                                ]
+                                "required": ["name", "description", "email"]
                             }
                         }
                     }
@@ -1226,6 +1216,34 @@
                                             "active": {
                                                 "type": "boolean",
                                                 "example": false
+                                            },
+                                            "categories": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Lunch"
+                                                        },
+                                                        "menu_id": {
+                                                            "type": "number",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "example": "2021-01-15T02:01:42.813Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "example": "2021-01-15T02:01:42.813Z"
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
