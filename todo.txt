@@ -1,23 +1,25 @@
+##  importante 
+
 - [*] user model
-- [] user schema json
+- [*] user schema json
 - [*] remove customer table
 - [*] add verification column, isVerified, verificationToken
 - [*] seeds
 - [*] send email helpers
-- [*] auth, [/]company, [/] accounts []tests
-- [/] document apis
+- [*] auth, [*]company, [*] accounts [*]tests
+- [*] document apis
 
 ## todo company related ##
 
-- [/] menu
+- [*] menu
     [*] withGraphFetched categories
-    [/] merge params to menuCategory
-    [/] merge params to category
+    [*] merge params to menuCategory
+    [*] merge params to category
 
-- [/] category
-    [/] withGraphFetched items
-    [/] merge params to items
-- [/] item
+- [*] category
+    [*] withGraphFetched items
+    [*] merge params to items
+- [*] item
 - [] user withGraphFetched company info
     [] separate login for owner/staff with normal users??
 - [] create-staff
@@ -26,19 +28,18 @@
 
 ## customer related ##
 
-- [] order
-- [] orderItem
+- [*] order
+- [*] orderItem
 - [] payments
 
-## fixes
+## fixes and addittions
 
 - [*] company model
 - [*] menu, category, item model
-- [] updating category
-- [/] document apis make either swagger work or apidocs
-    [/] had to write manually since apidocs neither swagger is working 
-- [] prevent company from changing or deleting menu of other companies
-    [] i think i can be fetching the company data and join with user details, so i can compare it with the logged in user
+- [*] updating category
+- [*] document apis make either swagger work or apidocs
+    [*] had to write manually since apidocs neither swagger is working 
+- [*] prevent company from changing or deleting menu of other companies
 - [] fix create staff by owner endpoint
 - [] refreshtoken
 - [] email confirmation
@@ -47,3 +48,5 @@
 ## errors in design
 
 [] should we bind a user to a company // actually rethink relations between company and accounts
+
+## 

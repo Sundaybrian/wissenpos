@@ -4,7 +4,7 @@ const {
     updateOrderSchema,
     companyOrderSchema,
 } = require("./order.validators");
-const { auth: Auth } = require("../../../_middlewares/auth");
+const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 const orderService = require("./order.service");
 
@@ -30,6 +30,7 @@ router.get(
     "/company-orders",
     companyOrderSchema,
     Auth([Role.owner, Role.staff]),
+    isOwner(),
     getCompanyOrders
 );
 
