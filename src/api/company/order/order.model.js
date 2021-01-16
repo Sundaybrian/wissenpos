@@ -9,7 +9,6 @@ class Order extends Model {
 
     static get relationMappings() {
         const Company = require("../company.model");
-        const User = require("../../user/user.model");
         const OrderItem = require("./orderItem/orderItem.model");
 
         return {
@@ -19,15 +18,6 @@ class Order extends Model {
                 join: {
                     from: `${tableNames.order}.id`,
                     to: `${tableNames.orderItem}.order_id`,
-                },
-            },
-
-            customer: {
-                relation: Model.BelongsToOneRelation,
-                modelClass: User,
-                join: {
-                    from: `${tableNames.order}.customer_id`,
-                    to: `${tableNames.user}.id`,
                 },
             },
             company: {
