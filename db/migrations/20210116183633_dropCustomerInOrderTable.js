@@ -8,7 +8,7 @@ const { references } = require("../../src/utils/tableUtils");
 exports.up = async function (knex) {
     await knex.schema.table(tableNames.order, (table) => {
         table.dropColumn("customer_id_id");
-        table.string("cart_id").unique().notNullable();
+        table.string("cart_id").notNullable();
     });
 };
 

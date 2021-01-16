@@ -88,7 +88,7 @@ async function get_or_create(id, company_id) {
     let order = await Order.query()
         .where({
             cart_id: id,
-            order_status: "New",
+            order_status: "New" || "Checkout",
         })
         .first();
 
@@ -97,7 +97,7 @@ async function get_or_create(id, company_id) {
         order = await Order.query().insert({
             cart_id: id,
             company_id,
-            order_status: "New",
+            order_status: "New" || "Checkout",
             purchase_status: "unpaid",
         });
     }
