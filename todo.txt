@@ -49,4 +49,5 @@
 
 [] should we bind a user to a company // actually rethink relations between company and accounts
 
-## 
+## needs
+- [] introduce typescript 

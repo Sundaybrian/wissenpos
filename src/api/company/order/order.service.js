@@ -1,15 +1,15 @@
 const Order = require("./order.model");
 
 module.exports = {
-    createOrder,
-    updateOrderItem,
+    addToCart,
+    updateCartItem,
     updateOrder,
-    getOrderById,
-    getOwnOrders,
+    getCartById,
+    fetchMyOrders,
     getCompanyOrders,
 };
 
-async function createOrder(params) {
+async function addToCart(params) {
     const order = await get_or_create(params.cart_id, params.company_id);
 
     // insert the item to the order item table
@@ -22,7 +22,7 @@ async function createOrder(params) {
     return orderItem;
 }
 
-async function updateOrderItem(id, params) {
+async function updateCartItem(id, params) {
     const order = await getOrder(id);
 
     let orderItem;
@@ -32,7 +32,7 @@ async function updateOrderItem(id, params) {
         orderItem = await order
             .$relatedQuery("items")
             .delete()
-            .where({ item_id: params.item.product_id });
+            .where({ item_id: params.product_id });
 
         return orderItem;
     }
@@ -63,12 +63,12 @@ async function updateOrder(id, user, params) {
     return order;
 }
 
-async function getOrderById(id) {
+async function getCartById(id) {
     const order = await getOrder(id).withGraphFetched("items");
     return order;
 }
 
-async function getOwnOrders(id) {
+async function fetchMyOrders(id) {
     const orders = await Order.query()
         .where({ cart_id: id })
         .orderBy("created_at");

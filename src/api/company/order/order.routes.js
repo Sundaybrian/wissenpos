@@ -17,15 +17,15 @@ const router = express.Router({
 router.use("/:order_id/orderItem", OrderItem);
 
 // update an order item customer aka update cart item
-router.post("/", createOrderSchema, createOrder);
+router.post("/", createOrderSchema, addToCart);
 router.patch(
     "/:id",
     updateOrderSchema,
     Auth([Role.staff, Role.owner]),
     updateOrder
 );
-router.get("/:id", Auth(), getOrderById);
-router.get("/:id/my-orders", Auth(Role.customer), getOwnOrders);
+router.get("/:id", Auth(), getCartById);
+router.get("/:id/my-orders", Auth(Role.customer), fetchMyOrders);
 router.get(
     "/company-orders",
     companyOrderSchema,
@@ -34,7 +34,7 @@ router.get(
     getCompanyOrders
 );
 
-function createOrder(req, res, next) {
+function addToCart(req, res, next) {
     const payload = {
         cart_id: req.body.cart_id,
         company_id: parseInt(req.params.company_id),
@@ -43,7 +43,7 @@ function createOrder(req, res, next) {
     };
 
     orderService
-        .createOrder(payload)
+        .addToCart(payload)
         .then((orderItem) =>
             res.json({
                 message: `${orderItem.item} has been added to the cart`,
@@ -59,22 +59,22 @@ function updateOrder(req, res, next) {
         .catch(next);
 }
 
-function getOrderById(req, res, next) {
+function getCartById(req, res, next) {
     orderService
-        .getOrderById(id)
+        .getCartById(id)
         .then((order) => (order ? res.json(order) : res.sendStatus(404)))
         .catch(next);
 }
 
-function getOwnOrders(req, res, next) {
+function fetchMyOrders(req, res, next) {
     orderService
-        .getOwnOrders(req.user.id)
+        .fetchMyOrders(req.user.id)
         .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
         .catch(next);
 }
 
 function getCompanyOrders(req, res, next) {
-    // TODO to use query params
+    // TODO to use query params for rich data
 
     params.company_id = req.params.company_id;
     orderService

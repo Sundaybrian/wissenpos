@@ -10,7 +10,7 @@ const router = express.Router({
 router.put("/", Auth(role.customer), updateOrderItem);
 
 function updateOrderItem(req, res, next) {
-    orderService.updateOrderItem();
+    orderService.updateCartItem();
 }
 
 module.exports = router;
