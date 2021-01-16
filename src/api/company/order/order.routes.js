@@ -36,7 +36,7 @@ router.get(
 
 function createOrder(req, res, next) {
     const payload = {
-        cart_id: parseInt(req.body.cart_id),
+        cart_id: req.body.cart_id,
         company_id: parseInt(req.params.company_id),
         product_id: parseInt(req.body.product_id),
         quantity: parseInt(req.body.quantity),

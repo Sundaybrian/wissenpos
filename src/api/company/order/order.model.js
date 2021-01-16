@@ -1,10 +1,15 @@
 const { Model } = require("objection");
 const tableNames = require("../../../constants/tableNames");
 const db = require("../../../db");
+const schema = require("./order.schema.json");
 
 class Order extends Model {
     static get tableName() {
         return tableNames.order;
+    }
+
+    static get jsonSchema() {
+        return schema;
     }
 
     static get relationMappings() {

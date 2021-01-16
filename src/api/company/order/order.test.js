@@ -6,7 +6,7 @@ describe("POST /api/v1/company/:company_id/order", () => {
         const res = await request(app)
             .post("/api/v1/company/1/order")
             .send({
-                product_id: "1",
+                product_id: 1,
                 quantity: 10,
             })
             .expect("Content-Type", /json/)
@@ -19,7 +19,7 @@ describe("POST /api/v1/company/:company_id/order", () => {
         const res = await request(app)
             .post("/api/v1/company/1/order")
             .send({
-                product_id: "1",
+                product_id: 1,
                 quantity: 10,
                 cart_id: "xtreeme",
             })
