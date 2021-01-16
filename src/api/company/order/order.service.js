@@ -23,18 +23,19 @@ async function createOrder(params) {
 async function updateOrderItem(id, params) {
     const order = await getOrder(id);
 
+    let orderItem;
     // check item quantity
     if (params.item.quantity <= 0) {
         // remove from cart
-        await order
+        orderItem = await order
             .$relatedQuery("items")
             .delete()
             .where({ item: params.item.id });
 
-        return;
+        return orderItem;
     }
 
-    const orderItem = await order
+    orderItem = await order
         .$relatedQuery("items")
         .patch({
             quantity: params.item.quantity,
@@ -102,7 +103,9 @@ async function get_or_create(id, company_id) {
     return order;
 }
 
+// =========== helpers===========
+
 async function getOrder(id) {
-    const order = await Order.query().findById(id);
+    const order = await Order.query().where({ cart_id: id });
     return order;
 }
