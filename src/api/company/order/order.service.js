@@ -15,7 +15,11 @@ async function createOrder(params) {
     // insert the item to the order item table
     const orderItem = order
         .$relatedQuery("items")
-        .insert({ item: params.item.id, order: order.id });
+        .insert({
+            item: params.product_id,
+            order: order.id,
+            quantity: params.quantity,
+        });
 
     return orderItem;
 }
@@ -30,7 +34,7 @@ async function updateOrderItem(id, params) {
         orderItem = await order
             .$relatedQuery("items")
             .delete()
-            .where({ item: params.item.id });
+            .where({ item: params.item.product_id });
 
         return orderItem;
     }
@@ -41,7 +45,7 @@ async function updateOrderItem(id, params) {
             quantity: params.item.quantity,
         })
         .where({
-            item: params.item.id,
+            item: params.item.product_id,
         })
         .returning("*");
 
@@ -68,7 +72,7 @@ async function getOrderById(id) {
 
 async function getOwnOrders(id) {
     const orders = await Order.query()
-        .where({ customer_id: id })
+        .where({ cart_id: id })
         .orderBy("created_at");
     return orders;
 }

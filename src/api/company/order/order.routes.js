@@ -17,7 +17,7 @@ const router = express.Router({
 router.use("/:order_id/orderItem", OrderItem);
 
 // update an order item customer aka update cart item
-router.post("/", createOrderSchema, Auth(Role.customer), createOrder);
+router.post("/", createOrderSchema, createOrder);
 router.patch(
     "/:id",
     updateOrderSchema,
@@ -36,10 +36,12 @@ router.get(
 
 function createOrder(req, res, next) {
     const payload = {
-        customer_id: req.user.id,
-        company_id: req.params.company_id,
-        item: req.body,
+        cart_id: parseInt(req.body.cart_id),
+        company_id: parseInt(req.params.company_id),
+        product_id: parseInt(req.body.product_id),
+        quantity: parseInt(req.body.quantity),
     };
+
     orderService
         .createOrder(payload)
         .then((orderItem) =>

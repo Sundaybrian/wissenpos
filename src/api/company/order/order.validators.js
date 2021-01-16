@@ -3,8 +3,9 @@ const validateRequest = require("../../../_middlewares/validateRequest");
 
 exports.createOrderSchema = (req, res, next) => {
     const schema = Joi.object({
-        item: Joi.number().required(),
-        quantity: Joi.number(),
+        product_id: Joi.number().required(),
+        quantity: Joi.number().required(),
+        cart_id: Joi.number().required(),
     });
     validateRequest(req, next, schema);
 };
