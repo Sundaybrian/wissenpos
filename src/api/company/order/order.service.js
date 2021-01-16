@@ -10,7 +10,7 @@ module.exports = {
 };
 
 async function createOrder(params) {
-    const order = await get_or_create(params.customer_id, params.company_id);
+    const order = await get_or_create(params.cart_id, params.company_id);
 
     // insert the item to the order item table
     const orderItem = order
@@ -84,7 +84,7 @@ async function get_or_create(id, company_id) {
 
     let order = await Order.query()
         .where({
-            customer_id: id,
+            cart_id: id,
             order_status: "New",
         })
         .first();
@@ -92,7 +92,7 @@ async function get_or_create(id, company_id) {
     if (!order) {
         // create one
         order = await Order.query().insert({
-            customer_id: id,
+            cart_id: id,
             company_id,
             order_status: "New",
             purchase_status: "unpaid",
