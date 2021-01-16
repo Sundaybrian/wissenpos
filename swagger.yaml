@@ -888,6 +888,52 @@ paths:
                           updated_at:
                             type: string
                             example: "2021-01-15T02:01:42.813Z"
+        '202':
+          description: Menu Object if only one exists
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: 'Special Menu'
+                    cover_url:
+                      type: string
+                      example: 'https://storage.bucket@firebase.com'
+                    description:
+                      type: string
+                      example: 'menu so good, you have to bring you wife'
+                    company:
+                      type: integer
+                      example: 1
+                    active:
+                      type: boolean
+                      example: false
+                    categories:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          name:
+                            type: string
+                            example: 'Lunch'
+                          menu_id:
+                            type: number
+                            example: 1
+                          created_at:
+                            type: string
+                            example: "2021-01-15T02:01:42.813Z"
+                          updated_at:
+                            type: string
+                            example: "2021-01-15T02:01:42.813Z"
+                          
         '404':
           $ref: '#/components/responses/NotFoundError'
                     
