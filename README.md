@@ -52,6 +52,10 @@ Hosted docs [wissenpos-backend](https://wissenspos.herokuapp.com/api-docs/)
 -   `npx knex seed:run` seed db with data
 -   `npx knex migrate:rollback --env <environment>` rollback db on a given env e.g prod, dev test
 
+## if psql refuses to expand a table or claim it is not ther
+
+-   use this command and replace city with the table name`SELECT table_name, column_name, data_type FROM information_schema.columns WHERE table_name = 'city';`
+
 ## eslint
 
 -   npx eslint --init

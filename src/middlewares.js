@@ -10,6 +10,7 @@ function errorHandler(err, req, res, next) {
     const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
     res.status(statusCode);
     // if (process.env.NODE_ENV !== "production") console.log(err.message);
+    console.log(err);
     res.json({
         message: err.message || err,
         stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,

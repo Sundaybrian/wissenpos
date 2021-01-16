@@ -5,7 +5,7 @@ exports.createOrderSchema = (req, res, next) => {
     const schema = Joi.object({
         product_id: Joi.number().required(),
         quantity: Joi.number().required(),
-        cart_id: Joi.number().required(),
+        cart_id: Joi.string().required(),
     });
     validateRequest(req, next, schema);
 };
