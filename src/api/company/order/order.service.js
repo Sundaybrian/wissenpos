@@ -65,7 +65,8 @@ async function updateOrder(id, user, params) {
 
 async function getCartById(id) {
     const order = await getOrder(id);
-    return order;
+    if (!order) return null;
+    return basicDetails(order);
 }
 
 async function fetchMyOrders(id) {
@@ -112,4 +113,24 @@ async function getOrder(id) {
         .first();
 
     return order;
+}
+
+async function basicDetails(order) {
+    const {
+        cart_id,
+        order_status,
+        purchase_status,
+        subtotal,
+        company_id,
+        items,
+    } = order;
+
+    return {
+        cart_id,
+        order_status,
+        purchase_status,
+        subtotal,
+        company_id,
+        items,
+    };
 }

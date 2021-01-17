@@ -2251,6 +2251,91 @@
                     }
                 }
             }
+        },
+        "/company/{company_id}/order/{cart_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "cart_id",
+                    "description": "Cart Id",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": ["order"],
+                "summary": "Get cart and items",
+                "description": "Fetch cart and the products",
+                "operationId": "getcartbyid",
+                "responses": {
+                    "200": {
+                        "description": "Cart was fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cart_id": {
+                                            "type": "string",
+                                            "example": "ASHIEOHNDUUHUNIE"
+                                        },
+                                        "order_status": {
+                                            "type": "string",
+                                            "example": "New"
+                                        },
+                                        "purchase_status": {
+                                            "type": "string",
+                                            "example": "unpaid"
+                                        },
+                                        "subtotal": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "company_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "order_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "item_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 100
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
         }
     },
     "components": {
