@@ -29,7 +29,7 @@
 ## customer related ##
 
 - [*] order
-- [*] orderItem
+- [] orderItem
 - [] payments
 
 ## fixes and addittions
@@ -43,6 +43,7 @@
 - [] fix create staff by owner endpoint
 - [] refreshtoken
 - [] email confirmation
+- [] add indexing to column cart_id
 
 
 ## errors in design
@@ -50,4 +51,7 @@
 [] should we bind a user to a company // actually rethink relations between company and accounts
 
 ## needs
+
 - [] introduce typescript 
+- [] rate limitinh
+- [] caching with redis

@@ -64,7 +64,7 @@ async function updateOrder(id, user, params) {
 }
 
 async function getCartById(id) {
-    const order = await getOrder(id).withGraphFetched("items");
+    const order = await getOrder(id);
     return order;
 }
 
@@ -85,19 +85,14 @@ async function get_or_create(id, company_id) {
     // if it exists add the new items on it
     // if it does not exist it creates one
 
-    let order = await Order.query()
-        .where({
-            cart_id: id,
-            order_status: "New" || "Checkout",
-        })
-        .first();
+    let order = await getOrder(id);
 
     if (!order) {
         // create one
         order = await Order.query().insert({
             cart_id: id,
             company_id,
-            order_status: "New" || "Checkout",
+            order_status: "New",
             purchase_status: "unpaid",
         });
     }
@@ -108,6 +103,13 @@ async function get_or_create(id, company_id) {
 // =========== helpers===========
 
 async function getOrder(id) {
-    const order = await Order.query().where({ cart_id: id });
+    const order = await Order.query()
+        .where({
+            cart_id: id,
+            order_status: "New",
+        })
+        .withGraphFetched("items")
+        .first();
+
     return order;
 }

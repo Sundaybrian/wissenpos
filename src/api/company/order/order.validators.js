@@ -10,6 +10,13 @@ exports.createOrderSchema = (req, res, next) => {
     validateRequest(req, next, schema);
 };
 
+exports.getOrderSchema = (req, res, next) => {
+    const schema = Joi.object({
+        cart_id: Joi.string().required(),
+    });
+    validateRequest(req, next, schema);
+};
+
 exports.updateOrderSchema = (req, res, next) => {
     const schema = Joi.object({
         order_status: Joi.string().empty(""),

@@ -119,4 +119,7 @@ node_modules
 ## volumes
 docker-data/
 
-## apidoc
+## non essential
+restClient/
+jest-stare/
+coverage/

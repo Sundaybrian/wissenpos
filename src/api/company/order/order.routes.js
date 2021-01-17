@@ -3,6 +3,7 @@ const {
     createOrderSchema,
     updateOrderSchema,
     companyOrderSchema,
+    getOrderSchema,
 } = require("./order.validators");
 const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
@@ -18,14 +19,14 @@ router.use("/:order_id/orderItem", OrderItem);
 
 // update an order item customer aka update cart item
 router.post("/", createOrderSchema, addToCart);
+router.get("/:id", getCartById);
+router.get("/:id/my-orders", Auth(Role.customer), fetchMyOrders);
 router.patch(
     "/:id",
     updateOrderSchema,
     Auth([Role.staff, Role.owner]),
     updateOrder
 );
-router.get("/:id", Auth(), getCartById);
-router.get("/:id/my-orders", Auth(Role.customer), fetchMyOrders);
 router.get(
     "/company-orders",
     companyOrderSchema,
@@ -52,17 +53,18 @@ function addToCart(req, res, next) {
         .catch(next);
 }
 
+function getCartById(req, res, next) {
+    const cart_id = req.params.id;
+    orderService
+        .getCartById(cart_id)
+        .then((order) => (order ? res.json(order) : res.sendStatus(404)))
+        .catch(next);
+}
+
 function updateOrder(req, res, next) {
     orderService
         .updateOrder(req.params.id, req.user, req.body)
         .then((order) => res.json(order))
-        .catch(next);
-}
-
-function getCartById(req, res, next) {
-    orderService
-        .getCartById(id)
-        .then((order) => (order ? res.json(order) : res.sendStatus(404)))
         .catch(next);
 }
 
