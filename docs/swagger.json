@@ -780,22 +780,12 @@
                                         "type": "string",
                                         "example": "https://some.massivedynamics.com"
                                     },
-                                    "owner": {
-                                        "type": "number",
-                                        "example": 11
-                                    },
                                     "email": {
                                         "type": "string",
                                         "example": "massive.dynamics@info.com"
                                     }
                                 },
-                                "required": [
-                                    "name",
-                                    "description",
-                                    "logo_url",
-                                    "owner",
-                                    "email"
-                                ]
+                                "required": ["name", "description", "email"]
                             }
                         }
                     }
@@ -1226,6 +1216,98 @@
                                             "active": {
                                                 "type": "boolean",
                                                 "example": false
+                                            },
+                                            "categories": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Lunch"
+                                                        },
+                                                        "menu_id": {
+                                                            "type": "number",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "example": "2021-01-15T02:01:42.813Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "example": "2021-01-15T02:01:42.813Z"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "Menu Object if only one exists",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Special Menu"
+                                        },
+                                        "cover_url": {
+                                            "type": "string",
+                                            "example": "https://storage.bucket@firebase.com"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "menu so good, you have to bring you wife"
+                                        },
+                                        "company": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "active": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "categories": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Lunch"
+                                                    },
+                                                    "menu_id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-01-15T02:01:42.813Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-01-15T02:01:42.813Z"
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -1262,8 +1344,8 @@
             ],
             "get": {
                 "tags": ["menu"],
-                "summary": "Get menu by id",
-                "description": "Open to all",
+                "summary": "Get single menu by id inclusive of categories",
+                "description": "Fetch a single menu inclusive of its categories",
                 "responses": {
                     "200": {
                         "description": "Menu Details an categories array",
@@ -1453,8 +1535,8 @@
             ],
             "get": {
                 "tags": ["category"],
-                "summary": "Get Menu Categories",
-                "description": "Open to all",
+                "summary": "Get All Categories For a select Menu ID",
+                "description": "Fetch all categories under a specified menu id",
                 "operationId": "getmenucategories",
                 "responses": {
                     "200": {
@@ -1572,8 +1654,8 @@
             ],
             "get": {
                 "tags": ["category"],
-                "summary": "Get Menu Category by its ID",
-                "description": "Open to all",
+                "summary": "Get a Menu Category by its ID inclusive of meals",
+                "description": "Fetch a particular menu inclusive of meals under it",
                 "operationId": "getmenucategorybyid",
                 "responses": {
                     "200": {
@@ -2086,6 +2168,176 @@
                     },
                     "401": {
                         "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/order": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "post": {
+                "tags": ["order"],
+                "summary": "Add a product/item to cart",
+                "description": "add item",
+                "operationId": "addtocart",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "cart_id": {
+                                        "type": "string",
+                                        "example": "ADHIUYR7389F37T"
+                                    },
+                                    "product_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 10
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Item 1 was added successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "cart_id is required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "cart_id is required"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/order/{cart_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company ID",
+                    "required": true,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "cart_id",
+                    "description": "Cart Id",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    }
+                }
+            ],
+            "get": {
+                "tags": ["order"],
+                "summary": "Get cart and items",
+                "description": "Fetch cart and the products i the cart",
+                "operationId": "getcartbyid",
+                "responses": {
+                    "200": {
+                        "description": "Cart was fetched successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "cart_id": {
+                                            "type": "string",
+                                            "example": "ASHIEOHNDUUHUNIE"
+                                        },
+                                        "order_status": {
+                                            "type": "string",
+                                            "example": "New"
+                                        },
+                                        "purchase_status": {
+                                            "type": "string",
+                                            "example": "unpaid"
+                                        },
+                                        "subtotal": {
+                                            "type": "number",
+                                            "example": 0
+                                        },
+                                        "company_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "order_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "item_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Beef Matumbo"
+                                                    },
+                                                    "image_url": {
+                                                        "type": "string",
+                                                        "example": "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg"
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 100
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "$ref": "#/components/responses/NotFoundError"

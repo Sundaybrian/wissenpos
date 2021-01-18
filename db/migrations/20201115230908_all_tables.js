@@ -114,7 +114,6 @@ exports.up = async function (knex) {
  * @param {import('knex')} knex
  */
 exports.down = async function (knex) {
-    // drop in any order since they are independent
     await Promise.all(
         [
             tableNames.company,

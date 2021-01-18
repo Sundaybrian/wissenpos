@@ -1,46 +1,49 @@
 const Order = require("./order.model");
 
 module.exports = {
-    createOrder,
-    updateOrderItem,
+    addToCart,
+    updateCartItem,
     updateOrder,
-    getOrderById,
-    getOwnOrders,
+    getCartById,
+    fetchMyOrders,
     getCompanyOrders,
 };
 
-async function createOrder(params) {
-    const order = await get_or_create(params.customer_id, params.company_id);
+async function addToCart(params) {
+    const order = await get_or_create(params.cart_id, params.company_id);
 
     // insert the item to the order item table
-    const orderItem = order
-        .$relatedQuery("items")
-        .insert({ item: params.item.id, order: order.id });
+    const orderItem = order.$relatedQuery("items").insert({
+        item_id: params.product_id,
+        order: order.id,
+        quantity: params.quantity,
+    });
 
     return orderItem;
 }
 
-async function updateOrderItem(id, params) {
+async function updateCartItem(id, params) {
     const order = await getOrder(id);
 
+    let orderItem;
     // check item quantity
     if (params.item.quantity <= 0) {
         // remove from cart
-        await order
+        orderItem = await order
             .$relatedQuery("items")
             .delete()
-            .where({ item: params.item.id });
+            .where({ item_id: params.product_id });
 
-        return;
+        return orderItem;
     }
 
-    const orderItem = await order
+    orderItem = await order
         .$relatedQuery("items")
         .patch({
             quantity: params.item.quantity,
         })
         .where({
-            item: params.item.id,
+            item_id: params.item.product_id,
         })
         .returning("*");
 
@@ -60,14 +63,15 @@ async function updateOrder(id, user, params) {
     return order;
 }
 
-async function getOrderById(id) {
-    const order = await getOrder(id).withGraphFetched("items");
-    return order;
+async function getCartById(id) {
+    const order = await getOrder(id, true);
+    if (!order) return null;
+    return basicDetails(order);
 }
 
-async function getOwnOrders(id) {
+async function fetchMyOrders(id) {
     const orders = await Order.query()
-        .where({ customer_id: id })
+        .where({ cart_id: id })
         .orderBy("created_at");
     return orders;
 }
@@ -82,17 +86,12 @@ async function get_or_create(id, company_id) {
     // if it exists add the new items on it
     // if it does not exist it creates one
 
-    let order = await Order.query()
-        .where({
-            customer_id: id,
-            order_status: "New",
-        })
-        .first();
+    let order = await getOrder(id);
 
     if (!order) {
         // create one
         order = await Order.query().insert({
-            customer_id: id,
+            cart_id: id,
             company_id,
             order_status: "New",
             purchase_status: "unpaid",
@@ -102,7 +101,53 @@ async function get_or_create(id, company_id) {
     return order;
 }
 
-async function getOrder(id) {
-    const order = await Order.query().findById(id);
+// =========== helpers===========
+
+async function getOrder(id, withItemData = false) {
+    let order = await Order.query()
+        .where({
+            cart_id: id,
+            order_status: "New",
+        })
+        .withGraphFetched("items")
+        .first();
+
+    if (withItemData) {
+        order = await Order.query()
+            .where({
+                cart_id: id,
+                order_status: "New",
+            })
+            .withGraphFetched("items(withItemData)")
+            .modifiers({
+                withItemData(builder) {
+                    builder
+                        .select("orderItem.*", "item.name", "item.image_url")
+                        .innerJoin("item", "orderItem.item_id", "item.id");
+                },
+            })
+            .first();
+    }
+
     return order;
+}
+
+async function basicDetails(order) {
+    const {
+        cart_id,
+        order_status,
+        purchase_status,
+        subtotal,
+        company_id,
+        items,
+    } = order;
+
+    return {
+        cart_id,
+        order_status,
+        purchase_status,
+        subtotal,
+        company_id,
+        items,
+    };
 }

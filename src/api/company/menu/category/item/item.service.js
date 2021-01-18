@@ -10,11 +10,14 @@ module.exports = {
 
 async function createItem(params) {
     const item = await Item.query().insert(params);
-    return basicDetails(item);
+    return item;
 }
 
 async function getItemById(id) {
     const item = await getItem({ id });
+    if (!item) {
+        return null;
+    }
     return item;
 }
 
@@ -25,7 +28,9 @@ async function updateItem(id, params) {
 }
 
 async function deleteItem(queryParams) {
-    await Item.query().delete({ ...queryParams });
+    await Item.query()
+        .delete()
+        .where({ ...queryParams });
 }
 
 // =================== helpers ============================

@@ -1,5 +1,6 @@
 const Menu = require("../menu/menu.model");
 const error = require("../../../utils/error");
+const { menu } = require("../../../constants/tableNames");
 
 module.exports = {
     createMenu,
@@ -29,8 +30,10 @@ async function getAllMenu() {
 }
 
 async function getAllCompanyMenus(params) {
-    const menus = await Menu.query().where({ ...params });
-    return menus;
+    const menus = await Menu.query()
+        .where({ ...params })
+        .withGraphFetched("categories");
+    return menus.map((x) => basicDetails(x));
 }
 
 async function getMenuById(id) {

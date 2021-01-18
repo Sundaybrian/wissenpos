@@ -3,8 +3,9 @@ const {
     createOrderSchema,
     updateOrderSchema,
     companyOrderSchema,
+    getOrderSchema,
 } = require("./order.validators");
-const { auth: Auth } = require("../../../_middlewares/auth");
+const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 const orderService = require("./order.service");
 
@@ -17,35 +18,46 @@ const router = express.Router({
 router.use("/:order_id/orderItem", OrderItem);
 
 // update an order item customer aka update cart item
-router.post("/", createOrderSchema, Auth(Role.customer), createOrder);
+router.post("/", createOrderSchema, addToCart);
+router.get("/:id", getCartById);
+router.get("/:id/my-orders", Auth(Role.customer), fetchMyOrders);
 router.patch(
     "/:id",
     updateOrderSchema,
     Auth([Role.staff, Role.owner]),
     updateOrder
 );
-router.get("/:id", Auth(), getOrderById);
-router.get("/:id/my-orders", Auth(Role.customer), getOwnOrders);
 router.get(
     "/company-orders",
     companyOrderSchema,
     Auth([Role.owner, Role.staff]),
+    isOwner(),
     getCompanyOrders
 );
 
-function createOrder(req, res, next) {
+function addToCart(req, res, next) {
     const payload = {
-        customer_id: req.user.id,
-        company_id: req.params.company_id,
-        item: req.body,
+        cart_id: req.body.cart_id,
+        company_id: parseInt(req.params.company_id),
+        product_id: parseInt(req.body.product_id),
+        quantity: parseInt(req.body.quantity),
     };
+
     orderService
-        .createOrder(payload)
+        .addToCart(payload)
         .then((orderItem) =>
             res.json({
                 message: `${orderItem.item} has been added to the cart`,
             })
         )
+        .catch(next);
+}
+
+function getCartById(req, res, next) {
+    const cart_id = req.params.id;
+    orderService
+        .getCartById(cart_id)
+        .then((order) => (order ? res.json(order) : res.sendStatus(404)))
         .catch(next);
 }
 
@@ -56,22 +68,15 @@ function updateOrder(req, res, next) {
         .catch(next);
 }
 
-function getOrderById(req, res, next) {
+function fetchMyOrders(req, res, next) {
     orderService
-        .getOrderById(id)
-        .then((order) => (order ? res.json(order) : res.sendStatus(404)))
-        .catch(next);
-}
-
-function getOwnOrders(req, res, next) {
-    orderService
-        .getOwnOrders(req.user.id)
+        .fetchMyOrders(req.user.id)
         .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
         .catch(next);
 }
 
 function getCompanyOrders(req, res, next) {
-    // TODO to use query params
+    // TODO to use query params for rich data
 
     params.company_id = req.params.company_id;
     orderService

@@ -4,6 +4,7 @@ require("dotenv").config();
 module.exports = {
     test: {
         client: "pg",
+        debug: true,
         connection: {
             // host: "127.0.0.1",
             database: process.env.POSTGRES_DB_TEST,

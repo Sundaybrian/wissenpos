@@ -1,9 +1,5 @@
 const request = require("supertest");
 const app = require("../../app");
-const User = require("../user/user.model");
-const Company = require("./company.model");
-const Role = require("../../utils/role");
-const fs = require("fs");
 
 // variables
 let token1, token2, token3;
