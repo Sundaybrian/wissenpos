@@ -8,7 +8,7 @@ class OrderItem extends Model {
     }
 
     static get relationMappings() {
-        const Order = require("./Order/Order.model");
+        const Order = require("../order.model");
 
         return {
             order: {
@@ -16,7 +16,7 @@ class OrderItem extends Model {
                 modelClass: Order,
                 join: {
                     from: `${tableNames.orderItem}.order_id`,
-                    to: `${tableNames.Order}.id`,
+                    to: `${tableNames.order}.id`,
                 },
             },
         };

@@ -62,9 +62,7 @@
         "yamljs": "^0.3.0"
     },
     "devDependencies": {
-        "apidoc": "^0.24.0",
         "apidoc-swagger": "^0.3.2",
-        "apidoc-swagger-3": "^1.0.6",
         "eslint": "^7.7.0",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-plugin-import": "^2.22.0",

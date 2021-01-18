@@ -1,13 +1,12 @@
 const express = require("express");
 
 const { createSchema, updateSchema } = require("./menu.validator");
-const Company = require("../company.model");
 const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 const Category = require("./category/category.routes");
 
 const menuService = require("./menu.service");
-const error = require("../../../utils/error");
+const { menu } = require("../../../constants/tableNames");
 
 const router = express.Router({
     mergeParams: true,
@@ -33,17 +32,25 @@ function create(req, res, next) {
 }
 
 function getAllCompanyMenus(req, res, next) {
-    const { company_id } = req.params;
+    const company_id = parseInt(req.params.company_id);
 
     menuService
-        .getAllCompanyMenus({ id: company_id })
-        .then((menus) => (menus ? res.json(menus) : res.sendStatus(404)))
+        .getAllCompanyMenus({ company_id })
+        .then((menus) => {
+            return menus
+                ? menus.length == 1
+                    ? res.json(menus[0])
+                    : res.json(menus)
+                : res.sendStatus(404);
+        })
         .catch(next);
 }
 
 function getMenuById(req, res, next) {
+    const id = parseInt(req.params.id);
+
     menuService
-        .getMenuById(req.params.id)
+        .getMenuById(id)
         .then((menu) => (menu ? res.json(menu) : res.sendStatus(404)))
         .catch(next);
 }

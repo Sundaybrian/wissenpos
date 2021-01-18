@@ -9,13 +9,14 @@ const router = express.Router({
 });
 
 router.post("/", Auth([Role.owner]), isOwner(), createSchema, create);
-router.get("/:id", Auth(), getById);
+router.get("/:id", getById);
 router.patch("/:id", Auth([Role.owner]), isOwner(), updateSchema, updateItem);
 router.delete("/:id", Auth([Role.owner]), isOwner(), deleteItem);
 
 module.exports = router;
 
 function create(req, res, next) {
+    req.body.category_id = parseInt(req.params.category_id);
     itemService
         .createItem(req.body)
         .then((item) => res.status(201).json(item))
@@ -23,26 +24,29 @@ function create(req, res, next) {
 }
 
 function getById(req, res, next) {
+    const id = parseInt(req.params.id);
     itemService
-        .getItemById(req.params.id)
+        .getItemById(id)
         .then((item) => (item ? res.json(item) : res.sendStatus(404)))
         .catch(next);
 }
 
 function updateItem(req, res, next) {
+    const id = parseInt(req.params.id);
     itemService
-        .updateItem(req.params.id, req.body)
+        .updateItem(id, req.body)
         .then((item) => (item ? res.json(item) : res.sendStatus(404)))
         .catch(next);
 }
 
 function deleteItem(req, res, next) {
+    const id = parseInt(req.params.id);
     itemService
-        .deleteItem({ id: req.params.id })
+        .deleteItem({ id })
         .then(() =>
             res.json({
                 message: "Item deleted successfully",
-                id: req.params.id,
+                id,
             })
         )
         .catch(next);

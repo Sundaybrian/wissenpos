@@ -1,16 +1,21 @@
 const { Model } = require("objection");
 const tableNames = require("../../../constants/tableNames");
 const db = require("../../../db");
+const schema = require("./order.schema.json");
 
 class Order extends Model {
     static get tableName() {
         return tableNames.order;
     }
 
+    static get jsonSchema() {
+        return schema;
+    }
+
     static get relationMappings() {
         const Company = require("../company.model");
-        const User = require("../../user/user.model");
         const OrderItem = require("./orderItem/orderItem.model");
+        const Item = require("../menu/category/item/item.model");
 
         return {
             items: {
@@ -22,14 +27,19 @@ class Order extends Model {
                 },
             },
 
-            customer: {
-                relation: Model.BelongsToOneRelation,
-                modelClass: User,
-                join: {
-                    from: `${tableNames.order}.customer_id`,
-                    to: `${tableNames.user}.id`,
-                },
-            },
+            // itemss: {
+            //     relation: Model.ManyToManyRelation,
+            //     modelClass: OrderItem,
+            //     join: {
+            //         from: `${tableNames.order}.id`,
+            //         through: {
+            //             modelClass: Item,
+            //             from: `${tableNames.orderItem}.order_id`,
+            //             to: `${tableNames.orderItem}.item_id`,
+            //         },
+            //         to: `${tableNames.item}.id`,
+            //     },
+            // },
             company: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Company,

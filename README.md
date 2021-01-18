@@ -40,7 +40,64 @@ Hosted docs [wissenpos-backend](https://wissenspos.herokuapp.com/api-docs/)
 ## install and initialize knex
 
 -   `npm i knex` install knex
--   `npx knex init` initialize knex
+-   `npx knex init` initialize knex; aknexfile.js will be created
+
+```javascript
+// Update with your config settings.
+require("dotenv").config();
+
+module.exports = {
+    test: {
+        client: "pg",
+        connection: {
+            // host: "127.0.0.1",
+            database: process.env.POSTGRES_DB_TEST,
+            user: process.env.POSTGRES_USER,
+            password: process.env.POSTGRES_PASSWORD,
+        },
+        migrations: {
+            directory: __dirname + "/db/migrations",
+        },
+
+        seeds: {
+            directory: __dirname + "/db/seeds",
+        },
+    },
+
+    development: {
+        client: "pg",
+        connection: {
+            // host: "127.0.0.1",
+            database: process.env.POSTGRES_DB,
+            user: process.env.POSTGRES_USER,
+            password: process.env.POSTGRES_PASSWORD,
+        },
+        migrations: {
+            directory: __dirname + "/db/migrations",
+        },
+
+        seeds: {
+            directory: __dirname + "/db/seeds",
+        },
+    },
+
+    production: {
+        client: "pg",
+        connection: process.env.DATABASE_URL,
+        pool: {
+            min: 2,
+            max: 10,
+        },
+        migrations: {
+            directory: __dirname + "/db/migrations",
+        },
+
+        seeds: {
+            directory: __dirname + "/db/seeds",
+        },
+    },
+};
+```
 
 ## knex migrations and seeds commands
 
@@ -51,6 +108,10 @@ Hosted docs [wissenpos-backend](https://wissenspos.herokuapp.com/api-docs/)
 -   `npx knex seed:make initial` create seed file
 -   `npx knex seed:run` seed db with data
 -   `npx knex migrate:rollback --env <environment>` rollback db on a given env e.g prod, dev test
+
+## if psql refuses to expand a table or claim it is not ther
+
+-   use this command and replace city with the table name`SELECT table_name, column_name, data_type FROM information_schema.columns WHERE table_name = 'city';`
 
 ## eslint
 
@@ -227,7 +288,6 @@ kill -9 {PID}
 -   `heroku addons:create heroku-postgresql:hobby-dev` setup postgres db. remember to save the postgres instance name heroku sends back.. it is of the form `postgresql-something-06892`check your terminal after running this command
 -   `heroku config:set $(cat .env | sed '/^$/d; /#[[:print:]]*$/d')` push env variables to heroku
 -   `heroku config:set NODE_ENV=production` overwite NODE_ENV to production
--   `heroku pg:push local_db_name DATABASE_URL --app app_name` push your local db to heroku
 -   update knex file production setting to use heroku database url
 
     ```javascript
@@ -249,6 +309,8 @@ kill -9 {PID}
 
     ```
 
+-   `heroku pg:push <local_db_name> DATABASE_URL --app <app_name>` push your local db to heroku
 -   git commit and git push heroku master
 -   additional trick if you want to push to master branch from another branch `git push <remote> <local branch name>:<remote branch to push into>`
 -   `heroku local web` test how your app looks like
+-   `heroku run npm run migrate` to run latest migrations on the db, use it if you are sure about them
