@@ -15,6 +15,7 @@ class Order extends Model {
     static get relationMappings() {
         const Company = require("../company.model");
         const OrderItem = require("./orderItem/orderItem.model");
+        const Item = require("../menu/category/item/item.model");
 
         return {
             items: {
@@ -25,6 +26,20 @@ class Order extends Model {
                     to: `${tableNames.orderItem}.order_id`,
                 },
             },
+
+            // itemss: {
+            //     relation: Model.ManyToManyRelation,
+            //     modelClass: OrderItem,
+            //     join: {
+            //         from: `${tableNames.order}.id`,
+            //         through: {
+            //             modelClass: Item,
+            //             from: `${tableNames.orderItem}.order_id`,
+            //             to: `${tableNames.orderItem}.item_id`,
+            //         },
+            //         to: `${tableNames.item}.id`,
+            //     },
+            // },
             company: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Company,

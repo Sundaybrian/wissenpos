@@ -64,7 +64,7 @@ async function updateOrder(id, user, params) {
 }
 
 async function getCartById(id) {
-    const order = await getOrder(id);
+    const order = await getOrder(id, true);
     if (!order) return null;
     return basicDetails(order);
 }
@@ -103,14 +103,31 @@ async function get_or_create(id, company_id) {
 
 // =========== helpers===========
 
-async function getOrder(id) {
-    const order = await Order.query()
+async function getOrder(id, withItemData = false) {
+    let order = await Order.query()
         .where({
             cart_id: id,
             order_status: "New",
         })
         .withGraphFetched("items")
         .first();
+
+    if (withItemData) {
+        order = await Order.query()
+            .where({
+                cart_id: id,
+                order_status: "New",
+            })
+            .withGraphFetched("items(withItemData)")
+            .modifiers({
+                withItemData(builder) {
+                    builder
+                        .select("orderItem.*", "item.name", "item.image_url")
+                        .innerJoin("item", "orderItem.item_id", "item.id");
+                },
+            })
+            .first();
+    }
 
     return order;
 }
