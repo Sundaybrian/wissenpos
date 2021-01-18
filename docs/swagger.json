@@ -1344,8 +1344,8 @@
             ],
             "get": {
                 "tags": ["menu"],
-                "summary": "Get menu by id",
-                "description": "Open to all",
+                "summary": "Get single menu by id inclusive of categories",
+                "description": "Fetch a single menu inclusive of its categories",
                 "responses": {
                     "200": {
                         "description": "Menu Details an categories array",
@@ -1535,8 +1535,8 @@
             ],
             "get": {
                 "tags": ["category"],
-                "summary": "Get Menu Categories",
-                "description": "Open to all",
+                "summary": "Get All Categories For a select Menu ID",
+                "description": "Fetch all categories under a specified menu id",
                 "operationId": "getmenucategories",
                 "responses": {
                     "200": {
@@ -1654,8 +1654,8 @@
             ],
             "get": {
                 "tags": ["category"],
-                "summary": "Get Menu Category by its ID",
-                "description": "Open to all",
+                "summary": "Get a Menu Category by its ID inclusive of meals",
+                "description": "Fetch a particular menu inclusive of meals under it",
                 "operationId": "getmenucategorybyid",
                 "responses": {
                     "200": {
@@ -2276,7 +2276,7 @@
             "get": {
                 "tags": ["order"],
                 "summary": "Get cart and items",
-                "description": "Fetch cart and the products",
+                "description": "Fetch cart and the products i the cart",
                 "operationId": "getcartbyid",
                 "responses": {
                     "200": {
@@ -2318,6 +2318,14 @@
                                                     "item_id": {
                                                         "type": "integer",
                                                         "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Beef Matumbo"
+                                                    },
+                                                    "image_url": {
+                                                        "type": "string",
+                                                        "example": "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg"
                                                     },
                                                     "quantity": {
                                                         "type": "integer",
