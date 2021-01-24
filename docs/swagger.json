@@ -2323,6 +2323,10 @@
                                                         "type": "string",
                                                         "example": "Beef Matumbo"
                                                     },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": 250
+                                                    },
                                                     "image_url": {
                                                         "type": "string",
                                                         "example": "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg"
