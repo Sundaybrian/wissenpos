@@ -5,6 +5,7 @@ const {
     companyOrderSchema,
     getOrderSchema,
 } = require("./order.validators");
+
 const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 const orderService = require("./order.service");
@@ -20,7 +21,7 @@ router.use("/:order_id/orderItem", OrderItem);
 // update an order item customer aka update cart item
 router.post("/", createOrderSchema, addToCart);
 router.get("/:id", getCartById);
-router.get("/:id/my-orders", Auth(Role.customer), fetchMyOrders);
+router.get("/my-orders", getOrderSchema, fetchMyOrders);
 router.patch(
     "/:id",
     updateOrderSchema,
@@ -61,17 +62,20 @@ function getCartById(req, res, next) {
         .catch(next);
 }
 
+// TODO: paginate for future proofing
+function fetchMyOrders(req, res, next) {
+    const { cart_id } = req.body;
+    console.log(cart_id, "=========");
+    orderService
+        .fetchMyOrders(cart_id)
+        .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
+        .catch(next);
+}
+
 function updateOrder(req, res, next) {
     orderService
         .updateOrder(req.params.id, req.user, req.body)
         .then((order) => res.json(order))
-        .catch(next);
-}
-
-function fetchMyOrders(req, res, next) {
-    orderService
-        .fetchMyOrders(req.user.id)
-        .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
         .catch(next);
 }
 

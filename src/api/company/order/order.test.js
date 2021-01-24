@@ -64,3 +64,47 @@ describe("GET /api/v1/company/:company_id/order/:id", () => {
         expect(res.body.cart_id).toBe(`xtreeme1`);
     });
 });
+
+describe("GET /api/v1/company/:company_id/order/my-orders", () => {
+    let cart_id;
+
+    beforeEach(function (done) {
+        request(app)
+            .post("/api/v1/company/1/order")
+            .send({
+                product_id: 1,
+                quantity: 100,
+                cart_id: "xtreeme1",
+            })
+            .end(function (err, res) {
+                if (err) throw err;
+                cart_id = "xtreem1";
+                done();
+            });
+    });
+
+    it("should fail to find orders if cart id is not present", async () => {
+        const res = await request(app)
+            .get("/api/v1/company/1/order/my-orders")
+            .expect(500);
+
+        expect(res.body.message).toContain(`Validation error`);
+    });
+    it("should return 404 for my orders", async () => {
+        const res = await request(app)
+            .get("/api/v1/company/1/order/my-orders")
+            .expect(404);
+    });
+
+    it("should retun orders array and items", async () => {
+        const res = await request(app)
+            .get("/api/v1/company/1/order/my-orders")
+            .send({
+                cart_id: cart_id,
+            })
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(res.body.orders).toBeGreaterThan(0);
+    });
+});

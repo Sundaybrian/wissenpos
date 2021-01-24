@@ -122,7 +122,12 @@ async function getOrder(id, withItemData = false) {
             .modifiers({
                 withItemData(builder) {
                     builder
-                        .select("orderItem.*", "item.name", "item.image_url")
+                        .select(
+                            "orderItem.*",
+                            "item.name",
+                            "item.image_url",
+                            "item.price"
+                        )
                         .innerJoin("item", "orderItem.item_id", "item.id");
                 },
             })
