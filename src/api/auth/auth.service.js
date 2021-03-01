@@ -3,6 +3,7 @@ const jwt = require("../../utils/jwt");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const sendEmail = require("../../utils/email");
+const AccountService = require("../company/accounts/accounts.service");
 
 module.exports = {
     /**
