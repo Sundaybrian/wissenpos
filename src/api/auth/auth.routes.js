@@ -16,7 +16,7 @@ router.post("/register-owner", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
 router.get("/", Auth(Role.admin), getAll);
 router.get("/:id", Auth(), getById);
-router.post("/create-staff", Auth(Role.owner), signupSchema, create);
+router.post("/create-staff", Auth(Role.owner), signupSchemaStaff, createStaff);
 router.put("/:id", Auth(), updateSchema, update);
 router.delete("/:id", Auth(), _delete);
 
@@ -88,7 +88,7 @@ function getById(req, res, next) {
         .catch(next);
 }
 
-function create(req, res, next) {
+function createStaff(req, res, next) {
     authService
         .create(req.body)
         .then((account) => res.json(account))
