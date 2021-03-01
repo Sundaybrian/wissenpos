@@ -3,6 +3,7 @@ const router = express.Router();
 const {
     signinSchema,
     signupSchema,
+    signupSchemaStaff,
     updateSchema,
     verifyEmailSchema,
 } = require("./auth.validators");
@@ -89,8 +90,26 @@ function getById(req, res, next) {
 }
 
 function createStaff(req, res, next) {
+    const {
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        password,
+        company_id,
+    } = req.body;
+
+    const payload = {
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        password,
+        role: Role.staff,
+    };
+
     authService
-        .create(req.body)
+        .createStaff(payload, company_id)
         .then((account) => res.json(account))
         .catch(next);
 }
