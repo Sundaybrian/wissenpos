@@ -28,7 +28,7 @@ class User extends Model {
                 ref("isVerified"),
                 ref("updated_at"),
                 ref("password"),
-                ref("verification_token")
+                ref("verificationToken")
             );
         },
 
@@ -46,7 +46,7 @@ class User extends Model {
                 ref("created_at"),
                 ref("isVerified"),
                 ref("updated_at"),
-                ref("verification_token")
+                ref("verificationToken")
             );
         },
     };

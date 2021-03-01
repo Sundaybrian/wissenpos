@@ -34,7 +34,7 @@ class Account extends Model {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Company,
                 join: {
-                    from: `${tableNames.accounts}company_id`,
+                    from: `${tableNames.accounts}.company_id`,
                     to: `${tableNames.company}.id`,
                 },
             },
