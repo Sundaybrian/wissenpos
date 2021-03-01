@@ -135,7 +135,9 @@ async function _delete(id) {
 /**==================== Helpers ====================== */
 async function getAccount(param) {
     const account = await User.query()
+        .modify("defaultSelects")
         .where({ ...param })
+        .withGraphFetched("companies")
         .first();
     return account;
 }
