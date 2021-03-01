@@ -12,17 +12,16 @@ class User extends Model {
             const { ref } = User;
             query.select(
                 ref("id"),
-                ref("first_name"),
+                ref("firstName"),
                 ref("role"),
-                ref("last_name"),
+                ref("lastName"),
                 ref("email"),
-                ref("phone_number"),
+                ref("phoneNumber"),
                 ref("active"),
                 ref("image_url"),
                 ref("created_at"),
                 ref("isVerified"),
                 ref("updated_at"),
-                ref("active"),
                 ref("password"),
                 ref("verification_token")
             );
@@ -32,11 +31,11 @@ class User extends Model {
             const { ref } = User;
             query.select(
                 ref("id"),
-                ref("first_name"),
+                ref("firstName"),
                 ref("role"),
-                ref("last_name"),
+                ref("lastName"),
                 ref("email"),
-                ref("phone_number"),
+                ref("phoneNumber"),
                 ref("active"),
                 ref("image_url"),
                 ref("created_at"),
