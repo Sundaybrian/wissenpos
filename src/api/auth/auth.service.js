@@ -16,7 +16,7 @@ module.exports = {
     login,
     register,
     verifyEmail,
-    create,
+    createStaff,
     update,
     getAll,
     getById,
@@ -80,17 +80,23 @@ async function verifyEmail({ token }) {
     });
 }
 
-async function create(params) {
-    // validate
+async function createStaff(params, company_id) {
+    // validate if email exists
     if (await getAccount({ email: params.email })) {
         throw 'Email "' + params.email + '" is already registered';
     }
 
-    const account = await insertUser(params);
+    try {
+        const staff = await insertUser(params);
+        const addtoCompany = await AccountService.addToCompany({
+            company_id,
+            staff_id: staff.id,
+        });
 
-    // TODO? bind to company here.
-
-    return basicDetails(account);
+        return { ...staff, company_id };
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function update(id, params) {
@@ -163,7 +169,7 @@ async function insertUser(params) {
         verificationToken,
     });
 
-    return basicDetails(account);
+    return account;
 }
 
 async function hash(password) {
