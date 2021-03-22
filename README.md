@@ -289,6 +289,7 @@ kill -9 {PID}
 -   `heroku config:set $(cat .env | sed '/^$/d; /#[[:print:]]*$/d')` push env variables to heroku
 -   `heroku config:set NODE_ENV=production` overwite NODE_ENV to production
 -   update knex file production setting to use heroku database url
+-  restart postgres `heroku run service postgresql restart`
 
     ```javascript
     production: {

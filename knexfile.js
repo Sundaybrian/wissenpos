@@ -1,5 +1,8 @@
 // Update with your config settings.
 require("dotenv").config();
+const parse = require("pg-connection-string").parse;
+const pgconfig = parse(process.env.DATABASE_URL);
+pgconfig.ssl = { rejectUnauthorized: false };
 
 module.exports = {
     test: {
@@ -39,7 +42,7 @@ module.exports = {
 
     production: {
         client: "pg",
-        connection: process.env.DATABASE_URL,
+        connection: pgconfig,
         pool: {
             min: 2,
             max: 10,
