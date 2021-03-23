@@ -25,19 +25,69 @@ exports.seed = async function (knex) {
     const [category_id] = await knex(tableNames.category)
         .insert([
             {
-                name: "cat1",
+                name: "Lunch",
+                menu_id,
+            },
+            {
+                name: "BreakFast",
+                menu_id,
+            },
+            {
+                name: "Dinner",
+                menu_id,
+            },
+            {
+                name: "Drinks",
                 menu_id,
             },
         ])
         .returning("id");
 
-    await knex(tableNames.item).insert({
-        name: "Beef matumbo seed",
-        price: 200,
-        quantity: 100,
-        description: "sweet beef matumbo seed",
-        image_url:
-            "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg",
-        category_id,
-    });
+    await knex(tableNames.item).insert([
+        {
+            name: "Beef matumbo seed",
+            price: 200,
+            quantity: 100,
+            description: "sweet beef matumbo seed",
+            image_url:
+                "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg",
+            category_id,
+        },
+        {
+            name: "Beef matumbo seed",
+            price: 200,
+            quantity: 100,
+            description: "sweet beef matumbo seed",
+            image_url:
+                "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg",
+            category_id,
+        },
+        {
+            name: "Beef matumbo seed",
+            price: 200,
+            quantity: 100,
+            description: "sweet beef matumbo seed",
+            image_url:
+                "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg",
+            category_id,
+        },
+        {
+            name: "Beef matumbo seed",
+            price: 200,
+            quantity: 100,
+            description: "sweet beef matumbo seed",
+            image_url:
+                "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg",
+            category_id,
+        },
+        {
+            name: "Beef matumbo seed",
+            price: 200,
+            quantity: 100,
+            description: "sweet beef matumbo seed",
+            image_url:
+                "https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg",
+            category_id,
+        },
+    ]);
 };
