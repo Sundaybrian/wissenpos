@@ -61,7 +61,7 @@ async function register(params, origin) {
     // send email;
     // await sendVerificationEmail(account, origin);
 
-    const token = await jwt.sign(account);
+    const token = await jwt.sign(account.toJSON());
 
     return {
         user: account,
