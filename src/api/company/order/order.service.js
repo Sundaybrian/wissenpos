@@ -74,24 +74,18 @@ async function fetchMyOrders({ nextPage, match, limit }) {
         let orders = await Order.query()
             .alias("o")
             .where(match)
-            .modify("defaultSelects")
-            .withGraphFetched(
-                `[customer(defaultSelects), items(defaultSelects)]`
-            )
+            // .modify("defaultSelects")
+            .withGraphFetched(`[items(defaultSelects)]`)
             .orderBy("o.id")
             .limit(limit)
             .cursorPage();
-
-        let orders = query;
 
         if (nextPage) {
             orders = await Order.query()
                 .alias("o")
                 .where(match)
-                .modify("defaultSelects")
-                .withGraphFetched(
-                    `[customer(defaultSelects), items(defaultSelects)]`
-                )
+                // .modify("defaultSelects")
+                .withGraphFetched(`[items(defaultSelects)]`)
                 .orderBy("o.id")
                 .limit(limit)
                 .cursorPage(nextPage);
@@ -104,9 +98,37 @@ async function fetchMyOrders({ nextPage, match, limit }) {
     }
 }
 
-async function getCompanyOrders(params) {
-    const orders = await Order.query().where(params).orderBy("created_at");
-    return orders;
+async function getCompanyOrders({ nextPage, match, limit }) {
+    try {
+        let orders = await Order.query()
+            .alias("o")
+            .where(match)
+            // .modify("defaultSelects")
+            .withGraphFetched(
+                `[customer(defaultSelects), items(defaultSelects)]`
+            )
+            .orderBy("o.id")
+            .limit(limit)
+            .cursorPage();
+
+        if (nextPage) {
+            orders = await Order.query()
+                .alias("o")
+                .where(match)
+                // .modify("defaultSelects")
+                .withGraphFetched(
+                    `[customer(defaultSelects), items(defaultSelects)]`
+                )
+                .orderBy("o.id")
+                .limit(limit)
+                .cursorPage(nextPage);
+        }
+
+        return orders;
+    } catch (error) {
+        console.log(`[getCompanyOrders]`);
+        throw error;
+    }
 }
 // =======================helpers==========================
 async function get_or_create(id, company_id) {
