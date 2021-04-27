@@ -69,11 +69,39 @@ async function getCartById(id) {
     return basicDetails(order);
 }
 
-async function fetchMyOrders(id) {
-    const orders = await Order.query()
-        .where({ cart_id: id })
-        .orderBy("created_at");
-    return orders;
+async function fetchMyOrders({ nextPage, match, limit }) {
+    try {
+        let orders = await Order.query()
+            .alias("o")
+            .where(match)
+            .modify("defaultSelects")
+            .withGraphFetched(
+                `[customer(defaultSelects), items(defaultSelects)]`
+            )
+            .orderBy("o.id")
+            .limit(limit)
+            .cursorPage();
+
+        let orders = query;
+
+        if (nextPage) {
+            orders = await Order.query()
+                .alias("o")
+                .where(match)
+                .modify("defaultSelects")
+                .withGraphFetched(
+                    `[customer(defaultSelects), items(defaultSelects)]`
+                )
+                .orderBy("o.id")
+                .limit(limit)
+                .cursorPage(nextPage);
+        }
+
+        return orders;
+    } catch (error) {
+        console.log(`[fetchMyOrders]`);
+        throw error;
+    }
 }
 
 async function getCompanyOrders(params) {
