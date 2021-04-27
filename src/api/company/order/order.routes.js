@@ -88,11 +88,30 @@ function updateOrder(req, res, next) {
 }
 
 function getCompanyOrders(req, res, next) {
-    // TODO to use query params for rich data
+    const { company_id } = req.params;
+    let nextPage = null;
+    let limit = 50;
+    const match = {
+        company_id: parseInt(company_id),
+    };
 
-    params.company_id = req.params.company_id;
+    if (req.query.order_status) {
+        match.order_status = req.query.order_status;
+    }
+    if (req.query.purchase_status) {
+        match.purchase_status = req.query.purchase_status;
+    }
+
+    if (req.query.nextPage) {
+        nextPage = req.query.nextPage;
+    }
+
+    if (req.query.limit) {
+        limit = parseInt(req.query.limit);
+    }
+
     orderService
-        .getCompanyOrders(params)
+        .getCompanyOrders({ nextPage, match, limit })
         .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
         .catch(next);
 }
