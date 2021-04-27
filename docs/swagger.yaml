@@ -1,0 +1,1714 @@
+---
+openapi: 3.0.0
+info:
+    title: Wissenpos Restaurant Management Api
+    description: Apis for the wissenspos application
+    version: 1.0.0
+servers:
+    - url: http://localhost:5000/api/v1
+      description: Local development server
+    - url: https://wissenspos.herokuapp.com/api/v1
+      description: Development Server
+paths:
+    "/accounts/register-customer":
+        post:
+            tags:
+                - accounts
+            summary: Create a customer and return user details and jwt token
+            operationId: register customer
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: sunday
+                                lastName:
+                                    type: string
+                                    example: oliseh
+                                phoneNumber:
+                                    type: string
+                                    example: "0714382366"
+                                email:
+                                    type: string
+                                    example: sunday@oliseh.com
+                                password:
+                                    type: string
+                                    example: myverysuperiorpass
+                                confirmPassword:
+                                    type: string
+                                    example: myverysuperiorpass
+                            required:
+                                - firstName
+                                - lastName
+                                - email
+                                - password
+                                - confirmPassword
+                                - phoneNumber
+            responses:
+                "200":
+                    description:
+                        The registration request was succesfull and a verification
+                        email has been sent to the specified email address
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    user:
+                                        type: object
+                                        properties:
+                                            firstName:
+                                                type: string
+                                                example: sunday
+                                            lastName:
+                                                type: string
+                                                example: oliseh
+                                            email:
+                                                type: string
+                                                example: sunday@oliseh.com
+                                            role:
+                                                type: string
+                                                example: customer
+                                            phoneNumber:
+                                                type: string
+                                                example: "0714382366"
+                                    token:
+                                        type: string
+                                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpc1ZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNjA2MTU4MDkwLCJleHAiOjE2MDYxNjg4OTB9.o7npZt_wsUvvGiLW7Bu08zhzxKmM9I3enQ2X48m1b9U
+                                    message:
+                                        type: string
+                                        example:
+                                            Registration successfull, please check your email for
+                                            verification instructions
+    "/accounts/register-owner":
+        post:
+            tags:
+                - accounts
+            summary: Create a vendor return details and jwt token
+            operationId: register owner
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: sunday
+                                lastName:
+                                    type: string
+                                    example: owner
+                                phoneNumber:
+                                    type: string
+                                    example: "0714382367"
+                                email:
+                                    type: string
+                                    example: sunday@owner.com
+                                password:
+                                    type: string
+                                    example: myverysuperiorpass
+                                confirmPassword:
+                                    type: string
+                                    example: myverysuperiorpass
+                            required:
+                                - firstName
+                                - lastName
+                                - email
+                                - password
+                                - confirmPassword
+                                - phoneNumber
+            responses:
+                "200":
+                    description:
+                        The registration request was succesfull and a verification
+                        email has been sent to the specified email address
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    user:
+                                        type: object
+                                        properties:
+                                            firstName:
+                                                type: string
+                                                example: sunday
+                                            lastName:
+                                                type: string
+                                                example: oliseh
+                                            email:
+                                                type: string
+                                                example: sunday@oliseh.com
+                                            role:
+                                                type: string
+                                                example: owner
+                                            phoneNumber:
+                                                type: string
+                                                example: "0714382367"
+                                    token:
+                                        type: string
+                                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYWRtaW4iLCJsYXN0TmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpc1ZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNjA2MTU4MDkwLCJleHAiOjE2MDYxNjg4OTB9.o7npZt_wsUvvGiLW7Bu08zhzxKmM9I3enQ2X48m1b9U
+                                    message:
+                                        type: string
+                                        example:
+                                            Registration successfull, please check your email for
+                                            verification instructions
+    "/accounts/verify-email":
+        post:
+            tags:
+                - accounts
+            summary:
+                verify a new account with a verification token received via email after
+                registration
+            operationId: verifyEmail
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                token:
+                                    type: string
+                                    example: 895789345uhuif78y87yf78f7gf34gr783478tgf7843gf87gf78478343478rfy7834yr782
+                            required:
+                                - token
+            responses:
+                "200":
+                    description: Verification was successful
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Verification was succesfull
+                "400":
+                    description: Verification failed due to an invalid token
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Veification failed
+    "/accounts/login":
+        post:
+            tags:
+                - accounts
+            summary: Authenticate account credentials and return a jwt token and user details
+            operationId: authenticate
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                    example: sunday@owner.com
+                                password:
+                                    type: string
+                                    example: 12345678yh
+                            required:
+                                - email
+                                - password
+            responses:
+                "200":
+                    description: Accounts details and jwt token
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    user:
+                                        type: object
+                                        properties:
+                                            firstName:
+                                                type: string
+                                            lastName:
+                                                type: string
+                                            phoneNumber:
+                                                type: string
+                                            email:
+                                                type: string
+                                            role:
+                                                type: string
+                                    token:
+                                        type: string
+                                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWIxMmUxOTdlMDZhNzZjY2RlZmMxMjEiLCJpZCI6IjVlYjEyZTE5N2UwNmE3NmNjZGVmYzEyMSIsImlhdCI6MTU4ODc1ODE1N30.xR9H0STbFOpSkuGA9jHNZOJ6eS7umHHqKRhI807YT1Y
+                "500":
+                    description: Email or password is incorrect
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Email or password is incorrect
+    "/accounts/create-staff":
+        post:
+            tags:
+                - accounts
+            summary: Create a new staff account
+            description: Restricted to owner users.
+            operationId: createstaffaccount
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: jason
+                                lastName:
+                                    type: string
+                                    example: borne
+                                email:
+                                    type: string
+                                    example: jason@borne.com
+                                password:
+                                    type: string
+                                    example: pass12334567
+                                confirmPassword:
+                                    type: string
+                                    example: pass1234567
+                                role:
+                                    type: string
+                                    enum:
+                                        - staff
+                            required:
+                                - firstName
+                                - lastName
+                                - email
+                                - password
+                                - confirmPassword
+                                - role
+            responses:
+                "200":
+                    description:
+                        Account created successfully, verification is not required
+                        for accounts created with this endpoint. The details of the new account
+                        are returned.
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: string
+                                        example: 58
+                                    firstName:
+                                        type: string
+                                        example: jason
+                                    lastName:
+                                        type: string
+                                        example: borne
+                                    email:
+                                        type: string
+                                        example: jason@borne.com
+                                    role:
+                                        type: string
+                                        example: staff
+                                    created:
+                                        type: string
+                                        example: "2020-05-05T09:12:57.848Z"
+                "400":
+                    description: Email is already registered
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Email 'jason@borne.com' is already registered
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "403":
+                    "$ref": "#/components/responses/AccessDenied"
+    "/accounts":
+        get:
+            tags:
+                - accounts
+            summary: Get a list of all accounts
+            description: Restricted to admin users
+            operationId: getallaccounts
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: An array of all accounts
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: number
+                                            example: 1
+                                        firstName:
+                                            type: string
+                                            example: sunday
+                                        lastName:
+                                            type: string
+                                            example: oliseh
+                                        email:
+                                            type: string
+                                            example: sunday@oliseh.com
+                                        role:
+                                            type: string
+                                            example: customer
+                                        phoneNumber:
+                                            type: string
+                                            example: "0714382366"
+                                        created_at:
+                                            type: string
+                                            example: "2020-05-05T09:12:57.848Z"
+                                        updated_at:
+                                            type: string
+                                            example: "2020-05-08T03:11:21.553Z"
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+    "/accounts/{id}":
+        parameters:
+            - in: path
+              name: id
+              description: Account id
+              required: true
+              example: 1
+              schema:
+                  type: integer
+        get:
+            tags:
+                - accounts
+            summary: Get a single account by id
+            description:
+                Admin users can access any account, regular users are restricted
+                to their own account
+            operationId: getaccountbyid
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: Details of the specified account
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    firstName:
+                                        type: string
+                                        example: sunday
+                                    lastName:
+                                        type: string
+                                        example: oliseh
+                                    email:
+                                        type: string
+                                        example: sunday@oliseh.com
+                                    phoneNumber:
+                                        type: string
+                                        example: "071234569"
+                                    created_at:
+                                        type: string
+                                        example: "2020-05-05T09:12:57.848Z"
+                                    updated_at:
+                                        type: string
+                                        example: "2020-05-05T09:12:57.848Z"
+                                    role:
+                                        type: string
+                                        example: customer
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+        put:
+            tags:
+                - accounts
+            summary: Update an account
+            description:
+                Admin users can update any account, regular users are restricted
+                to their own account and soon they wont be able to update role
+            operationId: updateaccount
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                firstName:
+                                    type: string
+                                    example: michael
+                                lastName:
+                                    type: string
+                                    example: smith
+                                email:
+                                    type: string
+                                    example: michael@smith.com
+                                password:
+                                    type: string
+                                    example: pass12345678
+                                confirmPassword:
+                                    type: string
+                                    example: pass12345678
+                                role:
+                                    type: string
+                                    enum:
+                                        - admin
+                                        - owner
+                                        - staff
+                                        - customer
+            responses:
+                "200":
+                    description:
+                        Account updated successfully. The details of the updated user
+                        are returned
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 51
+                                    firstName:
+                                        type: string
+                                        example: michael
+                                    lastName:
+                                        type: string
+                                        example: smith
+                                    email:
+                                        type: string
+                                        example: michael@smith.com
+                                    role:
+                                        type: string
+                                        example: staff
+                                    created_at:
+                                        type: string
+                                        example: "2020-05-05T09:12:57.848Z"
+                                    updated_at:
+                                        type: string
+                                        example: "2020-05-08T03:11:21.553Z"
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+        delete:
+            tags:
+                - accounts
+            summary: Delete an account
+            description:
+                Admin users can delete any account, regular users are restricted
+                to their own account.
+            operationId: deleteaccount
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: Account deleted successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Account deleted successfully
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+    "/company":
+        post:
+            tags:
+                - company
+            summary: Create a company
+            description: Restricted to  owners
+            operationId: createcompany
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    example: massive dynamic
+                                description:
+                                    type: string
+                                    example: we create everything
+                                logo_url:
+                                    type: string
+                                    example: https://storagebucket.gogle.com/massivedy
+                                website_url:
+                                    type: string
+                                    example: https://some.massivedynamics.com
+                                email:
+                                    type: string
+                                    example: massive.dynamics@info.com
+                            required:
+                                - name
+                                - description
+                                - email
+            responses:
+                "200":
+                    description: Company created successfully, detail of the company are returned
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: massive dynamic
+                                    description:
+                                        type: string
+                                        example: we create everything
+                                    logo_url:
+                                        type: string
+                                        example: https://storagebucket.gogle.com/massivedy
+                                    owner:
+                                        type: integer
+                                        example: 1
+                                    email:
+                                        type: string
+                                        example: massive.dynamics@info.com
+                "500":
+                    description: Company name already exists
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Name Massive dynamic is already registered
+        get:
+            tags:
+                - company
+            summary: Get all companies
+            description: Restricted to admin accounts
+            operationId: getallcompanies
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: An array of objects containing company infos
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: integer
+                                            example: 1
+                                        name:
+                                            type: string
+                                            example: massive dynamic
+                                        description:
+                                            type: string
+                                            example: we create everything
+                                        logo_url:
+                                            type: string
+                                            example: https://storagebucket.gogle.com/massivedy
+                                        owner:
+                                            type: integer
+                                            example: 1
+                                        email:
+                                            type: string
+                                            example: massive.dynamics@info.com
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "403":
+                    "$ref": "#/components/responses/UnauthorizedError"
+    "/company/{id}":
+        parameters:
+            - in: path
+              name: id
+              description: Company ID
+              required: true
+              example: 1
+              schema:
+                  type: integer
+        get:
+            tags:
+                - company
+            summary: Get Company by its ID
+            description: Restricted to owners and admin
+            operationId: getcompanybyid
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    "$ref": "#/components/responses/CompanyResponse"
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+        patch:
+            tags:
+                - company
+            summary: Update a Company
+            description: Restricted to owners
+            operationId: updatecompany
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    example: massive dynamic
+                                description:
+                                    type: string
+                                    example: we create everything
+                                logo_url:
+                                    type: string
+                                    example: https://storagebucket.gogle.com/massivedy
+                                email:
+                                    type: string
+                                    example: massive.dynamics@info.com
+            responses:
+                "200":
+                    "$ref": "#/components/responses/CompanyResponse"
+                "500":
+                    "$ref": "#/components/responses/NameExistsError"
+        delete:
+            tags:
+                - company
+            summary: Delete a Company
+            description: Restricted to owners and admin
+            operationId: deletecompany
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: Id of the delete company
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+    "/company/mine":
+        get:
+            tags:
+                - company
+            summary: Get all my companies
+            description: Restricted to owners
+            operationId: getmycompanies
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    "$ref": "#/components/responses/CompanyResponse"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+    "/company/{company_id}/accounts":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+        get:
+            tags:
+                - company
+            summary: Get accounts associated with a company
+            description: Restricted to owners
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: Array containing user objects
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: integer
+                                            example: 1
+                                        company_id:
+                                            type: integer
+                                            example: 2
+                                        staff_id:
+                                            type: integer
+                                            example: 3
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+    "/company/{company_id}/menu":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+        post:
+            tags:
+                - menu
+            summary: Create Menu
+            description: Restricted to owners
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    example: Special Menu
+                                cover_url:
+                                    type: string
+                                    example: https://storage.bucket@firebase.com
+                                description:
+                                    type: string
+                                    example: menu so good, you have to bring you wife
+                            required:
+                                - name
+                                - description
+            responses:
+                "200":
+                    description: Menu Created Successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    name:
+                                        type: string
+                                        example: Special Menu
+                                    cover_url:
+                                        type: string
+                                        example: https://storage.bucket@firebase.com
+                                    description:
+                                        type: string
+                                        example: menu so good, you have to bring you wife
+                                    company:
+                                        type: integer
+                                        example: 1
+                                    active:
+                                        type: boolean
+                                        example: false
+        get:
+            tags:
+                - menu
+            summary: Gell all menus of a selected company
+            description: Open to all
+            responses:
+                "200":
+                    description: Array of menu objects
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        id:
+                                            type: integer
+                                            example: 1
+                                        name:
+                                            type: string
+                                            example: Special Menu
+                                        cover_url:
+                                            type: string
+                                            example: https://storage.bucket@firebase.com
+                                        description:
+                                            type: string
+                                            example: menu so good, you have to bring you wife
+                                        company:
+                                            type: integer
+                                            example: 1
+                                        active:
+                                            type: boolean
+                                            example: false
+                                        categories:
+                                            type: array
+                                            items:
+                                                type: object
+                                                properties:
+                                                    id:
+                                                        type: integer
+                                                        example: 1
+                                                    name:
+                                                        type: string
+                                                        example: Lunch
+                                                    menu_id:
+                                                        type: number
+                                                        example: 1
+                                                    created_at:
+                                                        type: string
+                                                        example: "2021-01-15T02:01:42.813Z"
+                                                    updated_at:
+                                                        type: string
+                                                        example: "2021-01-15T02:01:42.813Z"
+                "202":
+                    description: Menu Object if only one exists
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: Special Menu
+                                    cover_url:
+                                        type: string
+                                        example: https://storage.bucket@firebase.com
+                                    description:
+                                        type: string
+                                        example: menu so good, you have to bring you wife
+                                    company:
+                                        type: integer
+                                        example: 1
+                                    active:
+                                        type: boolean
+                                        example: false
+                                    categories:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                    example: 1
+                                                name:
+                                                    type: string
+                                                    example: Lunch
+                                                menu_id:
+                                                    type: number
+                                                    example: 1
+                                                created_at:
+                                                    type: string
+                                                    example: "2021-01-15T02:01:42.813Z"
+                                                updated_at:
+                                                    type: string
+                                                    example: "2021-01-15T02:01:42.813Z"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+    "/company/{company_id}/menu/{id}":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: id
+              description: Menu ID
+              required: true
+              schema:
+                  type: integer
+        get:
+            tags:
+                - menu
+            summary: Get single menu by id inclusive of categories
+            description: Fetch a single menu inclusive of its categories
+            responses:
+                "200":
+                    description: Menu Details an categories array
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: Special Menu
+                                    company:
+                                        type: integer
+                                        example: 1
+                                    categories:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                    example: 1
+                                                name:
+                                                    type: string
+                                                    example: BreakFast
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+        patch:
+            tags:
+                - menu
+            summary: Update Menu Details
+            description: Restricted to Owner
+            security:
+                - bearerAuth: []
+            operationId: updateMenu
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    example: Special Menu Updated
+                                cover_url:
+                                    type: string
+                                    example: https://storage.bucket@firebase.com
+                                description:
+                                    type: string
+                                    example: menu so good, you have to bring you wife and kids
+                                active:
+                                    type: boolean
+                                    example: true
+            responses:
+                "201":
+                    description: Menu Details an categories array
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: Special Menu Updated
+                                    cover_url:
+                                        type: string
+                                        example: https://storage.bucket@firebase.com
+                                    company:
+                                        type: integer
+                                        example: 1
+                                    categories:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                    example: 1
+                                                name:
+                                                    type: string
+                                                    example: BreakFast
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+        delete:
+            tags:
+                - menu
+            summary: Delete Menu
+            description:
+                Deletes Menu and items associated with the menu. Restricted to
+                owners
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: Menu deleted successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+    "/company/{company_id}/menu/{menu_id}/category":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: menu_id
+              description: Menu ID
+              required: true
+              schema:
+                  type: integer
+        get:
+            tags:
+                - category
+            summary: Get All Categories For a select Menu ID
+            description: Fetch all categories under a specified menu id
+            operationId: getmenucategories
+            responses:
+                "200":
+                    description: Category array for a selected meu
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: Breakfast
+        post:
+            tags:
+                - category
+            summary: Create a Category
+            description: Attach a category to a specific menu. Restricted to owner
+            operationId: createmenucategory
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                menu_id:
+                                    type: integer
+                                    example: 1
+                                name:
+                                    type: string
+                                    example: Lunch
+            responses:
+                "200":
+                    description: Category bound to menu successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 2
+                                    name:
+                                        type: string
+                                        example: Lunch
+                                    menu_id:
+                                        type: integer
+                                        example: 1
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+    "/company/{company_id}/menu/{menu_id}/category/{id}":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: menu_id
+              description: Menu ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: id
+              description: Category ID
+              required: true
+              schema:
+                  type: integer
+        get:
+            tags:
+                - category
+            summary: Get a Menu Category by its ID inclusive of meals
+            description: Fetch a particular menu inclusive of meals under it
+            operationId: getmenucategorybyid
+            responses:
+                "200":
+                    description: Category object for the select category
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: Breakfast
+                                    menu_id:
+                                        type: integer
+                                        example: 1
+                                    items:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                id:
+                                                    type: integer
+                                                    example: 1
+                                                name:
+                                                    type: string
+                                                    example: Boiled meat
+                                                price:
+                                                    type: number
+                                                    example: 200
+                                                description:
+                                                    type: string
+                                                    example: Best meat to salivate over
+                                                category_id:
+                                                    type: integer
+                                                    example: 1
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+        patch:
+            tags:
+                - category
+            summary: Update a category name
+            description: Restricted to owners
+            operationId: updatecategory
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                menu_id:
+                                    type: integer
+                                    example: 1
+                                name:
+                                    type: string
+                                    example: Lunch Speciale
+            responses:
+                "200":
+                    description: Category updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 2
+                                    name:
+                                        type: string
+                                        example: Lunch Speciale
+                                    menu_id:
+                                        type: integer
+                                        example: 1
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "500":
+                    "$ref": "#/components/responses/NameExistsError"
+        delete:
+            tags:
+                - category
+            summary: Delete a Category by its ID
+            description: Restricted to owners
+            security:
+                - bearerAuth: []
+            operationId: deletecategory
+            responses:
+                "200":
+                    description: Category deleted successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 2
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+    "/company/{company_id}/menu/{menu_id}/category/{category_id}/item":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: menu_id
+              description: Menu ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: category_id
+              description: Category ID
+              required: true
+              schema:
+                  type: integer
+        post:
+            tags:
+                - item
+            summary: Create an item aka Meal for a given Category
+            description: Restricted to Owners
+            operationId: createitem
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    applicaton/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    example: Boiled meat
+                                price:
+                                    type: number
+                                    example: 200
+                                description:
+                                    type: string
+                                    example: Best meat to salivate over
+                                category_id:
+                                    type: integer
+                                    example: 1
+                                quantity:
+                                    type: integer
+                                    example: 100
+                                image_url:
+                                    type: string
+                                    example: https://firebase.storage.buket@com
+                            required:
+                                - name
+                                - price
+                                - description
+                                - category_id
+                                - quantity
+                                - image_url
+            responses:
+                "200":
+                    description: Item created successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: Boiled meat
+                                    price:
+                                        type: number
+                                        example: 200
+                                    description:
+                                        type: string
+                                        example: Best meat to salivate over
+                                    category_id:
+                                        type: integer
+                                        example: 1
+                                    quantity:
+                                        type: integer
+                                        example: 100
+                                    image_url:
+                                        type: string
+                                        example: https://firebase.storage.buket@com
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+    "/company/{company_id}/menu/{menu_id}/category/{category_id}/item/{id}":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: menu_id
+              description: Menu ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: category_id
+              description: Category ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: id
+              description: Item ID
+              required: true
+              schema:
+                  type: integer
+        get:
+            tags:
+                - item
+            summary: Fetch an item by its id
+            description: fetch item
+            security:
+                - bearerAuth: []
+            operationId: fetchitembyid
+            responses:
+                "200":
+                    description: Item fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: Boiled meat
+                                    price:
+                                        type: number
+                                        example: 200
+                                    description:
+                                        type: string
+                                        example: Best meat to salivate over
+                                    category_id:
+                                        type: integer
+                                        example: 1
+                                    quantity:
+                                        type: integer
+                                        example: 100
+                                    image_url:
+                                        type: string
+                                        example: https://firebase.storage.buket@com
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+        patch:
+            tags:
+                - item
+            summary: Update an Item
+            description: Restricted to Owners
+            operationId: updateItem
+            security:
+                - bearerAuth: []
+            requestBody:
+                required: true
+                content:
+                    applicaton/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                    example: Boiled meat
+                                price:
+                                    type: number
+                                    example: 200
+                                description:
+                                    type: string
+                                    example: Best meat to salivate over
+                                category_id:
+                                    type: integer
+                                    example: 1
+                                quantity:
+                                    type: integer
+                                    example: 100
+                                image_url:
+                                    type: string
+                                    example: https://firebase.storage.buket@com
+            responses:
+                "200":
+                    description: Item updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    name:
+                                        type: string
+                                        example: Boiled meat
+                                    price:
+                                        type: number
+                                        example: 200
+                                    description:
+                                        type: string
+                                        example: Best meat to salivate over
+                                    category_id:
+                                        type: integer
+                                        example: 1
+                                    quantity:
+                                        type: integer
+                                        example: 100
+                                    image_url:
+                                        type: string
+                                        example: https://firebase.storage.buket@com
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+        delete:
+            tags:
+                - item
+            summary: Delete an Item
+            description: Restricted to Owners
+            operationId: deleteItem
+            security:
+                - bearerAuth: []
+            responses:
+                "200":
+                    description: Item deleted successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    id:
+                                        type: integer
+                                        example: 1
+                                    message:
+                                        type: string
+                                        example: Item deleted successfully
+                "401":
+                    "$ref": "#/components/responses/UnauthorizedError"
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+    "/company/{company_id}/order":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+        post:
+            tags:
+                - order
+            summary: Add a product/item to cart
+            description: add item
+            operationId: addtocart
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                cart_id:
+                                    type: string
+                                    example: ADHIUYR7389F37T
+                                product_id:
+                                    type: integer
+                                    example: 1
+                                quantity:
+                                    type: integer
+                                    example: 10
+            responses:
+                "200":
+                    description: Item added successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: Item 1 was added successfully
+                "500":
+                    description: cart_id is required
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        example: cart_id is required
+    "/company/{company_id}/order/{cart_id}":
+        parameters:
+            - in: path
+              name: company_id
+              description: Company ID
+              required: true
+              schema:
+                  type: integer
+            - in: path
+              name: cart_id
+              description: Cart Id
+              required: true
+              schema:
+                  type: string
+        get:
+            tags:
+                - order
+            summary: Get cart and items
+            description: Fetch cart and the products i the cart
+            operationId: getcartbyid
+            responses:
+                "200":
+                    description: Cart was fetched successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    cart_id:
+                                        type: string
+                                        example: ASHIEOHNDUUHUNIE
+                                    order_status:
+                                        type: string
+                                        example: New
+                                    purchase_status:
+                                        type: string
+                                        example: unpaid
+                                    subtotal:
+                                        type: number
+                                        example: 0
+                                    company_id:
+                                        type: integer
+                                        example: 1
+                                    items:
+                                        type: array
+                                        items:
+                                            type: object
+                                            properties:
+                                                order_id:
+                                                    type: integer
+                                                    example: 1
+                                                item_id:
+                                                    type: integer
+                                                    example: 2
+                                                name:
+                                                    type: string
+                                                    example: Beef Matumbo
+                                                price:
+                                                    type: number
+                                                    example: 250
+                                                image_url:
+                                                    type: string
+                                                    example: https://i.pinimg.com/736x/bf/6d/ff/bf6dff9d4f719e650beb1488208ba39d.jpg
+                                                quantity:
+                                                    type: integer
+                                                    example: 100
+                "404":
+                    "$ref": "#/components/responses/NotFoundError"
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    responses:
+        CompanyResponse:
+            description: Company Details
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            id:
+                                type: integer
+                                example: 1
+                            name:
+                                type: string
+                                example: massive dynamic
+                            description:
+                                type: string
+                                example: we create everything
+                            logo_url:
+                                type: string
+                                example: https://storagebucket.gogle.com/massivedy
+                            owner:
+                                type: integer
+                                example: 1
+                            email:
+                                type: string
+                                example: massive.dynamics@info.com
+        UnauthorizedError:
+            description:
+                Access token is missing or invalid, or the user does not have access
+                to perform the action
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            message:
+                                type: string
+                                example: Unauthorized
+        NotFoundError:
+            description: Not Found
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            message:
+                                type: string
+                                example: Not Found
+        AccessDenied:
+            description: Access Denied
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            message:
+                                type: string
+                                example: Token not found, access denied
+        NameExistsError:
+            description: Name is already in use
+            content:
+                application/json:
+                    schema:
+                        type: object
+                        properties:
+                            message:
+                                type: string
+                                example: Name is already taken

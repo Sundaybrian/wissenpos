@@ -2,8 +2,9 @@ const { Model } = require("objection");
 const tableNames = require("../../../constants/tableNames");
 const db = require("../../../db");
 const schema = require("./order.schema.json");
+const Cursor = require("../../../utils/cursorPagination");
 
-class Order extends Model {
+class Order extends Cursor(Model) {
     static get tableName() {
         return tableNames.order;
     }
