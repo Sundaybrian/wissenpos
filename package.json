@@ -12,8 +12,12 @@
         "start": "node src/server.js",
         "dev": "nodemon src/server.js",
         "test": "NODE_ENV=test NODE_TLS_REJECT_UNAUTHORIZED=O jest --reporters default jest-stare --coverage --detectOpenHandles --runInBand --forceExit --testTimeout=60000",
+        "rollback:prod": "knex migrate:rollback --env production",
+        "migrate:prod": "npx knex migrate:latest --env production",
+        "seed:prod": "knex seed:run --env production",
         "test:watch": "jest --verbose --watchAll",
-        "lint": "eslint --fix src"
+        "lint": "eslint --fix src",
+        "pg:push": "heroku pg:reset --confirm wissenspos && heroku pg:push pos DATABASE_URL --app wissenspos"
     },
     "keywords": [
         "nodejs",
@@ -39,7 +43,9 @@
         }
     },
     "dependencies": {
+        "@sendgrid/mail": "^7.4.2",
         "bcrypt": "^5.0.0",
+        "bcryptjs": "^2.4.3",
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.5",
         "cors": "^2.8.5",
@@ -53,21 +59,21 @@
         "jsonwebtoken": "^8.5.1",
         "knex": "^0.21.5-next2",
         "morgan": "^1.10.0",
-        "nodemailer": "^6.4.14",
         "objection": "^2.2.3",
+        "objection-cursor": "^1.2.4",
+        "objection-filter": "^4.1.1",
+        "objection-keyset-pagination": "^0.1.0",
+        "objection-soft-delete": "^1.0.7",
         "pg": "^8.3.0",
+        "pg-connection-string": "^2.3.0",
         "rootpath": "^0.1.2",
         "swagger-jsdoc": "^6.0.0-rc.3",
-        "swagger-ui-express": "^4.1.4",
-        "yamljs": "^0.3.0"
+        "swagger-ui-express": "^4.1.4"
     },
     "devDependencies": {
-        "apidoc-swagger": "^0.3.2",
         "eslint": "^7.7.0",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-plugin-import": "^2.22.0",
-        "gulp": "^4.0.2",
-        "gulp-apidoc": "^0.2.8",
         "jest": "^26.5.3",
         "jest-serial-runner": "^1.1.0",
         "jest-stare": "^2.2.0",

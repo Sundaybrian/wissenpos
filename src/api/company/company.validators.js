@@ -5,8 +5,8 @@ exports.createSchema = (req, res, next) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         description: Joi.string().required(),
-        logo_url: Joi.string(),
-        website_url: Joi.string(),
+        logo_url: Joi.string().empty(""),
+        website_url: Joi.string().empty(""),
         email: Joi.string().email().required(),
     });
     validateRequest(req, next, schema);

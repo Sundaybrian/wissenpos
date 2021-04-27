@@ -2,8 +2,9 @@ const { Model } = require("objection");
 const tableNames = require("../../../constants/tableNames");
 const db = require("../../../db");
 const schema = require("./order.schema.json");
+const Cursor = require("../../../utils/cursorPagination");
 
-class Order extends Model {
+class Order extends Cursor(Model) {
     static get tableName() {
         return tableNames.order;
     }
@@ -15,31 +16,25 @@ class Order extends Model {
     static get relationMappings() {
         const Company = require("../company.model");
         const OrderItem = require("./orderItem/orderItem.model");
-        const Item = require("../menu/category/item/item.model");
+        const User = require("../../user/user.model");
 
         return {
             items: {
-                relation: Model.HasManyRelation,
+                relation: Model.BelongsToOneRelation,
                 modelClass: OrderItem,
                 join: {
                     from: `${tableNames.order}.id`,
                     to: `${tableNames.orderItem}.order_id`,
                 },
             },
-
-            // itemss: {
-            //     relation: Model.ManyToManyRelation,
-            //     modelClass: OrderItem,
-            //     join: {
-            //         from: `${tableNames.order}.id`,
-            //         through: {
-            //             modelClass: Item,
-            //             from: `${tableNames.orderItem}.order_id`,
-            //             to: `${tableNames.orderItem}.item_id`,
-            //         },
-            //         to: `${tableNames.item}.id`,
-            //     },
-            // },
+            customer: {
+                relation: Model.HasOneRelation,
+                modelClass: User,
+                join: {
+                    from: `${tableNames.order}.customer_id`,
+                    to: `${tableNames.user}.id`,
+                },
+            },
             company: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Company,

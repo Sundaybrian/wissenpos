@@ -3,6 +3,7 @@ const router = express.Router();
 const {
     signinSchema,
     signupSchema,
+    signupSchemaStaff,
     updateSchema,
     verifyEmailSchema,
 } = require("./auth.validators");
@@ -16,7 +17,7 @@ router.post("/register-owner", signupSchema, register);
 router.post("/verify-email", verifyEmailSchema, verifyEmail);
 router.get("/", Auth(Role.admin), getAll);
 router.get("/:id", Auth(), getById);
-router.post("/create-staff", Auth(Role.owner), signupSchema, create);
+router.post("/create-staff", Auth(Role.owner), signupSchemaStaff, createStaff);
 router.put("/:id", Auth(), updateSchema, update);
 router.delete("/:id", Auth(), _delete);
 
@@ -88,9 +89,27 @@ function getById(req, res, next) {
         .catch(next);
 }
 
-function create(req, res, next) {
+function createStaff(req, res, next) {
+    const {
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        password,
+        company_id,
+    } = req.body;
+
+    const payload = {
+        firstName,
+        lastName,
+        phoneNumber,
+        email,
+        password,
+        role: Role.staff,
+    };
+
     authService
-        .create(req.body)
+        .createStaff(payload, company_id)
         .then((account) => res.json(account))
         .catch(next);
 }

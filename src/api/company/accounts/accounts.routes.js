@@ -2,6 +2,7 @@ const Account = require("./accounts.model");
 const Company = require("../company.model");
 const Role = require("../../../utils/role");
 const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
+const AccountService = require("./accounts.service");
 
 const router = require("express").Router({
     mergeParams: true,
@@ -17,9 +18,9 @@ async function getAccounts(req, res, next) {
         //     return res.status(401).json({ message: "Unauthorized" });
         // }
 
-        const accounts = await Account.query().where({
-            company_id: req.params.company_id,
-        });
+        const accounts = await AccountService.companyAccounts(
+            req.params.company_id
+        );
 
         if (!accounts) {
             return res.status(404);

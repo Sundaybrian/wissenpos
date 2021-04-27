@@ -14,6 +14,19 @@ exports.signupSchema = (req, res, next) => {
     validateRequest(req, next, schema);
 };
 
+exports.signupSchemaStaff = (req, res, next) => {
+    const schema = Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        phoneNumber: Joi.string().min(10).max(15).required(),
+        company_id: Joi.number().integer().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().min(8).required(),
+        confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
+    });
+    validateRequest(req, next, schema);
+};
+
 exports.signinSchema = (req, res, next) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),

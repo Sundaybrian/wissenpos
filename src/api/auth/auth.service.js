@@ -3,6 +3,7 @@ const jwt = require("../../utils/jwt");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const sendEmail = require("../../utils/email");
+const AccountService = require("../company/accounts/accounts.service");
 
 module.exports = {
     /**
@@ -16,7 +17,7 @@ module.exports = {
     login,
     register,
     verifyEmail,
-    create,
+    createStaff,
     update,
     getAll,
     getById,
@@ -60,7 +61,7 @@ async function register(params, origin) {
     // send email;
     // await sendVerificationEmail(account, origin);
 
-    const token = await jwt.sign(account);
+    const token = await jwt.sign(account.toJSON());
 
     return {
         user: account,
@@ -80,17 +81,23 @@ async function verifyEmail({ token }) {
     });
 }
 
-async function create(params) {
-    // validate
+async function createStaff(params, company_id) {
+    // validate if email exists
     if (await getAccount({ email: params.email })) {
         throw 'Email "' + params.email + '" is already registered';
     }
 
-    const account = await insertUser(params);
+    try {
+        const staff = await insertUser(params);
+        const addtoCompany = await AccountService.addToCompany({
+            company_id,
+            staff_id: staff.id,
+        });
 
-    // TODO? bind to company here.
-
-    return basicDetails(account);
+        return { ...staff, company_id };
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function update(id, params) {
@@ -135,7 +142,9 @@ async function _delete(id) {
 /**==================== Helpers ====================== */
 async function getAccount(param) {
     const account = await User.query()
+        .modify("defaultSelects")
         .where({ ...param })
+        .withGraphFetched("companies")
         .first();
     return account;
 }
@@ -161,7 +170,7 @@ async function insertUser(params) {
         verificationToken,
     });
 
-    return basicDetails(account);
+    return account;
 }
 
 async function hash(password) {

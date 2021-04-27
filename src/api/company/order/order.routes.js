@@ -5,6 +5,7 @@ const {
     companyOrderSchema,
     getOrderSchema,
 } = require("./order.validators");
+
 const { auth: Auth, isOwner } = require("../../../_middlewares/auth");
 const Role = require("../../../utils/role");
 const orderService = require("./order.service");
@@ -20,7 +21,7 @@ router.use("/:order_id/orderItem", OrderItem);
 // update an order item customer aka update cart item
 router.post("/", createOrderSchema, addToCart);
 router.get("/:id", getCartById);
-router.get("/:id/my-orders", Auth(Role.customer), fetchMyOrders);
+router.get("/my-orders", getOrderSchema, fetchMyOrders);
 router.patch(
     "/:id",
     updateOrderSchema,
@@ -61,6 +62,24 @@ function getCartById(req, res, next) {
         .catch(next);
 }
 
+function fetchMyOrders(req, res, next) {
+    const { cart_id } = req.body;
+    let nextPage = null;
+    const limit = parseInt(req.query.limit) || 30;
+    const match = {
+        cart_id: parseInt(cart_id),
+    };
+
+    if (req.query.nextPage) {
+        nextPage = req.query.nextPage;
+    }
+
+    orderService
+        .fetchMyOrders({ nextPage, match, limit })
+        .then((orders) => (orders ? res.json(orders) : res.sendStatus(404)))
+        .catch(next);
+}
+
 function updateOrder(req, res, next) {
     orderService
         .updateOrder(req.params.id, req.user, req.body)
@@ -68,20 +87,32 @@ function updateOrder(req, res, next) {
         .catch(next);
 }
 
-function fetchMyOrders(req, res, next) {
-    orderService
-        .fetchMyOrders(req.user.id)
-        .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
-        .catch(next);
-}
-
 function getCompanyOrders(req, res, next) {
-    // TODO to use query params for rich data
+    const { company_id } = req.params;
+    let nextPage = null;
+    let limit = 50;
+    const match = {
+        company_id: parseInt(company_id),
+    };
 
-    params.company_id = req.params.company_id;
+    if (req.query.order_status) {
+        match.order_status = req.query.order_status;
+    }
+    if (req.query.purchase_status) {
+        match.purchase_status = req.query.purchase_status;
+    }
+
+    if (req.query.nextPage) {
+        nextPage = req.query.nextPage;
+    }
+
+    if (req.query.limit) {
+        limit = parseInt(req.query.limit);
+    }
+
     orderService
-        .getCompanyOrders(params)
-        .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
+        .getCompanyOrders({ nextPage, match, limit })
+        .then((orders) => (orders ? res.json(orders) : res.sendStatus(404)))
         .catch(next);
 }
 module.exports = router;

@@ -69,16 +69,66 @@ async function getCartById(id) {
     return basicDetails(order);
 }
 
-async function fetchMyOrders(id) {
-    const orders = await Order.query()
-        .where({ cart_id: id })
-        .orderBy("created_at");
-    return orders;
+async function fetchMyOrders({ nextPage, match, limit }) {
+    try {
+        let orders = await Order.query()
+            .alias("o")
+            .where(match)
+            // .modify("defaultSelects")
+            .withGraphFetched(`[items(defaultSelects)]`)
+            .orderBy("o.id")
+            .limit(limit)
+            .cursorPage();
+
+        if (nextPage) {
+            orders = await Order.query()
+                .alias("o")
+                .where(match)
+                // .modify("defaultSelects")
+                .withGraphFetched(`[items(defaultSelects)]`)
+                .orderBy("o.id")
+                .limit(limit)
+                .cursorPage(nextPage);
+        }
+
+        return orders;
+    } catch (error) {
+        console.log(`[fetchMyOrders]`);
+        throw error;
+    }
 }
 
-async function getCompanyOrders(params) {
-    const orders = await Order.query().where(params).orderBy("created_at");
-    return orders;
+async function getCompanyOrders({ nextPage, match, limit }) {
+    try {
+        let orders = await Order.query()
+            .alias("o")
+            .where(match)
+            // .modify("defaultSelects")
+            .withGraphFetched(
+                `[customer(defaultSelects), items(defaultSelects)]`
+            )
+            .orderBy("o.id")
+            .limit(limit)
+            .cursorPage();
+
+        if (nextPage) {
+            orders = await Order.query()
+                .alias("o")
+                .where(match)
+                // .modify("defaultSelects")
+                .withGraphFetched(
+                    `[customer(defaultSelects), items(defaultSelects)]`
+                )
+                .orderBy("o.id")
+                .limit(limit)
+                .cursorPage(nextPage);
+        }
+
+        return orders;
+    } catch (error) {
+        console.log(`[getCompanyOrders]`);
+        throw error;
+    }
 }
 // =======================helpers==========================
 async function get_or_create(id, company_id) {
@@ -122,7 +172,12 @@ async function getOrder(id, withItemData = false) {
             .modifiers({
                 withItemData(builder) {
                     builder
-                        .select("orderItem.*", "item.name", "item.image_url")
+                        .select(
+                            "orderItem.*",
+                            "item.name",
+                            "item.image_url",
+                            "item.price"
+                        )
                         .innerJoin("item", "orderItem.item_id", "item.id");
                 },
             })
