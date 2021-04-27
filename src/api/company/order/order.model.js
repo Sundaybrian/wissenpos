@@ -16,17 +16,25 @@ class Order extends Cursor(Model) {
     static get relationMappings() {
         const Company = require("../company.model");
         const OrderItem = require("./orderItem/orderItem.model");
-        const Item = require("../menu/category/item/item.model");
+        const User = require("../../user/user.model");
 
         return {
             items: {
-                relation: Model.HasManyRelation,
+                relation: Model.BelongsToOneRelation,
                 modelClass: OrderItem,
                 join: {
                     from: `${tableNames.order}.id`,
                     to: `${tableNames.orderItem}.order_id`,
                 },
             },
+            customer :{
+                relation: Model.HasOneRelation,
+                modelClass: User,
+                join:{
+                    from: `${tableNames.order}.customer_id`,
+                    to: `${tableNames.user}.id`
+                }
+            }
 
             // itemss: {
             //     relation: Model.ManyToManyRelation,
