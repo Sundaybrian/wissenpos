@@ -76,7 +76,7 @@ function fetchMyOrders(req, res, next) {
 
     orderService
         .fetchMyOrders({ nextPage, match, limit })
-        .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
+        .then((orders) => (orders ? res.json(orders) : res.sendStatus(404)))
         .catch(next);
 }
 
