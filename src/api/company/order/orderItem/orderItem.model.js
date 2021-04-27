@@ -7,6 +7,25 @@ class OrderItem extends Model {
         return tableNames.orderItem;
     }
 
+    static modifiers = {
+        defaultSelects(query) {
+            query
+                .alias("oi")
+                .select(
+                    "oi.id",
+                    "oi.item_id",
+                    "oi.quantity",
+                    "oi.created_at",
+                    "oi.updated_at"
+                )
+                .join(
+                    `${tableNames.item}`,
+                    "oi.item_id",
+                    `${tableNames.item}.id`
+                );
+        },
+    };
+
     static get relationMappings() {
         const Order = require("../order.model");
 
