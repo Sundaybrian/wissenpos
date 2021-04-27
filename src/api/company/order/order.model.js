@@ -27,28 +27,14 @@ class Order extends Cursor(Model) {
                     to: `${tableNames.orderItem}.order_id`,
                 },
             },
-            customer :{
+            customer: {
                 relation: Model.HasOneRelation,
                 modelClass: User,
-                join:{
+                join: {
                     from: `${tableNames.order}.customer_id`,
-                    to: `${tableNames.user}.id`
-                }
-            }
-
-            // itemss: {
-            //     relation: Model.ManyToManyRelation,
-            //     modelClass: OrderItem,
-            //     join: {
-            //         from: `${tableNames.order}.id`,
-            //         through: {
-            //             modelClass: Item,
-            //             from: `${tableNames.orderItem}.order_id`,
-            //             to: `${tableNames.orderItem}.item_id`,
-            //         },
-            //         to: `${tableNames.item}.id`,
-            //     },
-            // },
+                    to: `${tableNames.user}.id`,
+                },
+            },
             company: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Company,
