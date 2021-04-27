@@ -62,12 +62,20 @@ function getCartById(req, res, next) {
         .catch(next);
 }
 
-// TODO: paginate for future proofing
 function fetchMyOrders(req, res, next) {
     const { cart_id } = req.body;
-    console.log(cart_id, "=========");
+    let nextPage = null;
+    const limit = parseInt(req.query.limit) || 30;
+    const match = {
+        cart_id: parseInt(cart_id),
+    };
+
+    if (req.query.nextPage) {
+        nextPage = req.query.nextPage;
+    }
+
     orderService
-        .fetchMyOrders(cart_id)
+        .fetchMyOrders({ nextPage, match, limit })
         .then((orders) => (orders.length > 0 ? orders : res.sendStatus(404)))
         .catch(next);
 }
