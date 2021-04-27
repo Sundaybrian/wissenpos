@@ -1727,6 +1727,144 @@ paths:
                               example: "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNat"  
         "404":
           "$ref": "#/components/responses/NotFoundError"
+          
+  /company/{company_id}/company-orders:
+    get:
+      tags:
+        - "order"
+      parameters:
+        - in: query
+          name: queryParams
+          schema:
+            type: object
+            properties:
+              nextPage:
+                type: string
+                example: ""
+              limit:
+                type: integer
+                example: 30
+              order_status:
+                type: string
+                example: "New"
+              purchase_status:
+                type: string
+                example: "paid"
+        - in: path
+          name: company_id
+          description: company id
+          required: true
+          example: 1
+          schema:
+            type: integer
+          
+                
+      summary: Get a list of all company orders
+      description: Has pagination and can accept query parmas to control the items fetched
+      operationId: companyorders
+      responses:
+        "200":
+          description: obj containing order results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          example: 1
+                        customer_id:
+                          type: number
+                          example: 1
+                        company_id:
+                          type: number
+                          example: 1
+                        order_status:
+                          type: string
+                          example: "Complete"
+                        purchase_status:
+                          type: string
+                          example: "paid"
+                        subtotal:
+                          type: number
+                          example: 898989.78
+                        created_at:
+                          type: string
+                          example: "2020-05-08T03:11:21.553Z"
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: number
+                                example: 1
+                              order_id:
+                                type: number
+                                example: 1
+                              item_id:
+                                type: number
+                                example: 1
+                              quantity:
+                                type: number
+                                example: 45
+                     
+                        customer:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                              example: 1
+                            firstName:
+                              type: string
+                              example: sunday
+                            lastName:
+                            
+                              type: string
+                              example: oliseh
+                            email:
+                              type: string
+                              example: sunday@oliseh.com
+                            role:
+                              type: string
+                              example: 'customer'
+                            phoneNumber:
+                              type: string
+                              example: '0714382366'
+                            image_url:
+                              type: string
+                              example: "https://jhffjkdshfjkfhdsjkhfkjs.com"
+                        pageInfo:
+                          type: object
+                          properties:
+                            total:
+                              type: integer
+                              example: 30
+                            remaining:
+                              type: integer
+                              example: 20
+                            hasMore:
+                              type: boolean
+                              example: true
+                            hasPrevious:
+                              type: boolean
+                              example: true
+                            hasNext:
+                              type: boolean
+                              example: true
+                            next:
+                              type: string
+                              example: "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNa"
+                            previous:
+                              type: string
+                              example: "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNat"  
+        "404":
+          "$ref": "#/components/responses/NotFoundError"        
 components:
   securitySchemes:
     bearerAuth:

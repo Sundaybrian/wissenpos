@@ -67,7 +67,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "The registration request was succesfull and a verification email has been sent to the specified email address",
+                        "description": "The registration request was succesfull and a verification\nemail has been sent to the specified email address",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -104,7 +104,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Registration successfull, please check your email for verification instructions"
+                                            "example": "Registration successfull, please check your email for\nverification instructions"
                                         }
                                     }
                                 }
@@ -165,7 +165,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "The registration request was succesfull and a verification email has been sent to the specified email address",
+                        "description": "The registration request was succesfull and a verification\nemail has been sent to the specified email address",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -202,7 +202,7 @@
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Registration successfull, please check your email for verification instructions"
+                                            "example": "Registration successfull, please check your email for\nverification instructions"
                                         }
                                     }
                                 }
@@ -215,7 +215,7 @@
         "/accounts/verify-email": {
             "post": {
                 "tags": ["accounts"],
-                "summary": "verify a new account with a verification token received via email after registration",
+                "summary": "verify a new account with a verification token received via email after\nregistration",
                 "operationId": "verifyEmail",
                 "requestBody": {
                     "required": true,
@@ -409,7 +409,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Account created successfully, verification is not required for accounts created with this endpoint. The details of the new account are returned.",
+                        "description": "Account created successfully, verification is not required\nfor accounts created with this endpoint. The details of the new account\nare returned.",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -550,7 +550,7 @@
             "get": {
                 "tags": ["accounts"],
                 "summary": "Get a single account by id",
-                "description": "Admin users can access any account, regular users are restricted to their own account",
+                "description": "Admin users can access any account, regular users are restricted\nto their own account",
                 "operationId": "getaccountbyid",
                 "security": [
                     {
@@ -613,7 +613,7 @@
             "put": {
                 "tags": ["accounts"],
                 "summary": "Update an account",
-                "description": "Admin users can update any account, regular users are restricted to their own account and soon they wont be able to update role",
+                "description": "Admin users can update any account, regular users are restricted\nto their own account and soon they wont be able to update role",
                 "operationId": "updateaccount",
                 "security": [
                     {
@@ -663,7 +663,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Account updated successfully. The details of the updated user are returned",
+                        "description": "Account updated successfully. The details of the updated user\nare returned",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -713,7 +713,7 @@
             "delete": {
                 "tags": ["accounts"],
                 "summary": "Delete an account",
-                "description": "Admin users can delete any account, regular users are restricted to their own account.",
+                "description": "Admin users can delete any account, regular users are restricted\nto their own account.",
                 "operationId": "deleteaccount",
                 "security": [
                     {
@@ -1483,7 +1483,7 @@
             "delete": {
                 "tags": ["menu"],
                 "summary": "Delete Menu",
-                "description": "Deletes Menu and items associated with the menu. Restricted to owners",
+                "description": "Deletes Menu and items associated with the menu. Restricted to\nowners",
                 "security": [
                     {
                         "bearerAuth": []
@@ -2348,6 +2348,331 @@
                     }
                 }
             }
+        },
+        "/orders/my-orders": {
+            "get": {
+                "tags": ["order"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "queryParams",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "nextPage": {
+                                    "type": "string",
+                                    "example": " "
+                                },
+                                "limit": {
+                                    "type": "integer",
+                                    "example": 30
+                                }
+                            }
+                        }
+                    }
+                ],
+                "summary": "Get a list of all your orders",
+                "description": "Has pagination and can accept query parmas to control the items fetched",
+                "operationId": "myorders",
+                "responses": {
+                    "200": {
+                        "description": "obj containing order results",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "customer_id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "company_id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "order_status": {
+                                                        "type": "string",
+                                                        "example": "Complete"
+                                                    },
+                                                    "purchase_status": {
+                                                        "type": "string",
+                                                        "example": "paid"
+                                                    },
+                                                    "subtotal": {
+                                                        "type": "number",
+                                                        "example": 898989.78
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2020-05-08T03:11:21.553Z"
+                                                    },
+                                                    "items": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "number",
+                                                                    "example": 1
+                                                                },
+                                                                "order_id": {
+                                                                    "type": "number",
+                                                                    "example": 1
+                                                                },
+                                                                "item_id": {
+                                                                    "type": "number",
+                                                                    "example": 1
+                                                                },
+                                                                "quantity": {
+                                                                    "type": "number",
+                                                                    "example": 45
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "pageInfo": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "total": {
+                                                                "type": "integer",
+                                                                "example": 30
+                                                            },
+                                                            "remaining": {
+                                                                "type": "integer",
+                                                                "example": 20
+                                                            },
+                                                            "hasMore": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "hasPrevious": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "hasNext": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "next": {
+                                                                "type": "string",
+                                                                "example": "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNa"
+                                                            },
+                                                            "previous": {
+                                                                "type": "string",
+                                                                "example": "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNat"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
+        },
+        "/company/{company_id}/company-orders": {
+            "get": {
+                "tags": ["order"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "queryParams",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "nextPage": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "limit": {
+                                    "type": "integer",
+                                    "example": 30
+                                },
+                                "order_status": {
+                                    "type": "string",
+                                    "example": "New"
+                                },
+                                "purchase_status": {
+                                    "type": "string",
+                                    "example": "paid"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "company_id",
+                        "description": "company id",
+                        "required": true,
+                        "example": 1,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "summary": "Get a list of all company orders",
+                "description": "Has pagination and can accept query parmas to control the items fetched",
+                "operationId": "companyorders",
+                "responses": {
+                    "200": {
+                        "description": "obj containing order results",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "results": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "customer_id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "company_id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "order_status": {
+                                                        "type": "string",
+                                                        "example": "Complete"
+                                                    },
+                                                    "purchase_status": {
+                                                        "type": "string",
+                                                        "example": "paid"
+                                                    },
+                                                    "subtotal": {
+                                                        "type": "number",
+                                                        "example": 898989.78
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2020-05-08T03:11:21.553Z"
+                                                    },
+                                                    "items": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "number",
+                                                                    "example": 1
+                                                                },
+                                                                "order_id": {
+                                                                    "type": "number",
+                                                                    "example": 1
+                                                                },
+                                                                "item_id": {
+                                                                    "type": "number",
+                                                                    "example": 1
+                                                                },
+                                                                "quantity": {
+                                                                    "type": "number",
+                                                                    "example": 45
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "customer": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number",
+                                                                "example": 1
+                                                            },
+                                                            "firstName": {
+                                                                "type": "string",
+                                                                "example": "sunday"
+                                                            },
+                                                            "lastName": {
+                                                                "type": "string",
+                                                                "example": "oliseh"
+                                                            },
+                                                            "email": {
+                                                                "type": "string",
+                                                                "example": "sunday@oliseh.com"
+                                                            },
+                                                            "role": {
+                                                                "type": "string",
+                                                                "example": "customer"
+                                                            },
+                                                            "phoneNumber": {
+                                                                "type": "string",
+                                                                "example": "0714382366"
+                                                            },
+                                                            "image_url": {
+                                                                "type": "string",
+                                                                "example": "https://jhffjkdshfjkfhdsjkhfkjs.com"
+                                                            }
+                                                        }
+                                                    },
+                                                    "pageInfo": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "total": {
+                                                                "type": "integer",
+                                                                "example": 30
+                                                            },
+                                                            "remaining": {
+                                                                "type": "integer",
+                                                                "example": 20
+                                                            },
+                                                            "hasMore": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "hasPrevious": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "hasNext": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "next": {
+                                                                "type": "string",
+                                                                "example": "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNa"
+                                                            },
+                                                            "previous": {
+                                                                "type": "string",
+                                                                "example": "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNat"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -2396,7 +2721,7 @@
                 }
             },
             "UnauthorizedError": {
-                "description": "Access token is missing or invalid, or the user does not have access to perform the action",
+                "description": "Access token is missing or invalid, or the user does not have access\nto perform the action",
                 "content": {
                     "application/json": {
                         "schema": {
