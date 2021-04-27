@@ -16,7 +16,11 @@ class OrderItem extends Model {
                     "oi.item_id",
                     "oi.quantity",
                     "oi.created_at",
-                    "oi.updated_at"
+                    "oi.updated_at",
+                    "item.id as item_id",
+                    "item.name",
+                    "item.image_url",
+                    "item.price"
                 )
                 .join(
                     `${tableNames.item}`,
