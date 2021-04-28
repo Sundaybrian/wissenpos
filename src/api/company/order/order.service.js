@@ -14,8 +14,8 @@ async function addToCart(params) {
 
     // insert the item to the order item table
     const orderItem = order.$relatedQuery("items").insert({
-        item_id: params.product_id,
-        order: order.id,
+        item_id: params.item_id,
+        order_id: order.id,
         quantity: params.quantity,
     });
 

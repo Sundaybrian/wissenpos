@@ -41,15 +41,17 @@ function addToCart(req, res, next) {
     const payload = {
         cart_id: req.body.cart_id,
         company_id: parseInt(req.params.company_id),
-        product_id: parseInt(req.body.product_id),
+        item_id: parseInt(req.body.product_id),
         quantity: parseInt(req.body.quantity),
     };
 
+    // TODO document
     orderService
         .addToCart(payload)
         .then((orderItem) =>
             res.json({
-                message: `${orderItem.item} has been added to the cart`,
+                message: `${orderItem.item.item_id} has been added to the cart`,
+                item: orderItem,
             })
         )
         .catch(next);
