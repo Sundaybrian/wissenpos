@@ -12,6 +12,8 @@ module.exports = {
 async function addToCart(params) {
     const order = await get_or_create(params.cart_id, params.company_id);
 
+    console.log(order, "-----------------");
+
     // insert the item to the order item table
     const orderItem = order.$relatedQuery("items").insert({
         item_id: params.item_id,
@@ -104,9 +106,7 @@ async function getCompanyOrders({ nextPage, match, limit }) {
             .alias("o")
             .where(match)
             // .modify("defaultSelects")
-            .withGraphFetched(
-                `[customer(defaultSelects), items(defaultSelects)]`
-            )
+            .withGraphFetched(`[customer(defaultSelects)`)
             .orderBy("o.id")
             .limit(limit)
             .cursorPage();
@@ -116,13 +116,16 @@ async function getCompanyOrders({ nextPage, match, limit }) {
                 .alias("o")
                 .where(match)
                 // .modify("defaultSelects")
-                .withGraphFetched(
-                    `[customer(defaultSelects), items(defaultSelects)]`
-                )
+                .withGraphFetched(`[customer(defaultSelects)]`)
                 .orderBy("o.id")
                 .limit(limit)
                 .cursorPage(nextPage);
         }
+
+        console.log(
+            orders.results[0],
+            "====================---------------------------"
+        );
 
         return orders;
     } catch (error) {

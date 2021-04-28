@@ -20,20 +20,20 @@ router.use("/:order_id/orderItem", OrderItem);
 
 // update an order item customer aka update cart item
 router.post("/", createOrderSchema, addToCart);
-router.get("/:id", getCartById);
+router.get(
+    "/company-orders",
+    companyOrderSchema,
+    // Auth([Role.owner, Role.staff]),
+    // isOwner(),
+    getCompanyOrders
+);
 router.get("/my-orders", getOrderSchema, fetchMyOrders);
+router.get("/:id", getCartById);
 router.patch(
     "/:id",
     updateOrderSchema,
     Auth([Role.staff, Role.owner]),
     updateOrder
-);
-router.get(
-    "/company-orders",
-    companyOrderSchema,
-    Auth([Role.owner, Role.staff]),
-    isOwner(),
-    getCompanyOrders
 );
 
 function addToCart(req, res, next) {
@@ -50,7 +50,7 @@ function addToCart(req, res, next) {
         .addToCart(payload)
         .then((orderItem) =>
             res.json({
-                message: `${orderItem.item.item_id} has been added to the cart`,
+                message: `${orderItem.item_id} has been added to the cart`,
                 item: orderItem,
             })
         )
@@ -93,7 +93,7 @@ function updateOrder(req, res, next) {
 function getCompanyOrders(req, res, next) {
     const { company_id } = req.params;
     let nextPage = null;
-    let limit = 50;
+    let limit = null;
     const match = {
         company_id: parseInt(company_id),
     };
@@ -110,12 +110,14 @@ function getCompanyOrders(req, res, next) {
     }
 
     if (req.query.limit) {
-        limit = parseInt(req.query.limit);
+        limit = parseInt(req.query.limit) || 50;
     }
 
     orderService
         .getCompanyOrders({ nextPage, match, limit })
-        .then((orders) => (orders ? res.json(orders) : res.sendStatus(404)))
+        .then((orders) => {
+            return orders ? res.json(orders) : res.json(orders);
+        })
         .catch(next);
 }
 module.exports = router;

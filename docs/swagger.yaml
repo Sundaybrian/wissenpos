@@ -1728,7 +1728,7 @@ paths:
         "404":
           "$ref": "#/components/responses/NotFoundError"
           
-  /company/{company_id}/company-orders:
+  /company/{company_id}/order/company-orders:
     get:
       tags:
         - "order"
@@ -1796,24 +1796,6 @@ paths:
                         created_at:
                           type: string
                           example: "2020-05-08T03:11:21.553Z"
-                        items:
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                type: number
-                                example: 1
-                              order_id:
-                                type: number
-                                example: 1
-                              item_id:
-                                type: number
-                                example: 1
-                              quantity:
-                                type: number
-                                example: 45
-                     
                         customer:
                           type: object
                           properties:
@@ -1839,30 +1821,30 @@ paths:
                             image_url:
                               type: string
                               example: "https://jhffjkdshfjkfhdsjkhfkjs.com"
-                        pageInfo:
-                          type: object
-                          properties:
-                            total:
-                              type: integer
-                              example: 30
-                            remaining:
-                              type: integer
-                              example: 20
-                            hasMore:
-                              type: boolean
-                              example: true
-                            hasPrevious:
-                              type: boolean
-                              example: true
-                            hasNext:
-                              type: boolean
-                              example: true
-                            next:
-                              type: string
-                              example: "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNa"
-                            previous:
-                              type: string
-                              example: "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNat"  
+                  pageInfo:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                        example: 30
+                      remaining:
+                        type: integer
+                        example: 20
+                      hasMore:
+                        type: boolean
+                        example: true
+                      hasPrevious:
+                        type: boolean
+                        example: true
+                      hasNext:
+                        type: boolean
+                        example: true
+                      next:
+                        type: string
+                        example: "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNa"
+                      previous:
+                        type: string
+                        example: "KGRhdGUpMjAyMS0wMi0wNFQwMDo1ODoyOS4xODNat"  
         "404":
           "$ref": "#/components/responses/NotFoundError"        
 components:
