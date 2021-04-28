@@ -37,6 +37,7 @@ router.get(
 );
 
 function addToCart(req, res, next) {
+    // TODO figure out how to inject customer id
     const payload = {
         cart_id: req.body.cart_id,
         company_id: parseInt(req.params.company_id),
