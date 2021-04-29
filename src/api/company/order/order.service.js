@@ -106,7 +106,7 @@ async function getCompanyOrders({ nextPage, match, limit }) {
             .alias("o")
             .where(match)
             // .modify("defaultSelects")
-            .withGraphFetched(`[customer(defaultSelects)`)
+            .withGraphFetched(`[customer(defaultSelects)]`)
             .orderBy("o.id")
             .limit(limit)
             .cursorPage();
@@ -157,13 +157,7 @@ async function get_or_create(id, company_id) {
 // =========== helpers===========
 
 async function getOrder(id, withItemData = false) {
-    let order = await Order.query()
-        .where({
-            cart_id: id,
-            order_status: "New",
-        })
-        .withGraphFetched("items")
-        .first();
+    let order;
 
     if (withItemData) {
         order = await Order.query()
@@ -171,19 +165,15 @@ async function getOrder(id, withItemData = false) {
                 cart_id: id,
                 order_status: "New",
             })
-            .withGraphFetched("items(withItemData)")
-            .modifiers({
-                withItemData(builder) {
-                    builder
-                        .select(
-                            "orderItem.*",
-                            "item.name",
-                            "item.image_url",
-                            "item.price"
-                        )
-                        .innerJoin("item", "orderItem.item_id", "item.id");
-                },
+            .withGraphFetched("items(defaultSelects)")
+            .first();
+    } else {
+        order = await Order.query()
+            .where({
+                cart_id: id,
+                order_status: "New",
             })
+            .withGraphFetched("items")
             .first();
     }
 

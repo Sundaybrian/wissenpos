@@ -20,7 +20,7 @@ class Order extends Cursor(Model) {
 
         return {
             items: {
-                relation: Model.BelongsToOneRelation,
+                relation: Model.HasManyRelation,
                 modelClass: OrderItem,
                 join: {
                     from: `${tableNames.order}.id`,
