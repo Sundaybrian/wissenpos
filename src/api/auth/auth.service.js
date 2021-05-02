@@ -192,6 +192,7 @@ function basicDetails(account) {
         updated,
         isVerified,
         image_url,
+        phoneNumber
     } = account;
     return {
         id,
@@ -203,6 +204,7 @@ function basicDetails(account) {
         updated,
         isVerified,
         image_url,
+        phoneNumber
     };
 }
 
