@@ -122,11 +122,6 @@ async function getCompanyOrders({ nextPage, match, limit }) {
                 .cursorPage(nextPage);
         }
 
-        console.log(
-            orders.results[0],
-            "====================---------------------------"
-        );
-
         return orders;
     } catch (error) {
         console.log(`[getCompanyOrders]`);

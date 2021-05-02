@@ -44,6 +44,7 @@ exports.updateSchema = (req, res, next) => {
         phoneNumber: Joi.string().min(10).max(15).empty(""),
         password: Joi.string().min(8).empty(""),
         confirmPassword: Joi.string().valid(Joi.ref("password")).empty(""),
+        image_url: Joi.string().empty(""),
     };
 
     //  TODO figure out how admin can update role
