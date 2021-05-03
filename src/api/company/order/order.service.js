@@ -175,6 +175,45 @@ async function getOrder(id, withItemData = false) {
     return order;
 }
 
+// TODO make dynamic..accept dates
+async function orderStats({ company_id }) {
+    try {
+        const [inCart, paid, returns] = await Promise.all([
+            Order.query()
+                .where({
+                    company_id,
+                    order_status: "New",
+                })
+                .count()
+                .as("inCart"),
+
+            Order.query()
+                .where({
+                    company_id,
+                    order_status: "Paid",
+                })
+                .count()
+                .as("paid"),
+            Order.query()
+                .where({
+                    company_id,
+                    order_status: "Failed",
+                })
+                .count()
+                .as("returns"),
+        ]);
+
+        return {
+            inCart: parseInt(inCart[0].count) ?? 0,
+            paid: parseInt(paid[0].count) ?? 0,
+            returns: parseInt(returns[0].count) ?? 0,
+        };
+    } catch (error) {
+        console.log(`orderStats-failed`);
+        throw error;
+    }
+}
+
 async function basicDetails(order) {
     const {
         cart_id,
