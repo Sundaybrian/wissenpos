@@ -2486,6 +2486,58 @@
                 }
             }
         },
+        "/company/{company_id}/order/orderStats": {
+            "get": {
+                "tags": ["order"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "company_id",
+                        "description": "company id",
+                        "required": true,
+                        "example": 1,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "summary": "Get stats for orders",
+                "description": "fetches order stats",
+                "operationId": "orderStats",
+                "responses": {
+                    "200": {
+                        "description": "obj containing order stats",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "inCart": {
+                                            "type": "integer",
+                                            "example": 12
+                                        },
+                                        "returns": {
+                                            "type": "integer",
+                                            "example": 4
+                                        },
+                                        "paid": {
+                                            "type": "integer",
+                                            "example": 44
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
+        },
         "/company/{company_id}/order/company-orders": {
             "get": {
                 "tags": ["order"],
