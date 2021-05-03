@@ -1,6 +1,10 @@
 const request = require("supertest");
 const app = require("../../../app");
 
+// let variables
+let token1;
+let user1;
+
 describe("POST /api/v1/company/:company_id/order", () => {
     it("should fail to creat an order if cart_id is missing", async () => {
         const res = await request(app)
@@ -65,6 +69,7 @@ describe("GET /api/v1/company/:company_id/order/:id", () => {
     });
 });
 
+// fetch user orders
 describe("GET /api/v1/company/:company_id/order/my-orders", () => {
     let cart_id;
 
@@ -106,5 +111,49 @@ describe("GET /api/v1/company/:company_id/order/my-orders", () => {
             .expect(200);
 
         expect(res.body.orders).toBeGreaterThan(0);
+    });
+});
+
+// fetch company order stats
+
+// fetch user orders
+describe("GET /api/v1/company/:company_id/order/orderStats", () => {
+    beforeEach(function (done) {
+        request(app)
+            .post("/api/v1/accounts/login")
+            .send({
+                email: "sunday@owner.com",
+                password: "12345678yh",
+            })
+            .end(function (err, res) {
+                if (err) throw err;
+                token1 = res.body.token;
+                user1 = res.body.user;
+                done();
+            });
+    });
+
+    it("should fail to find orders stats if company_id id is not present", async () => {
+        const res = await request(app)
+            .get("/api/v1/company/undefined/order/orderStats")
+            .set("Authorization", `Bearer ${token1}`)
+            .expect(500);
+    });
+
+    it("should return 404 for my order stats", async () => {
+        const res = await request(app)
+            .get("/api/v1/company/1000/order/orderStats")
+            .set("Authorization", `Bearer ${token1}`)
+            .expect(404);
+    });
+
+    it("should return order stats", async () => {
+        const res = await request(app)
+            .get("/api/v1/company/1/order/orderStats")
+            .set("Authorization", `Bearer ${token1}`)
+            .expect("Content-Type", /json/)
+            .expect(200);
+
+        expect(res.body).toHaveProperty("returns");
     });
 });
