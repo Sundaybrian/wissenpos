@@ -7,6 +7,7 @@ module.exports = {
     getCartById,
     fetchMyOrders,
     getCompanyOrders,
+    orderStats,
 };
 
 async function addToCart(params) {

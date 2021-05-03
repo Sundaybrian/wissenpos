@@ -23,10 +23,12 @@ router.post("/", createOrderSchema, addToCart);
 router.get(
     "/company-orders",
     companyOrderSchema,
+    Auth(),
     // Auth([Role.owner, Role.staff]),
     // isOwner(),
     getCompanyOrders
 );
+router.get("/orderStats", Auth(), orderStats);
 router.get("/my-orders", getOrderSchema, fetchMyOrders);
 router.get("/:id", getCartById);
 router.patch(
@@ -120,4 +122,14 @@ function getCompanyOrders(req, res, next) {
         })
         .catch(next);
 }
+
+function orderStats(req, res, next) {
+    const { company_id } = req.params;
+
+    orderService
+        .orderStats({ company_id })
+        .then((stats) => (stats ? res.json(stats) : res.sendStatus(404)))
+        .catch(next);
+}
+
 module.exports = router;
