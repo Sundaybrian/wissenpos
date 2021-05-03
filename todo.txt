@@ -8,6 +8,11 @@
 - [*] send email helpers
 - [*] auth, [*]company, [*] accounts [*]tests
 - [*] document apis
+- [] refreshtoken
+- [] forgotPassword
+- [] introduce typescript 
+- [] rate limiting
+- [] caching with redis
 
 ## todo company related ##
 
@@ -32,7 +37,7 @@
 - [*] orderItem
 - [] payments
 
-## fixes and addittions
+## fixes
 
 - [*] company model
 - [*] menu, category, item model
@@ -41,9 +46,8 @@
     [*] had to write manually since apidocs neither swagger is working 
 - [*] prevent company from changing or deleting menu of other companies
 - [] fix order tests
+- [] fix circe-circle + docker
 - [] fix create staff by owner endpoint
-- [] refreshtoken
-- [] email confirmation
 - [] add indexing to column cart_id
 
 
@@ -52,7 +56,3 @@
 [] should we bind a user to a company // actually rethink relations between company and accounts
 
 ## needs
-
-- [] introduce typescript 
-- [] rate limiting
-- [] caching with redis
