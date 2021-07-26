@@ -205,9 +205,9 @@ async function orderStats({ company_id }) {
         ]);
 
         return {
-            inCart: parseInt(inCart[0].count) ?? 0,
-            paid: parseInt(paid[0].count) ?? 0,
-            returns: parseInt(returns[0].count) ?? 0,
+            inCart: parseInt(inCart[0].count) || 0,
+            paid: parseInt(paid[0].count) || 0,
+            returns: parseInt(returns[0].count) || 0,
         };
     } catch (error) {
         console.log(`orderStats-failed`);

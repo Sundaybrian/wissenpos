@@ -1,5 +1,13 @@
-node_modules
+
 ## non essential
 restClient/
 jest-stare/
 coverage/
+
+dist
+build
+node_modules
+.dockerignore
+.git
+.gitignore
+.docker-compose*
