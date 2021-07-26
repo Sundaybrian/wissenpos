@@ -60,7 +60,6 @@
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-rate-limit": "^5.2.3",
-        "express-swagger-generator": "^1.1.17",
         "helmet": "^4.1.1",
         "http-errors": "^1.8.0",
         "joi": "^17.2.1",
