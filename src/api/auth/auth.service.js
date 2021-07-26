@@ -191,6 +191,8 @@ function basicDetails(account) {
         created,
         updated,
         isVerified,
+        image_url,
+        phoneNumber
     } = account;
     return {
         id,
@@ -201,6 +203,8 @@ function basicDetails(account) {
         created,
         updated,
         isVerified,
+        image_url,
+        phoneNumber
     };
 }
 

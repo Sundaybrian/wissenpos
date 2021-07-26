@@ -20,7 +20,7 @@ jobs:
                       - v1-npm-deps-{{ checksum "package-lock.json" }}
             - run:
                   name: Install dependencies
-                  command: npm install --silent
+                  command: yarn install --silent
             - save_cache:
                   key: v1-npm-deps-{{ checksum "package-lock.json" }}
                   paths:
@@ -46,7 +46,7 @@ jobs:
         steps:
             - attach_workspace:
                   at: .
-            - run: npm test
+            - run: yarn test
 
     deploy-to-test: # deploy safe code to development
         executor: node-executor

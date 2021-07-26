@@ -7,15 +7,18 @@ module.exports = {
     getCartById,
     fetchMyOrders,
     getCompanyOrders,
+    orderStats,
 };
 
 async function addToCart(params) {
     const order = await get_or_create(params.cart_id, params.company_id);
 
+    console.log(order, "-----------------");
+
     // insert the item to the order item table
     const orderItem = order.$relatedQuery("items").insert({
-        item_id: params.product_id,
-        order: order.id,
+        item_id: params.item_id,
+        order_id: order.id,
         quantity: params.quantity,
     });
 
@@ -104,9 +107,7 @@ async function getCompanyOrders({ nextPage, match, limit }) {
             .alias("o")
             .where(match)
             // .modify("defaultSelects")
-            .withGraphFetched(
-                `[customer(defaultSelects), items(defaultSelects)]`
-            )
+            .withGraphFetched(`[customer(defaultSelects)]`)
             .orderBy("o.id")
             .limit(limit)
             .cursorPage();
@@ -116,9 +117,7 @@ async function getCompanyOrders({ nextPage, match, limit }) {
                 .alias("o")
                 .where(match)
                 // .modify("defaultSelects")
-                .withGraphFetched(
-                    `[customer(defaultSelects), items(defaultSelects)]`
-                )
+                .withGraphFetched(`[customer(defaultSelects)]`)
                 .orderBy("o.id")
                 .limit(limit)
                 .cursorPage(nextPage);
@@ -154,13 +153,7 @@ async function get_or_create(id, company_id) {
 // =========== helpers===========
 
 async function getOrder(id, withItemData = false) {
-    let order = await Order.query()
-        .where({
-            cart_id: id,
-            order_status: "New",
-        })
-        .withGraphFetched("items")
-        .first();
+    let order;
 
     if (withItemData) {
         order = await Order.query()
@@ -168,23 +161,58 @@ async function getOrder(id, withItemData = false) {
                 cart_id: id,
                 order_status: "New",
             })
-            .withGraphFetched("items(withItemData)")
-            .modifiers({
-                withItemData(builder) {
-                    builder
-                        .select(
-                            "orderItem.*",
-                            "item.name",
-                            "item.image_url",
-                            "item.price"
-                        )
-                        .innerJoin("item", "orderItem.item_id", "item.id");
-                },
+            .withGraphFetched("items(defaultSelects)")
+            .first();
+    } else {
+        order = await Order.query()
+            .where({
+                cart_id: id,
+                order_status: "New",
             })
+            .withGraphFetched("items")
             .first();
     }
 
     return order;
+}
+
+// TODO make dynamic..accept dates
+async function orderStats({ company_id }) {
+    try {
+        const [inCart, paid, returns] = await Promise.all([
+            Order.query()
+                .where({
+                    company_id,
+                    order_status: "New",
+                })
+                .count()
+                .as("inCart"),
+
+            Order.query()
+                .where({
+                    company_id,
+                    order_status: "Paid",
+                })
+                .count()
+                .as("paid"),
+            Order.query()
+                .where({
+                    company_id,
+                    order_status: "Failed",
+                })
+                .count()
+                .as("returns"),
+        ]);
+
+        return {
+            inCart: parseInt(inCart[0].count) || 0,
+            paid: parseInt(paid[0].count) || 0,
+            returns: parseInt(returns[0].count) || 0,
+        };
+    } catch (error) {
+        console.log(`orderStats-failed`);
+        throw error;
+    }
 }
 
 async function basicDetails(order) {

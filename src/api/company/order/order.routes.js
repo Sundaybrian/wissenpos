@@ -20,35 +20,40 @@ router.use("/:order_id/orderItem", OrderItem);
 
 // update an order item customer aka update cart item
 router.post("/", createOrderSchema, addToCart);
-router.get("/:id", getCartById);
+router.get(
+    "/company-orders",
+    companyOrderSchema,
+    Auth(),
+    // Auth([Role.owner, Role.staff]),
+    // isOwner(),
+    getCompanyOrders
+);
+router.get("/orderStats", Auth(), orderStats);
 router.get("/my-orders", getOrderSchema, fetchMyOrders);
+router.get("/:id", getCartById);
 router.patch(
     "/:id",
     updateOrderSchema,
     Auth([Role.staff, Role.owner]),
     updateOrder
 );
-router.get(
-    "/company-orders",
-    companyOrderSchema,
-    Auth([Role.owner, Role.staff]),
-    isOwner(),
-    getCompanyOrders
-);
 
 function addToCart(req, res, next) {
+    // TODO figure out how to inject customer id
     const payload = {
         cart_id: req.body.cart_id,
         company_id: parseInt(req.params.company_id),
-        product_id: parseInt(req.body.product_id),
+        item_id: parseInt(req.body.product_id),
         quantity: parseInt(req.body.quantity),
     };
 
+    // TODO document
     orderService
         .addToCart(payload)
         .then((orderItem) =>
             res.json({
-                message: `${orderItem.item} has been added to the cart`,
+                message: `${orderItem.item_id} has been added to the cart`,
+                item: orderItem,
             })
         )
         .catch(next);
@@ -90,7 +95,7 @@ function updateOrder(req, res, next) {
 function getCompanyOrders(req, res, next) {
     const { company_id } = req.params;
     let nextPage = null;
-    let limit = 50;
+    let limit = null;
     const match = {
         company_id: parseInt(company_id),
     };
@@ -107,12 +112,24 @@ function getCompanyOrders(req, res, next) {
     }
 
     if (req.query.limit) {
-        limit = parseInt(req.query.limit);
+        limit = parseInt(req.query.limit) || 50;
     }
 
     orderService
         .getCompanyOrders({ nextPage, match, limit })
-        .then((orders) => (orders ? res.json(orders) : res.sendStatus(404)))
+        .then((orders) => {
+            return orders ? res.json(orders) : res.json(orders);
+        })
         .catch(next);
 }
+
+function orderStats(req, res, next) {
+    const { company_id } = req.params;
+
+    orderService
+        .orderStats({ company_id })
+        .then((stats) => (stats ? res.json(stats) : res.sendStatus(404)))
+        .catch(next);
+}
+
 module.exports = router;

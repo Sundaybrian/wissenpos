@@ -8,6 +8,11 @@
 - [*] send email helpers
 - [*] auth, [*]company, [*] accounts [*]tests
 - [*] document apis
+- [] refreshtoken
+- [] forgotPassword
+- [] introduce typescript 
+- [] rate limiting
+- [] caching with redis
 
 ## todo company related ##
 
@@ -20,19 +25,19 @@
     [*] withGraphFetched items
     [*] merge params to items
 - [*] item
-- [] user withGraphFetched company info
-    [] separate login for owner/staff with normal users??
+- [*] user withGraphFetched company info
+    [*] separate login for owner/staff with normal users??
 - [] create-staff
     [] create company account on staff insert         
-- [] QR-- this will be an endpoint really or should i do frontend
+- [*] QR-- this will be an endpoint really or should i do frontend
 
 ## customer related ##
 
 - [*] order
-- [] orderItem
+- [*] orderItem
 - [] payments
 
-## fixes and addittions
+## fixes
 
 - [*] company model
 - [*] menu, category, item model
@@ -40,9 +45,9 @@
 - [*] document apis make either swagger work or apidocs
     [*] had to write manually since apidocs neither swagger is working 
 - [*] prevent company from changing or deleting menu of other companies
+- [] fix order tests
+- [] fix circe-circle + docker
 - [] fix create staff by owner endpoint
-- [] refreshtoken
-- [] email confirmation
 - [] add indexing to column cart_id
 
 
@@ -51,7 +56,3 @@
 [] should we bind a user to a company // actually rethink relations between company and accounts
 
 ## needs
-
-- [] introduce typescript 
-- [] rate limitinh
-- [] caching with redis

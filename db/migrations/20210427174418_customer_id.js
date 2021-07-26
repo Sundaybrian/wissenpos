@@ -8,7 +8,7 @@ const { references } = require("../../src/utils/tableUtils");
 exports.up = async function (knex) {
     await knex.schema.table(tableNames.order, (table) => {
         // true for nullable
-        references(table, tableNames.user, "customer", true);
+        references(table, tableNames.user, "customer", false);
     });
 };
 
