@@ -18,7 +18,9 @@
     "paths": {
         "/accounts/register-customer": {
             "post": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "Create a customer and return user details and jwt token",
                 "operationId": "register customer",
                 "requestBody": {
@@ -116,7 +118,9 @@
         },
         "/accounts/register-owner": {
             "post": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "Create a vendor return details and jwt token",
                 "operationId": "register owner",
                 "requestBody": {
@@ -214,7 +218,9 @@
         },
         "/accounts/verify-email": {
             "post": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "verify a new account with a verification token received via email after registration",
                 "operationId": "verifyEmail",
                 "requestBody": {
@@ -229,7 +235,9 @@
                                         "example": "895789345uhuif78y87yf78f7gf34gr783478tgf7843gf87gf78478343478rfy7834yr782"
                                     }
                                 },
-                                "required": ["token"]
+                                "required": [
+                                    "token"
+                                ]
                             }
                         }
                     }
@@ -272,7 +280,9 @@
         },
         "/accounts/login": {
             "post": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "Authenticate account credentials and return a jwt token and user details",
                 "operationId": "authenticate",
                 "requestBody": {
@@ -291,7 +301,10 @@
                                         "example": "12345678yh"
                                     }
                                 },
-                                "required": ["email", "password"]
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
                             }
                         }
                     }
@@ -354,7 +367,9 @@
         },
         "/accounts/create-staff": {
             "post": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "Create a new staff account",
                 "description": "Restricted to owner users.",
                 "operationId": "createstaffaccount",
@@ -370,39 +385,46 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "firstName": {
-                                        "type": "string",
-                                        "example": "jason"
+                                    "company_id": {
+                                        "type": "number",
+                                        "example": 1
                                     },
-                                    "lastName": {
-                                        "type": "string",
-                                        "example": "borne"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "example": "jason@borne.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": "pass12334567"
-                                    },
-                                    "confirmPassword": {
-                                        "type": "string",
-                                        "example": "pass1234567"
-                                    },
-                                    "role": {
-                                        "type": "string",
-                                        "enum": ["staff"]
+                                    "user": {
+                                        "type": "object",
+                                        "properties": {
+                                            "firstName": {
+                                                "type": "string",
+                                                "example": "jason"
+                                            },
+                                            "lastName": {
+                                                "type": "string",
+                                                "example": "borne"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "example": "jason@borne.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "pass12334567"
+                                            },
+                                            "confirmPassword": {
+                                                "type": "string",
+                                                "example": "pass1234567"
+                                            },
+                                            "role": {
+                                                "type": "string",
+                                                "enum": [
+                                                    "staff"
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "company_id",
+                                            "user"
+                                        ]
                                     }
-                                },
-                                "required": [
-                                    "firstName",
-                                    "lastName",
-                                    "email",
-                                    "password",
-                                    "confirmPassword",
-                                    "role"
-                                ]
+                                }
                             }
                         }
                     }
@@ -471,7 +493,9 @@
         },
         "/accounts": {
             "get": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "Get a list of all accounts",
                 "description": "Restricted to admin users",
                 "operationId": "getallaccounts",
@@ -548,7 +572,9 @@
                 }
             ],
             "get": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "Get a single account by id",
                 "description": "Admin users can access any account, regular users are restricted to their own account",
                 "operationId": "getaccountbyid",
@@ -611,7 +637,9 @@
                 }
             },
             "put": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "Update an account",
                 "description": "Admin users can update any account, regular users are restricted to their own account and soon they wont be able to update role",
                 "operationId": "updateaccount",
@@ -711,7 +739,9 @@
                 }
             },
             "delete": {
-                "tags": ["accounts"],
+                "tags": [
+                    "accounts"
+                ],
                 "summary": "Delete an account",
                 "description": "Admin users can delete any account, regular users are restricted to their own account.",
                 "operationId": "deleteaccount",
@@ -748,7 +778,9 @@
         },
         "/company": {
             "post": {
-                "tags": ["company"],
+                "tags": [
+                    "company"
+                ],
                 "summary": "Create a company",
                 "description": "Restricted to  owners",
                 "operationId": "createcompany",
@@ -785,7 +817,11 @@
                                         "example": "massive.dynamics@info.com"
                                     }
                                 },
-                                "required": ["name", "description", "email"]
+                                "required": [
+                                    "name",
+                                    "description",
+                                    "email"
+                                ]
                             }
                         }
                     }
@@ -846,7 +882,9 @@
                 }
             },
             "get": {
-                "tags": ["company"],
+                "tags": [
+                    "company"
+                ],
                 "summary": "Get all companies",
                 "description": "Restricted to admin accounts",
                 "operationId": "getallcompanies",
@@ -918,7 +956,9 @@
                 }
             ],
             "get": {
-                "tags": ["company"],
+                "tags": [
+                    "company"
+                ],
                 "summary": "Get Company by its ID",
                 "description": "Restricted to owners and admin",
                 "operationId": "getcompanybyid",
@@ -940,7 +980,9 @@
                 }
             },
             "patch": {
-                "tags": ["company"],
+                "tags": [
+                    "company"
+                ],
                 "summary": "Update a Company",
                 "description": "Restricted to owners",
                 "operationId": "updatecompany",
@@ -987,7 +1029,9 @@
                 }
             },
             "delete": {
-                "tags": ["company"],
+                "tags": [
+                    "company"
+                ],
                 "summary": "Delete a Company",
                 "description": "Restricted to owners and admin",
                 "operationId": "deletecompany",
@@ -1024,7 +1068,9 @@
         },
         "/company/mine": {
             "get": {
-                "tags": ["company"],
+                "tags": [
+                    "company"
+                ],
                 "summary": "Get all my companies",
                 "description": "Restricted to owners",
                 "operationId": "getmycompanies",
@@ -1056,7 +1102,9 @@
                 }
             ],
             "get": {
-                "tags": ["company"],
+                "tags": [
+                    "company"
+                ],
                 "summary": "Get accounts associated with a company",
                 "description": "Restricted to owners",
                 "security": [
@@ -1111,7 +1159,9 @@
                 }
             ],
             "post": {
-                "tags": ["menu"],
+                "tags": [
+                    "menu"
+                ],
                 "summary": "Create Menu",
                 "description": "Restricted to owners",
                 "security": [
@@ -1139,7 +1189,10 @@
                                         "example": "menu so good, you have to bring you wife"
                                     }
                                 },
-                                "required": ["name", "description"]
+                                "required": [
+                                    "name",
+                                    "description"
+                                ]
                             }
                         }
                     }
@@ -1180,7 +1233,9 @@
                 }
             },
             "get": {
-                "tags": ["menu"],
+                "tags": [
+                    "menu"
+                ],
                 "summary": "Gell all menus of a selected company",
                 "description": "Open to all",
                 "responses": {
@@ -1343,7 +1398,9 @@
                 }
             ],
             "get": {
-                "tags": ["menu"],
+                "tags": [
+                    "menu"
+                ],
                 "summary": "Get single menu by id inclusive of categories",
                 "description": "Fetch a single menu inclusive of its categories",
                 "responses": {
@@ -1393,7 +1450,9 @@
                 }
             },
             "patch": {
-                "tags": ["menu"],
+                "tags": [
+                    "menu"
+                ],
                 "summary": "Update Menu Details",
                 "description": "Restricted to Owner",
                 "security": [
@@ -1481,7 +1540,9 @@
                 }
             },
             "delete": {
-                "tags": ["menu"],
+                "tags": [
+                    "menu"
+                ],
                 "summary": "Delete Menu",
                 "description": "Deletes Menu and items associated with the menu. Restricted to owners",
                 "security": [
@@ -1534,7 +1595,9 @@
                 }
             ],
             "get": {
-                "tags": ["category"],
+                "tags": [
+                    "category"
+                ],
                 "summary": "Get All Categories For a select Menu ID",
                 "description": "Fetch all categories under a specified menu id",
                 "operationId": "getmenucategories",
@@ -1562,7 +1625,9 @@
                 }
             },
             "post": {
-                "tags": ["category"],
+                "tags": [
+                    "category"
+                ],
                 "summary": "Create a Category",
                 "description": "Attach a category to a specific menu. Restricted to owner",
                 "operationId": "createmenucategory",
@@ -1653,7 +1718,9 @@
                 }
             ],
             "get": {
-                "tags": ["category"],
+                "tags": [
+                    "category"
+                ],
                 "summary": "Get a Menu Category by its ID inclusive of meals",
                 "description": "Fetch a particular menu inclusive of meals under it",
                 "operationId": "getmenucategorybyid",
@@ -1716,7 +1783,9 @@
                 }
             },
             "patch": {
-                "tags": ["category"],
+                "tags": [
+                    "category"
+                ],
                 "summary": "Update a category name",
                 "description": "Restricted to owners",
                 "operationId": "updatecategory",
@@ -1779,7 +1848,9 @@
                 }
             },
             "delete": {
-                "tags": ["category"],
+                "tags": [
+                    "category"
+                ],
                 "summary": "Delete a Category by its ID",
                 "description": "Restricted to owners",
                 "security": [
@@ -1845,7 +1916,9 @@
                 }
             ],
             "post": {
-                "tags": ["item"],
+                "tags": [
+                    "item"
+                ],
                 "summary": "Create an item aka Meal for a given Category",
                 "description": "Restricted to Owners",
                 "operationId": "createitem",
@@ -1985,7 +2058,9 @@
                 }
             ],
             "get": {
-                "tags": ["item"],
+                "tags": [
+                    "item"
+                ],
                 "summary": "Fetch an item by its id",
                 "description": "fetch item",
                 "security": [
@@ -2041,7 +2116,9 @@
                 }
             },
             "patch": {
-                "tags": ["item"],
+                "tags": [
+                    "item"
+                ],
                 "summary": "Update an Item",
                 "description": "Restricted to Owners",
                 "operationId": "updateItem",
@@ -2136,7 +2213,9 @@
                 }
             },
             "delete": {
-                "tags": ["item"],
+                "tags": [
+                    "item"
+                ],
                 "summary": "Delete an Item",
                 "description": "Restricted to Owners",
                 "operationId": "deleteItem",
@@ -2188,7 +2267,9 @@
                 }
             ],
             "post": {
-                "tags": ["order"],
+                "tags": [
+                    "order"
+                ],
                 "summary": "Add a product/item to cart",
                 "description": "add item",
                 "operationId": "addtocart",
@@ -2274,7 +2355,9 @@
                 }
             ],
             "get": {
-                "tags": ["order"],
+                "tags": [
+                    "order"
+                ],
                 "summary": "Get cart and items",
                 "description": "Fetch cart and the products i the cart",
                 "operationId": "getcartbyid",
@@ -2351,7 +2434,9 @@
         },
         "/orders/my-orders": {
             "get": {
-                "tags": ["order"],
+                "tags": [
+                    "order"
+                ],
                 "parameters": [
                     {
                         "in": "query",
@@ -2488,7 +2573,9 @@
         },
         "/company/{company_id}/order/orderStats": {
             "get": {
-                "tags": ["order"],
+                "tags": [
+                    "order"
+                ],
                 "parameters": [
                     {
                         "in": "path",
@@ -2540,7 +2627,9 @@
         },
         "/company/{company_id}/order/company-orders": {
             "get": {
-                "tags": ["order"],
+                "tags": [
+                    "order"
+                ],
                 "parameters": [
                     {
                         "in": "query",

@@ -1,19 +1,35 @@
-## docker
+## docker build image
 
 - docker build -t user-service-image .
+
+# read only bind mount
+
 - docker run -it -p -v $(pwd):./usr/app/user-service:ro -v /usr/app/user-service/node_modules -p 8001:4000 --name user-service user-service-image # ro (read only bind mount, do docker can write to file system)
 - docker run -it -p -v $(pwd):./usr/app/user-service:ro -v /usr/app/user-service/node_modules --env-file ./env -p 8001:4000 --name user-service user-service-image # ro (passing env var to docker container)
-- docker ps
+
+# images
+
 - docker image ls
 - docker image rm image_name -fv (-f for force v for volume)
 
 # remove dangling
 
 - docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+
+# run container from image
+
 - docker run -d --name node-app node-image
+
+# get logs
+
 - docker logs container_name || container_id
+
+# bash into container
+
 - docker exec -it user-service bash
+
 - docker volume ls
+- docker ps
 - docker volume prune
 - docker logs container_name -f
 
