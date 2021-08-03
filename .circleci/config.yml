@@ -71,15 +71,15 @@ workflows:
             #               only:
             #                   - /feature.*/
 
-            - build_docker_image:
-                  context: dev_context
-                  filters:
-                      branches:
-                          only:
-                              - develop
-                              - /feature.*/
-                  requires:
-                      - deploy-to-test
+            # - build_docker_image:
+            #       context: dev_context
+            #       filters:
+            #           branches:
+            #               only:
+            #                   - develop
+            #                   - /feature.*/
+            #       requires:
+            #           - deploy-to-test
 
             - deploy-to-test:
                   context: dev_context
