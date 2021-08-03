@@ -1,25 +1,27 @@
-const Account = require('./accounts.model');
-const Company = require('../company.model');
 const Role = require('../../../utils/role');
 const { createSchema } = require('./accounts.validators');
+const { setCompanyOwner, authDeleteCompany, authUpdateCompany } = require('../../../utils/_permissions/company');
 const { auth: Auth, isOwner } = require('../../../_middlewares/auth');
 const AccountService = require('./accounts.service');
+const AuthService = require('../../auth/auth.service');
 
 const router = require('express').Router({
   mergeParams: true,
 });
 
-router.post('/', Auth([Role.admin, Role.owner]), isOwner(), createSchema, createStaffAccount);
-router.get('/', Auth([Role.admin, Role.owner]), isOwner(), getAccounts);
+router.post('/', Auth([Role.owner]), createSchema, setCompanyOwner, authUpdateCompany, createStaffAccount);
+router.get('/', Auth([Role.admin, Role.owner]), setCompanyOwner, authUpdateCompany, getAccounts);
 
 module.exports = router;
 
 // add staff to company account
 function createStaffAccount(req, res, next) {
-  const payload = {
-    ...req.body,
-  };
+  const { company_id, user } = req.body;
+  AuthService.createStaff(user, company_id)
+    .then(staff => res.status(201).json(staff))
+    .catch(next);
 }
+
 // get staff from company account
 
 // get company accounts
