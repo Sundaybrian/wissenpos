@@ -5,7 +5,7 @@
     "url": "https://wissenspos.herokuapp.com/api/v1",
     "main": "server.js",
     "scripts": {
-        "build": "tsc",
+        
         "migrate": "knex migrate:latest",
         "rollback": "knex migrate:rollback",
         "rollback:test": "knex migrate:rollback --env test",
