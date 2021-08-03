@@ -266,32 +266,35 @@ paths:
             schema:
               type: object
               properties:
-                firstName:
-                  type: string
-                  example: jason
-                lastName:
-                  type: string
-                  example: borne
-                email:
-                  type: string
-                  example: jason@borne.com
-                password:
-                  type: string
-                  example: pass12334567
-                confirmPassword:
-                  type: string
-                  example: pass1234567
-                role:
-                  type: string
-                  enum:
-                  - staff
-              required:
-              - firstName
-              - lastName
-              - email
-              - password
-              - confirmPassword
-              - role
+                company_id:
+                  type: number
+                  example: 1
+                user:
+                  type: object
+                  properties:
+                    firstName:
+                      type: string
+                      example: jason
+                    lastName:
+                      type: string
+                      example: borne
+                    email:
+                      type: string
+                      example: jason@borne.com
+                    password:
+                      type: string
+                      example: pass12334567
+                    confirmPassword:
+                      type: string
+                      example: pass1234567
+                    role:
+                      type: string
+                      enum:
+                      - staff
+                  required:
+                  - company_id
+                  - user
+                  
       responses:
         '200':
           description: Account created successfully, verification is not required

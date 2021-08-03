@@ -20,6 +20,7 @@
         "seed:prod": "knex seed:run --env production",
         "test:watch": "jest --verbose --watchAll",
         "lint": "eslint --fix src",
+        "bash":"docker exec -it wissenpos_node-wissenpos-service bash",
         "pg:push": "heroku pg:reset --confirm wissenspos && heroku pg:push pos DATABASE_URL --app wissenspos",
         "compose:up": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
         "compose:build": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up  --build",
