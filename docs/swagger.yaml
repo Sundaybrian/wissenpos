@@ -746,7 +746,7 @@ paths:
         type: integer
     get:
       tags:
-      - company
+      - company accounts
       summary: Get accounts associated with a company
       description: Restricted to owners
       security:
@@ -772,6 +772,84 @@ paths:
                       example: 3
         '401':
           "$ref": "#/components/responses/UnauthorizedError"
+          
+    post:
+      tags:
+      - company accounts
+      summary: Create Staff accounts associated with a company
+      description: Restricted to owners
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                company_id:
+                  type: number
+                  example: 1
+                user:
+                  type: object
+                  properties:
+                    firstName:
+                      type: string
+                      example: michael
+                    lastName:
+                      type: string
+                      example: smith
+                    email:
+                      type: string
+                      example: michael@smith.com
+                    password:
+                      type: string
+                      example: pass12345678
+                    confirmPassword:
+                      type: string
+                      example: pass12345678
+                    role:
+                      type: string
+                      example: "staff"
+                     
+                  required:
+                    - user
+                    - company_id
+      responses:
+        '200':
+          description: Staff account created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: number
+                    example: 1
+                  company_id:
+                    type: number
+                    example: 1
+                  firstName:
+                    type: string
+                    example: michael
+                  lastName:
+                    type: string
+                    example: smith
+                  email:
+                    type: string
+                    example: michael@smith.com
+                  password:
+                    type: string
+                    example: pass12345678
+                  confirmPassword:
+                    type: string
+                    example: pass12345678
+                  role:
+                    type: string
+                    example: "staff"
+                
+        '401':
+          "$ref": "#/components/responses/UnauthorizedError"      
   "/company/{company_id}/menu":
     parameters:
     - in: path
