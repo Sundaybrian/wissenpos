@@ -1,37 +1,49 @@
-const Account = require("../accounts/accounts.model");
+const Account = require('../accounts/accounts.model');
 
 class AccountService {
-    constructor() {}
+  constructor() {}
 
-    static async addToCompany(params) {
-        try {
-            const Account = await Account.query().insert(params);
+  static async addToCompany(params) {
+    try {
+      const Account = await Account.query().insert(params);
 
-            return Account;
-        } catch (error) {
-            throw error;
-        }
+      return Account;
+    } catch (error) {
+      throw error;
     }
+  }
 
-    static async companyAccounts(company_id) {
-        try {
-            const companyAccounts = await Account.query()
-                .alias("c")
-                .where("c.id", company_id)
-                .withGraphFetched("user(selectNameAndId)")
-                .modifiers({
-                    selectNameAndId(builder) {
-                        builder
-                            .select("company_id", "staff_id")
-                            .innerJoin("user", "accounts.staff_id", "user.id");
-                    },
-                });
+  static async companyAccounts(company_id) {
+    try {
+      const companyAccounts = await Account.query()
+        .alias('c')
+        .where('c.id', company_id)
+        .withGraphFetched('user(selectNameAndId)')
+        .modifiers({
+          selectNameAndId(builder) {
+            builder
+              .select(
+                'company_id',
+                'staff_id',
+                'firstName',
+                'lastName',
+                'email',
+                'phoneNumber',
+                'role',
+                'active',
+                'image_url',
+                'active',
+                'user.id as user_id',
+              )
+              .innerJoin('user', 'accounts.staff_id', 'user.id');
+          },
+        });
 
-            return companyAccounts;
-        } catch (error) {
-            throw error;
-        }
+      return companyAccounts;
+    } catch (error) {
+      throw error;
     }
+  }
 }
 
 module.exports = AccountService;
