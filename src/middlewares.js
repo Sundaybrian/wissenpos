@@ -18,10 +18,13 @@ function notFound(req, res, next) {
 
 /* eslint-disable no-unused-vars */
 function errorHandler(err, req, res, next) {
-  /* eslint-enable no-unused-vars */
   const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
   res.status(statusCode);
-  // if (process.env.NODE_ENV !== "production") console.log(err.message);
+
+  // log errors during development
+  if (process.env.NODE_ENV == 'development' || 'test') {
+    console.error(err.stack);
+  }
 
   if (err instanceof ValidationError) {
     switch (err.type) {
@@ -117,17 +120,29 @@ function errorHandler(err, req, res, next) {
       data: {},
     });
   } else {
-    res.status(500).send({
-      message: err.message,
-      type: 'UnknownError',
-      data: {},
-    });
+    switch (true) {
+      case typeof err === 'string':
+        // custom application error
+        const is404 = err.toLowerCase().endsWith('not found');
+        const statusCode = is404 ? 404 : 400;
+        return res.status(statusCode).json({
+          message: error,
+          stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
+        });
+      case err.name === 'UnauthorizedError':
+        // jwt authentication error
+        return res.status(401).json({
+          message: 'Unauthorized',
+          stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
+        });
+      default:
+        return res.status(500).json({
+          message: error,
+          type: 'UnknownDatabaseError',
+          stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
+        });
+    }
   }
-
-  // res.json({
-  //     message: err.message || err,
-  //     stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
-  // });
 }
 
 module.exports = {
