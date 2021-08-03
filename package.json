@@ -28,6 +28,7 @@
         "compose:down": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down ",
         "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
     },
+    "engines" : { "node" : "14.16.0" },
     "keywords": [
         "nodejs",
         "knexjs"
