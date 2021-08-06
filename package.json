@@ -5,7 +5,6 @@
     "url": "https://wissenspos.herokuapp.com/api/v1",
     "main": "server.js",
     "scripts": {
-        
         "migrate": "knex migrate:latest",
         "rollback": "knex migrate:rollback",
         "rollback:test": "knex migrate:rollback --env test",
@@ -14,21 +13,25 @@
         "dev": "nodemon src/server.js",
         "dev-t": "nodemon tsc --exec ts-node src/index.ts",
         "test": "NODE_ENV=test NODE_TLS_REJECT_UNAUTHORIZED=O jest --reporters default jest-stare --coverage --detectOpenHandles --runInBand --forceExit --testTimeout=60000",
-        "test:docker":"docker-compose run --rm node-wissenpos-service yarn test",
+        "test:docker": "docker-compose run --rm node-wissenpos-service yarn test",
         "rollback:prod": "knex migrate:rollback --env production",
         "migrate:prod": "npx knex migrate:latest --env production",
         "seed:prod": "knex seed:run --env production",
         "test:watch": "jest --verbose --watchAll",
-        "lint": "eslint --fix src",
-        "bash":"docker exec -it wissenpos_node-wissenpos-service bash",
+  
+        "bash": "docker exec -it wissenpos_node-wissenpos-service bash",
         "pg:push": "heroku pg:reset --confirm wissenspos && heroku pg:push pos DATABASE_URL --app wissenspos",
         "compose:up": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
         "compose:build": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up  --build",
         "compose:down-v": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v",
         "compose:down": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml down ",
-        "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+        "lint": "eslint '*/**/*.{ts,js}' --quiet --fix --no-error-on-unmatched-pattern",
+        "format": "prettier --config .prettierrc 'src/**/*.{t,j}s' --write"
     },
-    "engines" : { "node" : "14.x", "yarn":"1.x" },
+    "engines": {
+        "node": "14.x",
+        "yarn": "1.x"
+    },
     "keywords": [
         "nodejs",
         "knexjs"
@@ -54,6 +57,7 @@
     },
     "dependencies": {
         "@sendgrid/mail": "^7.4.2",
+        "@truepic/queryql": "^0.10.0",
         "bcrypt": "^5.0.0",
         "bcryptjs": "^2.4.3",
         "class-validator": "^0.12.2",
@@ -86,9 +90,11 @@
         "eslint": "^7.7.0",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-plugin-import": "^2.22.0",
+        "husky": "^7.0.1",
         "jest": "^26.5.3",
         "jest-serial-runner": "^1.1.0",
         "jest-stare": "^2.2.0",
+        "lint-staged": "^11.1.2",
         "nodemon": "^2.0.4",
         "prettier": "^2.3.0",
         "sqlite3": "^5.0.0",
@@ -96,4 +102,16 @@
         "ts-node": "^9.0.0",
         "typescript": "^4.0.5"
     }
+    ,
+    "husky": {
+        "hooks": {
+          "pre-commit": "lint-staged"
+        }
+      },
+      "lint-staged": {
+        "*.{ts,js}": [
+            "yarn run format",
+          "yarn lint"
+        ]
+      }
 }

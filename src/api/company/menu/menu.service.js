@@ -1,53 +1,53 @@
-const Menu = require("../menu/menu.model");
-const error = require("../../../utils/error");
-const { menu } = require("../../../constants/tableNames");
+const Menu = require('../menu/menu.model');
+const error = require('../../../utils/error');
+const { menu } = require('../../../constants/tableNames');
 
 module.exports = {
-    createMenu,
-    updateMenu,
-    getAllMenu,
-    getAllCompanyMenus,
-    getMenuById,
-    _delete,
+  createMenu,
+  updateMenu,
+  getAllMenu,
+  getAllCompanyMenus,
+  getMenuById,
+  _delete,
 };
 
 async function createMenu(params) {
-    const menu = await Menu.query().insert(params);
-    return menu;
+  const menu = await Menu.query().insert(params);
+  return menu;
 }
 
 async function updateMenu(id, params) {
-    const updatedmenu = await Menu.query().patchAndFetchById(id, {
-        ...params,
-    });
+  const updatedmenu = await Menu.query().patchAndFetchById(id, {
+    ...params,
+  });
 
-    return updatedmenu;
+  return updatedmenu;
 }
 
 async function getAllMenu() {
-    const menus = await Menu.query();
-    return menus;
+  const menus = await Menu.query();
+  return menus;
 }
 
 async function getAllCompanyMenus(params) {
-    const menus = await Menu.query()
-        .where({ ...params })
-        .withGraphFetched("categories");
-    return menus.map((x) => basicDetails(x));
+  const menus = await Menu.query()
+    .where({ ...params })
+    .withGraphFetched('categories');
+  return menus.map(x => basicDetails(x));
 }
 
 async function getMenuById(id) {
-    const menu = await getMenu({ id });
-    if (!menu) {
-        return null;
-    }
-    return basicDetails(menu);
+  const menu = await getMenu({ id });
+  if (!menu) {
+    return null;
+  }
+  return basicDetails(menu);
 }
 
 async function _delete(queryParams) {
-    await Menu.query()
-        .delete()
-        .where({ ...queryParams });
+  await Menu.query()
+    .delete()
+    .where({ ...queryParams });
 }
 
 // async function _softDelete(id) {
@@ -59,15 +59,15 @@ async function _delete(queryParams) {
 // =========== helpers===========
 
 async function getMenu(param) {
-    const menu = await Menu.query()
-        .where({ ...param })
-        .withGraphFetched("categories")
-        .first();
-    return menu;
+  const menu = await Menu.query()
+    .where({ ...param })
+    .withGraphFetched('categories')
+    .first();
+  return menu;
 }
 
 function basicDetails(menu) {
-    const { id, name, company_id, categories } = menu;
+  const { id, name, company_id, categories } = menu;
 
-    return { id, name, company_id, categories };
+  return { id, name, company_id, categories };
 }
