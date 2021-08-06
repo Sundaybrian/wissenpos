@@ -1,3 +1,4 @@
+const authService = require('../../auth/auth.service');
 const Account = require('../accounts/accounts.model');
 
 class AccountService {
@@ -8,6 +9,15 @@ class AccountService {
       const Account = await Account.query().insert(params);
 
       return Account;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async createStaff({ user, company_id }) {
+    try {
+      const staff = await authService.createStaff(user, company_id);
+      return staff;
     } catch (error) {
       throw error;
     }
@@ -30,7 +40,6 @@ class AccountService {
                 'email',
                 'phoneNumber',
                 'role',
-                'active',
                 'image_url',
                 'active',
                 'user.id as user_id',

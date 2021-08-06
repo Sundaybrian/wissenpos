@@ -87,7 +87,7 @@ async function createStaff(params, company_id) {
 
   try {
     const staff = await insertUser(params);
-    const addtoCompany = await AccountService.addToCompany({
+    await AccountService.addToCompany({
       company_id,
       staff_id: staff.id,
     });
