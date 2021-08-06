@@ -6,9 +6,8 @@ class AccountService {
 
   static async addToCompany(params) {
     try {
-      const Account = await Account.query().insert(params);
-
-      return Account;
+      const account = await Account.query().insert(params);
+      return account;
     } catch (error) {
       throw error;
     }
