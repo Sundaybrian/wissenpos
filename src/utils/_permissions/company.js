@@ -15,7 +15,7 @@ function setCompanyOwner(req, res, next) {
   CompanyService.getCompanyById(id)
     .then(c => {
       if (!c) return res.sendStatus(404);
-      req.company = company;
+      req.company = c;
       next();
     })
     .catch(next);

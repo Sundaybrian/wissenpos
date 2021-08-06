@@ -137,7 +137,7 @@ function errorHandler(err, req, res, next) {
         });
       default:
         return res.status(500).json({
-          message: error,
+          message: err.message,
           type: 'UnknownDatabaseError',
           stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
         });
