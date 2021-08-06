@@ -126,7 +126,7 @@ function errorHandler(err, req, res, next) {
         const is404 = err.toLowerCase().endsWith('not found');
         const statusCode = is404 ? 404 : 400;
         return res.status(statusCode).json({
-          message: error,
+          message: err.message,
           stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
         });
       case err.name === 'UnauthorizedError':
