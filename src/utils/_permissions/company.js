@@ -11,7 +11,7 @@ function canUpdateCompany(user, company) {
 
 // permissions middlewares
 function setCompanyOwner(req, res, next) {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.company_id);
   CompanyService.getCompanyById(id)
     .then(c => {
       if (!c) return res.sendStatus(404);
