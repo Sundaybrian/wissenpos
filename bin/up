@@ -3,7 +3,7 @@
 set -e
 
 
-docker-compose -f docker-compose.yml -f docker-compose.test.yml up db
+docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d
 
 WAIT_FOR_PG_ISREADY="while ! pg_isready --quiet; do sleep 1; done;"
 docker-compose exec db bash -c "$WAIT_FOR_PG_ISREADY"
@@ -15,8 +15,10 @@ do
     su - db -c "psql $ENV -c '' || createdb $ENV"
 
   # Run migrations in this environment.
-  docker-compose run --rm -e NODE_ENV=$ENV node-wissenpos-service npx knex migrate:latest
-  docker-compose run --rm -e NODE_ENV=$ENV node-wissenpos-service npx knex seed:run --env $ENV
+  docker-compose run --rm -e NODE_ENV=$ENV node-wissenpos-test npx knex migrate:latest
+
+   # Run seed in this environment.
+  docker-compose run --rm -e NODE_ENV=$ENV node-wissenpos-test npx knex seed:run --env $ENV
 done
 
-docker-compose -f docker-compose.yml -f docker-compose.test.yml up db
+docker-compose -f docker-compose.test.yml up -d

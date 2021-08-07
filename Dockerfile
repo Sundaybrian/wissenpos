@@ -7,7 +7,7 @@ COPY package.json ./
 
 ARG NODE_ENV
 
-RUN npm install
+RUN yarn
 
 # copy everything over to the container
 COPY . .

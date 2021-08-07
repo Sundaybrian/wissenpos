@@ -3,20 +3,18 @@ services:
   node-wissenpos-test:
     build:
       context: .
-      target: test
       args:
         NODE_ENV: test
     command: npx nodemon src/server.js
     ports:
-      - 8080:8080
+      - '8080:8080'
     volumes:
       - .:/usr/src/app # bind mount
       - test_node_modules:/usr/src/app/node_modules
     environment:
       PORT: 8080
-
     depends_on:
-      - postgres:
+      - postgres
 
   postgres:
     image: postgres:10

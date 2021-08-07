@@ -26,24 +26,25 @@ class AccountService {
     try {
       const companyAccounts = await Account.query()
         .alias('c')
-        .where('c.id', company_id)
+        .where('c.company_id', company_id)
         .withGraphFetched('user(selectNameAndId)')
         .modifiers({
           selectNameAndId(builder) {
             builder
               .select(
-                'company_id',
-                'staff_id',
-                'firstName',
-                'lastName',
-                'email',
-                'phoneNumber',
-                'role',
-                'image_url',
-                'active',
+                'c.id',
+                'c.company_id',
+                'c.staff_id',
                 'user.id as user_id',
+                'user.firstName',
+                'user.lastName',
+                'user.email',
+                'user.phoneNumber',
+                'user.role',
+                'user.image_url',
+                'user.active',
               )
-              .innerJoin('user', 'accounts.staff_id', 'user.id');
+              .innerJoin('user', 'c.staff_id', 'user.id');
           },
         });
 

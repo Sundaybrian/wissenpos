@@ -22,8 +22,6 @@ function createStaffAccount(req, res, next) {
     .catch(next);
 }
 
-// get staff from company account
-
 // get company accounts
 // TODO add permissions
 function getAccounts(req, res, next) {
@@ -33,5 +31,6 @@ function getAccounts(req, res, next) {
     })
     .catch(next);
 }
+
 //update staff account
 // delete staff account
