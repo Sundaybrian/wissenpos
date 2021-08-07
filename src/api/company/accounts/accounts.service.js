@@ -27,26 +27,7 @@ class AccountService {
       const companyAccounts = await Account.query()
         .alias('c')
         .where('c.company_id', company_id)
-        .withGraphFetched('user(selectNameAndId)')
-        .modifiers({
-          selectNameAndId(builder) {
-            builder
-              .select(
-                'c.id',
-                'c.company_id',
-                'c.staff_id',
-                'user.id as user_id',
-                'user.firstName',
-                'user.lastName',
-                'user.email',
-                'user.phoneNumber',
-                'user.role',
-                'user.image_url',
-                'user.active',
-              )
-              .innerJoin('user', 'c.staff_id', 'user.id');
-          },
-        });
+        .withGraphFetched('user(defaultSelectsWithoutPass)');
 
       return companyAccounts;
     } catch (error) {
