@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { signinSchema, signupSchema, signupSchemaStaff, updateSchema, verifyEmailSchema } = require('./auth.validators');
-const authService = require('./auth.service');
+const authService = require('../../services/auth.service');
 const { auth: Auth } = require('../../_middlewares/auth');
 const Role = require('../../utils/role');
 

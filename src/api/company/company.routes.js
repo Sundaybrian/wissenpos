@@ -1,6 +1,6 @@
 const express = require('express');
 const { createSchema, updateSchema } = require('./company.validators');
-const companyService = require('./company.service');
+const companyService = require('../../services/company.service');
 const { auth: Auth } = require('../../_middlewares/auth');
 const Role = require('../../utils/role');
 const { scopedItems } = require('../../utils/permissions');

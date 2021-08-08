@@ -1,5 +1,5 @@
 const Role = require('../../constants/role');
-const CompanyService = require('../../api/company/company.service');
+const CompanyService = require('../../services/company.service');
 
 // permissions
 function canDeleteCompany(user, company) {

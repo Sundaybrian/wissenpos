@@ -2,8 +2,8 @@ const Role = require('../../../utils/role');
 const { createSchema } = require('./accounts.validators');
 const { setCompanyOwner, authDeleteCompany, authUpdateCompany } = require('../../../utils/_permissions/company');
 const { auth: Auth, isOwner } = require('../../../_middlewares/auth');
-const AccountService = require('./accounts.service');
-const AuthService = require('../../auth/auth.service');
+const AccountService = require('../../../services/accounts.service');
+const AuthService = require('../../../services/auth.service');
 
 const router = require('express').Router({
   mergeParams: true,

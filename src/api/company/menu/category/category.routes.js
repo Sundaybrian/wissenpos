@@ -5,7 +5,7 @@ const { auth: Auth, isOwner } = require('../../../../_middlewares/auth');
 const Role = require('../../../../utils/role');
 const Item = require('./item/item.routes');
 
-const categoryService = require('./category.service');
+const categoryService = require('../../../../services/category.service');
 const error = require('../../../../utils/error');
 
 const router = express.Router({

@@ -2,7 +2,7 @@ const express = require('express');
 const { createSchema, updateSchema } = require('./item.validators');
 const { auth: Auth, isOwner } = require('../../../../../_middlewares/auth');
 const Role = require('../../../../../utils/role');
-const itemService = require('./item.service');
+const itemService = require('../../../../../services/item.service');
 
 const router = express.Router({
   mergeParams: true,

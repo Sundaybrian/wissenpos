@@ -3,7 +3,7 @@ const { createOrderSchema, updateOrderSchema, companyOrderSchema, getOrderSchema
 
 const { auth: Auth, isOwner } = require('../../../_middlewares/auth');
 const Role = require('../../../utils/role');
-const orderService = require('./order.service');
+const orderService = require('../../../services/order.service');
 
 const OrderItem = require('./orderItem/orderItem.routes');
 
