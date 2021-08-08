@@ -16,3 +16,19 @@ exports.createSchema = (req, res, next) => {
   });
   validateRequest(req, next, schema);
 };
+
+exports.updateSchema = (req, res, next) => {
+  const schemaRules = {
+    firstName: Joi.string().empty(''),
+    lastName: Joi.string().empty(''),
+    email: Joi.string().email().empty(''),
+    phoneNumber: Joi.string().min(10).max(15).empty(''),
+    password: Joi.string().min(8).empty(''),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).empty(''),
+    image_url: Joi.string().empty(''),
+  };
+
+  const schema = Joi.object(schemaRules).with('password', 'confirmPassword');
+
+  validateRequest(req, next, schema);
+};

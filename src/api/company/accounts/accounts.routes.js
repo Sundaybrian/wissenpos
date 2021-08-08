@@ -1,9 +1,10 @@
 const Role = require('../../../utils/role');
-const { createSchema } = require('./accounts.validators');
+const { createSchema, updateSchema } = require('./accounts.validators');
 const { setCompanyOwner, authDeleteCompany, authUpdateCompany } = require('../../../utils/_permissions/company');
 const { auth: Auth, isOwner } = require('../../../_middlewares/auth');
 const AccountService = require('../../../services/accounts.service');
 const AuthService = require('../../../services/auth.service');
+const authService = require('../../../services/auth.service');
 
 const router = require('express').Router({
   mergeParams: true,
@@ -11,6 +12,9 @@ const router = require('express').Router({
 
 router.post('/', Auth([Role.owner]), createSchema, setCompanyOwner, authUpdateCompany, createStaffAccount);
 router.get('/', Auth([Role.admin, Role.owner]), setCompanyOwner, authUpdateCompany, getAccounts);
+//todo: add permissions and lock to owner
+router.put('/:id', Auth([Role.owner, Role.admin]), updateSchema, updateStaff);
+router.delete('/:id', Auth([Role.owner, Role.admin]), deleteStaff);
 
 module.exports = router;
 
@@ -23,7 +27,6 @@ function createStaffAccount(req, res, next) {
 }
 
 // get company accounts
-// TODO add permissions
 function getAccounts(req, res, next) {
   return AccountService.companyAccounts(req.params.company_id)
     .then(accounts => {
@@ -33,4 +36,22 @@ function getAccounts(req, res, next) {
 }
 
 //update staff account
+function updateStaff(req, res, next) {
+  authService
+    .update(req.params.id, req.body)
+    .then(account => res.json(account))
+    .catch(next);
+}
+
 // delete staff account
+function deleteStaff(req, res, next) {
+  authService
+    .delete(req.param.id)
+    .then(() =>
+      res.json({
+        message: 'Account deleted successfully',
+        id: req.params.id,
+      }),
+    )
+    .catch(next);
+}
