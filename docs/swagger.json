@@ -1305,6 +1305,127 @@
                 }
             }
         },
+        "/company/{company_id}/accounts/{id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Account id",
+                    "required": true,
+                    "example": 1,
+                    "schema": {
+                        "type": "integer"
+                    }
+                },
+                {
+                    "in": "path",
+                    "name": "company_id",
+                    "description": "Company id",
+                    "required": true,
+                    "example": 1,
+                    "schema": {
+                        "type": "integer"
+                    }
+                }
+            ],
+            "put": {
+                "tags": [
+                    "company accounts"
+                ],
+                "summary": "Update a staff account",
+                "description": "Admin users can update any account, Owners can update staff account",
+                "operationId": "updatestaffaccount",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "firstName": {
+                                        "type": "string",
+                                        "example": "michael"
+                                    },
+                                    "lastName": {
+                                        "type": "string",
+                                        "example": "smith"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "michael@smith.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "pass12345678"
+                                    },
+                                    "confirmPassword": {
+                                        "type": "string",
+                                        "example": "pass12345678"
+                                    },
+                                    "image_url": {
+                                        "type": "string",
+                                        "example": "someurl"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/StaffResponse"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "company accounts"
+                ],
+                "summary": "Delete an account",
+                "description": "Admin users can delete any account, owners can delete staff account.",
+                "operationId": "deletestaffaccount",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Account deleted successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/NotFoundError"
+                    }
+                }
+            }
+        },
         "/company/{company_id}/menu": {
             "parameters": [
                 {
@@ -3006,6 +3127,54 @@
                                 "email": {
                                     "type": "string",
                                     "example": "massive.dynamics@info.com"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "StaffResponse": {
+                "description": "Staff Details",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "firstName": {
+                                    "type": "string",
+                                    "example": "joe"
+                                },
+                                "lastName": {
+                                    "type": "string",
+                                    "example": "Doe"
+                                },
+                                "isVerified": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "image_url": {
+                                    "type": "string",
+                                    "example": "https://storagebucket.gogle.com/massivedy"
+                                },
+                                "active": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "created_at": {
+                                    "type": "string",
+                                    "example": "2021-03-23T07:26:13.810Z"
+                                },
+                                "update_at": {
+                                    "type": "string",
+                                    "example": "2021-03-23T07:26:13.810Z"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "joe.dynamics@info.com"
                                 }
                             }
                         }
