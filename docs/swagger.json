@@ -919,9 +919,25 @@
                                                 "type": "string",
                                                 "example": "https://storagebucket.gogle.com/massivedy"
                                             },
-                                            "owner": {
+                                            "owner_id": {
                                                 "type": "integer",
                                                 "example": 1
+                                            },
+                                            "website_url": {
+                                                "type": "string",
+                                                "example": ""
+                                            },
+                                            "active": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "example": "2021-03-23T07:26:13.810Z"
+                                            },
+                                            "update_at": {
+                                                "type": "string",
+                                                "example": "2021-03-23T07:26:13.810Z"
                                             },
                                             "email": {
                                                 "type": "string",
@@ -1133,6 +1149,39 @@
                                             "staff_id": {
                                                 "type": "integer",
                                                 "example": 3
+                                            },
+                                            "user": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "firstName": {
+                                                        "type": "string",
+                                                        "example": "John"
+                                                    },
+                                                    "lastName": {
+                                                        "type": "string",
+                                                        "example": "Doe"
+                                                    },
+                                                    "isVerified": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "phoneNumber": {
+                                                        "type": "string",
+                                                        "example": "0714382377"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "johndoe@gmail.com"
+                                                    },
+                                                    "image_url": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -2934,9 +2983,25 @@
                                     "type": "string",
                                     "example": "https://storagebucket.gogle.com/massivedy"
                                 },
-                                "owner": {
+                                "owner_id": {
                                     "type": "integer",
                                     "example": 1
+                                },
+                                "website_url": {
+                                    "type": "string",
+                                    "example": ""
+                                },
+                                "active": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "created_at": {
+                                    "type": "string",
+                                    "example": "2021-03-23T07:26:13.810Z"
+                                },
+                                "update_at": {
+                                    "type": "string",
+                                    "example": "2021-03-23T07:26:13.810Z"
                                 },
                                 "email": {
                                     "type": "string",

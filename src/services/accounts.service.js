@@ -37,11 +37,6 @@ class AccountService {
       throw error;
     }
   }
-
-  // update staff
-  static async updateStaff(params) {}
-  // delete staff
-  //
 }
 
 module.exports = AccountService;
