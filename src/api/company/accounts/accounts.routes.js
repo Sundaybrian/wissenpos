@@ -46,7 +46,7 @@ function updateStaff(req, res, next) {
 // delete staff account
 function deleteStaff(req, res, next) {
   authService
-    .delete(req.param.id)
+    .delete(req.params.id)
     .then(() =>
       res.json({
         message: 'Account deleted successfully',
