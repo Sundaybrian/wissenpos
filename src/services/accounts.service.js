@@ -1,9 +1,10 @@
-const authService = require('../../auth/auth.service');
-const Account = require('../accounts/accounts.model');
+const authService = require('./auth.service');
+const Account = require('../api/company/accounts/accounts.model');
 
 class AccountService {
   constructor() {}
 
+  // add staff to company
   static async addToCompany(params) {
     try {
       const account = await Account.query().insert(params);
@@ -13,6 +14,7 @@ class AccountService {
     }
   }
 
+  // create staff
   static async createStaff({ user, company_id }) {
     try {
       const staff = await authService.createStaff(user, company_id);
@@ -22,6 +24,7 @@ class AccountService {
     }
   }
 
+  //get staff accounts
   static async companyAccounts(company_id) {
     try {
       const companyAccounts = await Account.query()
@@ -34,6 +37,11 @@ class AccountService {
       throw error;
     }
   }
+
+  // update staff
+  static async updateStaff(params) {}
+  // delete staff
+  //
 }
 
 module.exports = AccountService;

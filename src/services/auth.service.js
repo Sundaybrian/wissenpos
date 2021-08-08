@@ -1,9 +1,9 @@
-const User = require('../user/user.model');
-const jwt = require('../../utils/jwt');
+const User = require('../api/user/user.model');
+const jwt = require('../utils/jwt');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-const sendEmail = require('../../utils/email');
-const AccountService = require('../company/accounts/accounts.service');
+const sendEmail = require('../utils/email');
+const AccountService = require('./accounts.service');
 
 module.exports = {
   /**

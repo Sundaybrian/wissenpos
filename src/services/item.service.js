@@ -1,5 +1,5 @@
-const Item = require('./item.model');
-const error = require('../../../../../utils/error');
+const Item = require('../api/company/menu/category/item/item.model');
+const error = require('../utils/error');
 
 module.exports = {
   createItem,

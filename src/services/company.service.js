@@ -1,5 +1,5 @@
-const Company = require('../company/company.model');
-const error = require('../../utils/error');
+const Company = require('../api/company/company.model');
+const error = require('../utils/error');
 const createError = require('http-errors');
 
 module.exports = {

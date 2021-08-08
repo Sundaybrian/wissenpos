@@ -1,4 +1,4 @@
-const Order = require('./order.model');
+const Order = require('../api/company/order/order.model');
 
 module.exports = {
   addToCart,

@@ -27,8 +27,11 @@
 - [*] item
 - [*] user withGraphFetched company info
     [*] separate login for owner/staff with normal users??
-- [] create-staff
-    [] create company account on staff insert         
+- [*] create-staff
+    [*] create company account on staff insert
+    [] edit staff
+    [] delete staff
+    [] suspend staff       
 - [*] QR-- this will be an endpoint really or should i do frontend
 
 ## customer related ##
@@ -54,5 +57,3 @@
 ## errors in design
 
 [] should we bind a user to a company // actually rethink relations between company and accounts
-
-## needs

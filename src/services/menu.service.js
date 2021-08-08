@@ -1,6 +1,6 @@
-const Menu = require('../menu/menu.model');
-const error = require('../../../utils/error');
-const { menu } = require('../../../constants/tableNames');
+const Menu = require('../api/company/menu/menu.model');
+const error = require('../utils/error');
+const { menu } = require('../constants/tableNames');
 
 module.exports = {
   createMenu,

@@ -1,5 +1,5 @@
-const Category = require('./category.model');
-const error = require('../../../../utils/error');
+const Category = require('../api/company/menu/category/category.model');
+const error = require('../utils/error');
 
 module.exports = {
   createCategory,
